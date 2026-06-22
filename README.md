@@ -299,7 +299,7 @@ Contribuições são bem-vindas! Siga o guia em `.claude/rules/content-guideline
 
 ## 📞 Contato & Links
 
-- 👤 **Autor:** Gabriel Biel (@bieltrue95)
+- 👤 **Autor:** Gabriel 
 - 📧 **Email:** devgtrue@gmail.com
 - 🌐 **Site:** https://bieltrue95.github.io/gb-kb
 - 🐙 **GitHub:** https://github.com/bieltrue95/gb-kb
