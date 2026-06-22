@@ -3,15 +3,16 @@ title: Clean Architecture e padrões de design em .NET
 description: Clean Architecture, Repository Pattern, Unit of Work e CQRS com exemplos práticos em C# .NET 10
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 
 ## Introdução
 
 Clean Architecture é um padrão que organiza seu código em **camadas independentes**, facilitando manutenção, testes e escalabilidade. Essencial em projetos .NET de longo prazo.
 
 <Aside type="tip" title="Por que importa?">
-Clean Architecture deixa seu código testável, independente de frameworks e fácil de manter. Uma estrutura ruim custa muito caro depois.
+  Clean Architecture deixa seu código testável, independente de frameworks e fácil de manter. Uma
+  estrutura ruim custa muito caro depois.
 </Aside>
 
 ---
@@ -34,6 +35,7 @@ flowchart TB
 📌 **Regra de ouro:** as dependências apontam **para dentro**, em direção ao Domain ➡️
 
 ### Camada 1: Domain (centro)
+
 Contém **regras de negócio puras** — não tem dependências externas.
 
 ```csharp
@@ -56,7 +58,7 @@ namespace CleanArch.Domain
         {
             if (newPassword.Length < 8)
                 throw new DomainException("Senha deve ter 8+ caracteres");
-            
+
             PasswordHash = HashPassword(newPassword);
         }
 
@@ -74,6 +76,7 @@ namespace CleanArch.Domain
 ```
 
 ### Camada 2: Application (casos de uso)
+
 Orquestra o **fluxo** entre domain e infrastructure.
 
 ```csharp
@@ -113,6 +116,7 @@ namespace CleanArch.Application
 ```
 
 ### Camada 3: Infrastructure (detalhes)
+
 Implementa **como** buscar/salvar dados.
 
 ```csharp
@@ -140,6 +144,7 @@ namespace CleanArch.Infrastructure
 ```
 
 ### Camada 4: Presentation (HTTP)
+
 Expõe **endpoints** — não sabe de regras de negócio.
 
 ```csharp
@@ -195,11 +200,13 @@ public class OrdersController : ControllerBase
             .Include(o => o.Customer)
             .FirstOrDefaultAsync(o => o.Id == id);
     }
+
 }
 
 // Testes? Imposível sem real database
 var controller = new OrdersController(realDatabase);
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ Com Repository">
@@ -236,7 +243,8 @@ public async Task Should_Return_Order_When_Exists()
 
     Assert.IsNotNull(result);
 }
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -263,7 +271,7 @@ public interface IUnitOfWork : IDisposable
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DbContext _db;
-    
+
     public IUserRepository Users { get; }
     public IOrderRepository Orders { get; }
     public IPaymentRepository Payments { get; }
@@ -304,7 +312,7 @@ public class CreateOrderUseCase
 
                 // 3. Salvar TUDO junto (atômico)
                 await _unitOfWork.SaveChangesAsync();
-                
+
                 await transaction.CommitAsync();
             }
             catch
@@ -328,10 +336,10 @@ public class CreateOrderUseCase
 ```mermaid
 graph TD
     Client["🎯 CLIENTE<br/>(HTTP Request)"]
-    
+
     Client -->|POST/PUT| Cmd["Command<br/>Buscar User<br/>Validar<br/>Salvar DB"]
     Client -->|GET| Qry["Query<br/>SELECT FROM Users<br/>Denormalized<br/>Cache-ready"]
-    
+
     Cmd --> WDB["💾 Database<br/>(normalizado)"]
     Qry --> RDB["📖 ReadModel<br/>(desnormalizado)"]
     RDB --> CACHE["⚡ Cache<br/>(Redis)"]
@@ -357,10 +365,11 @@ public class UserModel
 [HttpGet("users")]
 public async Task<List<UserModel>> GetUsers()
 {
-    // ❌ Retorna TUDO, incluindo PasswordHash!
-    return await _db.Users.ToListAsync();
+// ❌ Retorna TUDO, incluindo PasswordHash!
+return await \_db.Users.ToListAsync();
 }
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ Com CQRS">
@@ -398,24 +407,26 @@ public async Task<List<UserReadModel>> GetUsers()
     // ✅ Buscar diretamente de view desnormalizada/cache
     return await _readModelDb.UserReadModels.ToListAsync();
 }
-```
+````
+
   </TabItem>
 </Tabs>
 
 <Aside type="caution" title="CQRS não é sempre necessário">
-Use CQRS quando você tem reads e writes com padrões muito diferentes. Para CRUD simples, é overengineering.
+  Use CQRS quando você tem reads e writes com padrões muito diferentes. Para CRUD simples, é
+  overengineering.
 </Aside>
 
 ---
 
 ## Comparativo: Qual padrão usar?
 
-| Padrão | Complexidade | Quando usar | Exemplo |
-|--------|--------------|-------------|---------|
-| **Repository** | ⭐ Baixa | Sempre (isolamento de dados) | `IUserRepository` |
-| **Unit of Work** | ⭐⭐ Média | Multi-agregados em transação | Pedido + Pagamento + Estoque |
-| **CQRS** | ⭐⭐⭐ Alta | Reads/writes muito diferentes | E-commerce (1k reads vs 10 writes) |
-| **Clean Arch** | ⭐⭐⭐⭐ Muito alta | Projetos grandes, longo prazo | Sistemas empresariais |
+| Padrão           | Complexidade        | Quando usar                   | Exemplo                            |
+| ---------------- | ------------------- | ----------------------------- | ---------------------------------- |
+| **Repository**   | ⭐ Baixa            | Sempre (isolamento de dados)  | `IUserRepository`                  |
+| **Unit of Work** | ⭐⭐ Média          | Multi-agregados em transação  | Pedido + Pagamento + Estoque       |
+| **CQRS**         | ⭐⭐⭐ Alta         | Reads/writes muito diferentes | E-commerce (1k reads vs 10 writes) |
+| **Clean Arch**   | ⭐⭐⭐⭐ Muito alta | Projetos grandes, longo prazo | Sistemas empresariais              |
 
 ---
 
@@ -429,39 +440,40 @@ graph TB
         Ctrl["🎮 Controllers<br/>REST endpoints"]
         Mid["🔒 Middleware<br/>Auth, CORS"]
     end
-    
+
     subgraph Application["💼 APPLICATION<br/>(Orquestração)"]
         UC["🎯 UseCases<br/>CreateOrderUseCase"]
         DTO["📨 DTOs<br/>Requests/Responses"]
         Iface["🔗 Interfaces<br/>IRepository"]
     end
-    
+
     subgraph Domain["🧠 DOMAIN<br/>(Núcleo - sem deps)"]
         Entity["📋 Entities<br/>User, Order"]
         VO["💰 ValueObjects<br/>Money, Address"]
         Rules["✨ Business Rules<br/>Regras puras"]
     end
-    
+
     subgraph Infrastructure["🔌 INFRASTRUCTURE<br/>(Implementações)"]
         Repo["💾 Repositories<br/>UserRepository"]
         Ext["🌐 ExternalServices<br/>EmailService"]
         DB["📊 DbContext<br/>EF Core"]
     end
-    
+
     subgraph Tests["🧪 TESTS"]
         Unit["✓ Unit Tests"]
         Int["🔗 Integration Tests"]
     end
-    
+
     Presentation --> Application
     Application --> Domain
     Infrastructure --> Domain
     Tests -.-> Application
-    
+
     style Domain fill:#fde68a,stroke:#d97706,stroke-width:3px
 ```
 
 **Startup.cs (Dependency Injection)**
+
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
 

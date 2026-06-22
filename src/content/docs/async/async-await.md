@@ -41,7 +41,7 @@ public async Task<User> GetUser(int id, CancellationToken ct)
 {
     // Verifica se cancelou
     ct.ThrowIfCancellationRequested();
-    
+
     var response = await _http.GetAsync($"api/users/{id}", ct);
     return JsonSerializer.Deserialize<User>(response);
 }
@@ -115,7 +115,7 @@ var results = await Task.WhenAll(tasks);
 public async Task<User> GetUserWithTimeout(int id)
 {
     using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
-    
+
     try
     {
         return await _service.GetAsync(id, cts.Token);

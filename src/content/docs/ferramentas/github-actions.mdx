@@ -4,7 +4,7 @@ description: Workflows CI/CD, matrix builds, caching, secrets, releases — auto
 emoji: ⚙️
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 ## Introdução
 
@@ -22,13 +22,13 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ```yaml
 on:
   push:
-    branches: [main, develop]        # em push
-    paths: ['src/**', '.github/**']   # apenas nesses paths
+    branches: [main, develop] # em push
+    paths: ["src/**", ".github/**"] # apenas nesses paths
   pull_request:
-    branches: [main]                 # em PR
+    branches: [main] # em PR
   schedule:
-    - cron: '0 2 * * *'             # diário às 2am UTC
-  workflow_dispatch:                 # manual via UI
+    - cron: "0 2 * * *" # diário às 2am UTC
+  workflow_dispatch: # manual via UI
 ```
 
 ## Jobs & Steps Básicos
@@ -36,10 +36,10 @@ on:
 ```yaml
 jobs:
   build:
-    runs-on: ubuntu-latest           # GitHub runner
+    runs-on: ubuntu-latest # GitHub runner
     steps:
-      - uses: actions/checkout@v3    # Action (reutilizável)
-      - run: echo "Hello"            # Shell command
+      - uses: actions/checkout@v3 # Action (reutilizável)
+      - run: echo "Hello" # Shell command
       - id: version
         run: echo "VERSION=1.0.0" >> $GITHUB_OUTPUT
       - run: echo ${{ steps.version.outputs.VERSION }}
@@ -49,11 +49,11 @@ jobs:
 
 ```yaml
 env:
-  DOTNET_VERSION: '8.0'  # variável público
+  DOTNET_VERSION: "8.0" # variável público
 
 steps:
-  - run: echo ${{ secrets.GITHUB_TOKEN }}  # secret seguro, não printa
-  - run: echo ${{ vars.MY_VAR }}           # variável de repo
+  - run: echo ${{ secrets.GITHUB_TOKEN }} # secret seguro, não printa
+  - run: echo ${{ vars.MY_VAR }} # variável de repo
 ```
 
 </TabItem>
@@ -72,16 +72,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet: ['7.0', '8.0']       # Testar múltiplas versões
-    
+        dotnet: ["7.0", "8.0"] # Testar múltiplas versões
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet }}
-      
+
       # Cache NuGet (crucial para performance)
       - name: Cache NuGet
         uses: actions/cache@v3
@@ -90,24 +90,24 @@ jobs:
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
-      
+
       - name: Restore dependencies
         run: dotnet restore
-      
+
       - name: Build
         run: dotnet build --configuration Release --no-restore
-      
+
       - name: Test
         run: dotnet test --configuration Release --no-build --verbosity normal --logger trx
-      
+
       # Upload test results
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v3
         with:
           name: test-results-${{ matrix.dotnet }}
-          path: '**/TestResults/*.trx'
-      
+          path: "**/TestResults/*.trx"
+
       # Code coverage
       - name: Code Coverage
         uses: codecov/codecov-action@v3
@@ -130,7 +130,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ['CI']
+    workflows: ["CI"]
     branches: [main]
     types: [completed]
 
@@ -138,24 +138,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     if: github.event.workflow_run.conclusion == 'success'
-    
+
     permissions:
       packages: write
       contents: read
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
@@ -166,7 +166,7 @@ jobs:
             ghcr.io/${{ github.repository }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      
+
       # Deploy
       - name: Deploy to production
         env:
@@ -177,7 +177,7 @@ jobs:
           echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
-          
+
           ssh -i ~/.ssh/deploy_key user@$DEPLOY_HOST << 'EOF'
             cd /app
             docker pull ghcr.io/${{ github.repository }}:latest
@@ -197,33 +197,33 @@ name: Release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - "v*.*.*"
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0'
-      
+          dotnet-version: "8.0"
+
       - name: Publish NuGet Package
         run: |
           dotnet pack -c Release
           dotnet nuget push bin/Release/*.nupkg \
             --api-key ${{ secrets.NUGET_API_KEY }} \
             --source https://api.nuget.org/v3/index.json
-      
+
       # Create GitHub Release
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: 'bin/Release/*.nupkg'
+          artifacts: "bin/Release/*.nupkg"
           draft: false
           prerelease: ${{ contains(github.ref, 'beta') }}
 ```
@@ -251,12 +251,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ inputs.dotnet-version }}
-      
+
       - run: dotnet build
       - run: dotnet test
 ```
@@ -272,7 +272,7 @@ jobs:
   build:
     uses: ./.github/workflows/build.yml
     with:
-      dotnet-version: '8.0'
+      dotnet-version: "8.0"
 ```
 
 </TabItem>
@@ -316,9 +316,9 @@ jobs:
   required-checks:
     runs-on: ubuntu-latest
     steps:
-      - run: dotnet test  # falha se tester falha
+      - run: dotnet test # falha se tester falha
       - run: dotnet build
-      - run: npm run lint  # ou qualquer lint
+      - run: npm run lint # ou qualquer lint
 ```
 
 **GitHub Settings → Branches → Require status checks to pass before merging**
@@ -343,7 +343,7 @@ jobs:
 ```yaml
 strategy:
   matrix:
-    dotnet: ['7.0', '8.0', '9.0']
+    dotnet: ["7.0", "8.0", "9.0"]
     os: [ubuntu-latest, windows-latest, macos-latest]
 ```
 
@@ -351,7 +351,7 @@ strategy:
 
 ```yaml
 - run: echo "Build OK"
-  if: success()  # ou: failure(), always(), cancelled()
+  if: success() # ou: failure(), always(), cancelled()
 
 - run: echo "PR only"
   if: github.event_name == 'pull_request'
@@ -364,7 +364,7 @@ strategy:
   if: always()
   with:
     name: build-logs
-    path: '**/logs/**'
+    path: "**/logs/**"
 ```
 
 ### Práticas

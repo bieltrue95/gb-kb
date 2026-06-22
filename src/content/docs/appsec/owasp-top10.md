@@ -87,11 +87,11 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 ## Como estudar na prática
 
-| Recurso | O que oferece |
-|---|---|
+| Recurso                     | O que oferece                                     |
+| --------------------------- | ------------------------------------------------- |
 | **PortSwigger Web Academy** | Labs práticos pra cada vulnerabilidade — gratuito |
-| **OWASP WebGoat** | App .NET vulnerável pra explorar localmente |
-| **OWASP ASVS** | Checklist de verificação de segurança por nível |
+| **OWASP WebGoat**           | App .NET vulnerável pra explorar localmente       |
+| **OWASP ASVS**              | Checklist de verificação de segurança por nível   |
 
 ---
 

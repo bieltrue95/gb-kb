@@ -4,10 +4,10 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'src/content/docs/**/*.md'
-      - 'src/content/docs/**/*.mdx'
-      - 'package.json'
-      - 'scripts/**'
+      - "src/content/docs/**/*.md"
+      - "src/content/docs/**/*.mdx"
+      - "package.json"
+      - "scripts/**"
   workflow_dispatch:
 
 jobs:

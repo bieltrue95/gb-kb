@@ -119,13 +119,13 @@ public event Func<OrderCreatedEventArgs, Task> OrderCreatedAsync;
 public async Task CreateOrder(Order order)
 {
     // ... lógica ...
-    
+
     if (OrderCreatedAsync != null)
     {
         var tasks = OrderCreatedAsync.GetInvocationList()
             .Cast<Func<OrderCreatedEventArgs, Task>>()
             .Select(h => h(new OrderCreatedEventArgs(order)));
-        
+
         await Task.WhenAll(tasks);
     }
 }

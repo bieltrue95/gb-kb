@@ -22,14 +22,14 @@ Estado mutável compartilhado? → Abstract class
 
 ### Comparação
 
-| | Interface | Abstract |
-|---|---|---|
-| **Contrato** | Sim, método = assinatura | Sim + implementação |
-| **Implementação** | Nenhuma (C#8+: default) | Parcial |
-| **Fields/State** | Não | Sim (private, protected) |
-| **Herança múltipla** | Sim (N interfaces) | Não (1 classe) |
-| **Constructor** | Não | Sim |
-| **Visibilidade** | Sempre public | public/protected/private |
+|                      | Interface                | Abstract                 |
+| -------------------- | ------------------------ | ------------------------ |
+| **Contrato**         | Sim, método = assinatura | Sim + implementação      |
+| **Implementação**    | Nenhuma (C#8+: default)  | Parcial                  |
+| **Fields/State**     | Não                      | Sim (private, protected) |
+| **Herança múltipla** | Sim (N interfaces)       | Não (1 classe)           |
+| **Constructor**      | Não                      | Sim                      |
+| **Visibilidade**     | Sempre public            | public/protected/private |
 
 ## Na prática
 
@@ -91,7 +91,7 @@ class Product : Entity { }
 interface ILogger
 {
     void Log(string message);
-    
+
     void LogError(string message)
     {
         Log($"ERROR: {message}");
@@ -118,7 +118,7 @@ class Repository
 {
     private readonly ICache _cache;
     private readonly ILogger _logger;
-    
+
     public Repository(ICache cache, ILogger logger)
     {
         _cache = cache;

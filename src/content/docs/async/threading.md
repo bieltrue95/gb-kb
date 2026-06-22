@@ -88,11 +88,11 @@ Task.Run(() => bag.Add(user2));
 
 ### Which concurrent collection?
 
-| Collection | Use case |
-|---|---|
-| **ConcurrentBag** | Unordered, add/remove any |
-| **ConcurrentQueue** | FIFO, Enqueue/Dequeue |
-| **ConcurrentStack** | LIFO, Push/Pop |
+| Collection               | Use case                                            |
+| ------------------------ | --------------------------------------------------- |
+| **ConcurrentBag**        | Unordered, add/remove any                           |
+| **ConcurrentQueue**      | FIFO, Enqueue/Dequeue                               |
+| **ConcurrentStack**      | LIFO, Push/Pop                                      |
 | **ConcurrentDictionary** | Thread-safe dictionary with atomic TryAdd/TryRemove |
 
 ### Imutabilidade (melhor estratégia)

@@ -8,7 +8,9 @@
     "preview": "astro preview",
     "validate": "node scripts/validate-content.js",
     "check-links": "node scripts/check-links.js",
-    "lint": "npm run validate && astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "npm run validate && astro check && npm run format:check",
     "pre-commit": "npm run lint"
   },
   "dependencies": {
@@ -19,6 +21,8 @@
     "mermaid": "^11.15.0"
   },
   "devDependencies": {
-    "js-yaml": "^4.2.0"
+    "js-yaml": "^4.2.0",
+    "prettier": "^3.8.4",
+    "prettier-plugin-astro": "^0.14.1"
   }
 }

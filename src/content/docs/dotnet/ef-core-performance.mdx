@@ -3,8 +3,8 @@ title: Entity Framework Core - Performance e otimizações
 description: N+1 problem, AsNoTracking, incluir relacionamentos, índices e query optimization com exemplos em C# .NET 10
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 
 ## Introdução
 
@@ -14,13 +14,14 @@ import { Aside } from '@astrojs/starlight/components';
 graph LR
     Good["⚡ EF Core BEM USADO<br/>Queries otimizadas<br/>Índices<br/>Carregamento inteligente"]
     Bad["❌ EF Core MAL USADO<br/>N+1<br/>Lazy loading<br/>Queries gigantes"]
-    
+
     style Good fill:#bbf7d0,stroke:#16a34a
     style Bad fill:#fecaca,stroke:#dc2626
 ```
 
 <Aside type="caution" title="Performance importa!">
-Uma query ruim em produção com 1M de registros = aplicação travada. AppSec também cobra isso em entrevistas.
+  Uma query ruim em produção com 1M de registros = aplicação travada. AppSec também cobra isso em
+  entrevistas.
 </Aside>
 
 ---
@@ -70,7 +71,8 @@ public async Task<List<UserDto>> GetUsersWithOrders()
 }
 
 // Resultado: Se 100 usuários = 101 queries! 🔥
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ Eager Loading">
@@ -81,7 +83,7 @@ public async Task<List<UserDto>> GetUsersWithOrders()
     var users = await _db.Users
         .Include(u => u.Orders) // ✅ Carrega orders junto
         .ToListAsync(); // Apenas 1 query com JOIN!
-    
+
     return users.Select(u => new UserDto(u)).ToList();
 }
 
@@ -93,7 +95,8 @@ var users = await _db.Users
         .ThenInclude(o => o.Items)
     .Include(u => u.Addresses)
     .ToListAsync(); // 1 query, tudo!
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -116,7 +119,8 @@ var users = await _db.Users.ToListAsync();
 // └─ 💾 Usa mais RAM
 
 // Se você não vai modificar, é desperdício!
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ AsNoTracking (Rápido)">
@@ -135,7 +139,8 @@ var users = await _db.Users
 // ✅ Relatórios
 // ✅ Dados para exibir em UI
 // ❌ NÃO usar se vai modificar
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -151,17 +156,18 @@ Trazer apenas os campos que precisa.
 // ❌ Pega User inteiro (com dados sensíveis)
 var users = await _db.Users.ToListAsync();
 
-// SELECT * FROM Users
+// SELECT \* FROM Users
 // ├─ Id, Email, PasswordHash, CreatedAt, UpdatedAt
 // ├─ Secret, ApiKey, PrivateNotes
 // └─ Tudo! 😱
 
 var result = users.Select(u => new
 {
-    u.Id,
-    u.Email
+u.Id,
+u.Email
 }).ToList(); // Já tarde! Dados já em memória
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ Projection (Query Level)">
@@ -189,7 +195,8 @@ var userDtos = await _db.Users
         OrderCount = u.Orders.Count()
     })
     .ToListAsync();
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -206,10 +213,10 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
     modelBuilder.Entity<User>()
         .HasIndex(u => u.Email)
         .IsUnique(); // Email é único
-    
+
     modelBuilder.Entity<Order>()
         .HasIndex(o => o.UserId); // Buscar por UserId frequente
-    
+
     modelBuilder.Entity<Order>()
         .HasIndex(o => new { o.UserId, o.CreatedAt }) // Índice composto
         .HasDatabaseName("IX_Order_UserIdDate");
@@ -260,15 +267,15 @@ public async Task<List<User>> GetAllUsers()
 public async Task<PagedResult<UserDto>> GetUsers(int page = 1, int pageSize = 10)
 {
     var query = _db.Users.AsNoTracking();
-    
+
     var total = await query.CountAsync();
-    
+
     var items = await query
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .Select(u => new UserDto { Id = u.Id, Email = u.Email })
         .ToListAsync();
-    
+
     return new PagedResult<UserDto>
     {
         Items = items,
@@ -351,7 +358,7 @@ Reutilize conexões em vez de criar novas:
 services.AddDbContext<MyDbContext>(options =>
 {
     var connString = "Server=localhost;...";
-    
+
     options.UseSqlServer(connString, sqlOptions =>
     {
         sqlOptions.EnableRetryOnFailure(
@@ -429,10 +436,10 @@ Ver queries reais sendo executadas:
 services.AddDbContext<MyDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
-    
+
     // Log todas as queries
-    options.LogTo(Console.WriteLine, 
-        new[] { DbLoggerCategory.Database.Command.Name }, 
+    options.LogTo(Console.WriteLine,
+        new[] { DbLoggerCategory.Database.Command.Name },
         LogLevel.Information
     );
 });

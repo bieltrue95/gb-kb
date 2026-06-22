@@ -4,7 +4,7 @@ description: Protocolo AMQP, exchanges, filas, confiabilidade e integração com
 emoji: 🐇
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 ## Introdução
 
@@ -26,7 +26,7 @@ graph TD
     Bind["Binding<br/>(routing rules)"]
     Q["Queue<br/>(FIFO buffer)"]
     Con["Consumer"]
-    
+
     Pub --> Exch
     Exch --> Bind
     Bind --> Q
@@ -35,11 +35,11 @@ graph TD
 
 ### Componentes-chave
 
-| Componente | Função |
-|---|---|
-| **Exchange** | Roteia mensagens (não armazena) |
-| **Queue** | Buffer FIFO persistido em disco |
-| **Binding** | Regra Exchange → Queue |
+| Componente      | Função                          |
+| --------------- | ------------------------------- |
+| **Exchange**    | Roteia mensagens (não armazena) |
+| **Queue**       | Buffer FIFO persistido em disco |
+| **Binding**     | Regra Exchange → Queue          |
 | **Routing Key** | Chave de roteamento da mensagem |
 
 ### Virtual Hosts (vHosts)
@@ -59,7 +59,7 @@ graph TD
     Ch1["Channel 1<br/>(leve, multiplexado)"]
     Ch2["Channel 2<br/>(leve, multiplexado)"]
     ChN["Channel N<br/>(leve, multiplexado)"]
-    
+
     Conn --> Ch1
     Conn --> Ch2
     Conn --> ChN
@@ -130,12 +130,12 @@ channel.ExchangeDeclare("header-exchange", ExchangeType.Headers, durable: true);
 channel.QueueBind("queue-br-high", "header-exchange", "", arguments: headers);
 ```
 
-| Tipo | Roteamento | Uso |
-|---|---|---|
-| **Direct** | routing_key exato | RPC, tarefas específicas |
-| **Topic** | pattern matching (`*.order.*`) | Múltiplos subscribers, filtragem |
-| **Fanout** | broadcast (ignora routing_key) | Notificações, event streaming |
-| **Headers** | match headers (raramente usado) | Casos complexos |
+| Tipo        | Roteamento                      | Uso                              |
+| ----------- | ------------------------------- | -------------------------------- |
+| **Direct**  | routing_key exato               | RPC, tarefas específicas         |
+| **Topic**   | pattern matching (`*.order.*`)  | Múltiplos subscribers, filtragem |
+| **Fanout**  | broadcast (ignora routing_key)  | Notificações, event streaming    |
+| **Headers** | match headers (raramente usado) | Casos complexos                  |
 
   </TabItem>
 
@@ -273,11 +273,11 @@ var factory = new ConnectionFactory
     UserName = "guest",
     Password = "guest",
     VirtualHost = "/",
-    
+
     // Recovery automático
     AutomaticRecoveryEnabled = true,
     NetworkRecoveryInterval = TimeSpan.FromSeconds(10),
-    
+
     // Obrigatório para AsyncEventingBasicConsumer
     DispatchConsumersAsync = true
 };
@@ -364,9 +364,9 @@ public class OrderConsumerService : BackgroundService
             {
                 var body = ea.Body.ToArray();
                 var order = JsonSerializer.Deserialize<OrderCreated>(body)!;
-                
+
                 await handler.HandleAsync(order, ct);
-                
+
                 _channel.BasicAck(ea.DeliveryTag, false);
             }
             catch (Exception ex)
@@ -399,8 +399,8 @@ builder.Services.AddHealthChecks()
     {
         var factory = sp.GetRequiredService<ConnectionFactory>();
         return factory.CreateConnection();
-    }, 
-    name: "rabbitmq", 
+    },
+    name: "rabbitmq",
     tags: new[] { "ready" });
 ```
 
@@ -482,7 +482,7 @@ public class OrderController : ControllerBase
     {
         var order = new Order { Id = Guid.NewGuid(), Total = req.Total };
         // ... salvar ...
-        
+
         await _publish.Publish(new OrderCreated(order.Id, req.CustomerId, req.Total));
         return Ok();
     }
@@ -540,16 +540,16 @@ public class OrderCreatedConsumer : IConsumer<OrderCreated>
 
 ## ⚠️ Armadilhas comuns
 
-| Armadilha | Problema | Solução |
-|-----------|----------|---------|
-| **1 channel por publisher** | ❌ Caro (TCP handshake), lento | ✅ Use pool de channels / 1 connection, múltiplos channels |
-| **autoAck: true** | ❌ Mensagem perdida se consumer falha | ✅ Use `autoAck: false` + manual ACK após processar |
-| **Sem durable** | ❌ Queue desaparece no reinício | ✅ `durable: true` em QueueDeclare |
-| **Sem DLQ** | ❌ Mensagens ruins desaparecem silenciosamente | ✅ Configure `x-dead-letter-exchange` |
-| **Sem prefetch** | ❌ Consumer sobrecarregado (recebe tudo de uma vez) | ✅ `channel.BasicQos(0, prefetchCount: 10)` |
-| **Sem idempotência** | ❌ Duplicatas processadas múltiplas vezes | ✅ Salve `idempotencyKey` no BD antes de processar |
-| **Lazy loading** | ❌ Channel criado quando precisa (lento na primeira vez) | ✅ Crie channels upfront no startup |
-| **Connection não compartilhada** | ❌ Múltiplas connections = desperdício de recursos | ✅ 1 connection por aplicação, reutilize |
+| Armadilha                        | Problema                                                 | Solução                                                    |
+| -------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
+| **1 channel por publisher**      | ❌ Caro (TCP handshake), lento                           | ✅ Use pool de channels / 1 connection, múltiplos channels |
+| **autoAck: true**                | ❌ Mensagem perdida se consumer falha                    | ✅ Use `autoAck: false` + manual ACK após processar        |
+| **Sem durable**                  | ❌ Queue desaparece no reinício                          | ✅ `durable: true` em QueueDeclare                         |
+| **Sem DLQ**                      | ❌ Mensagens ruins desaparecem silenciosamente           | ✅ Configure `x-dead-letter-exchange`                      |
+| **Sem prefetch**                 | ❌ Consumer sobrecarregado (recebe tudo de uma vez)      | ✅ `channel.BasicQos(0, prefetchCount: 10)`                |
+| **Sem idempotência**             | ❌ Duplicatas processadas múltiplas vezes                | ✅ Salve `idempotencyKey` no BD antes de processar         |
+| **Lazy loading**                 | ❌ Channel criado quando precisa (lento na primeira vez) | ✅ Crie channels upfront no startup                        |
+| **Connection não compartilhada** | ❌ Múltiplas connections = desperdício de recursos       | ✅ 1 connection por aplicação, reutilize                   |
 
 ## 📚 Referências
 

@@ -65,7 +65,7 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, int>
         var order = new Order { UserId = request.UserId, Items = request.Items };
         _db.Orders.Add(order);
         await _db.SaveChangesAsync(ct);
-        
+
         return order.Id;
     }
 }
@@ -94,7 +94,7 @@ public class OrderEventStore
     public async Task<Order> RebuildAsync(int orderId)
     {
         var events = await _db.Events.Where(e => e.AggregateId == orderId).ToListAsync();
-        
+
         var order = new Order();
         foreach (var e in events)
         {

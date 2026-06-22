@@ -12,11 +12,11 @@ emoji: 🔎
 
 ### SAST vs DAST vs IAST
 
-| Tipo | Quando | Desvantagem |
-|---|---|---|
-| **SAST** | Build-time (código) | False positives |
-| **DAST** | Runtime (aplicação rodando) | Mais lento |
-| **IAST** | Runtime com instrumentação | Complexo setup |
+| Tipo     | Quando                      | Desvantagem     |
+| -------- | --------------------------- | --------------- |
+| **SAST** | Build-time (código)         | False positives |
+| **DAST** | Runtime (aplicação rodando) | Mais lento      |
+| **IAST** | Runtime com instrumentação  | Complexo setup  |
 
 ### Semgrep rules
 

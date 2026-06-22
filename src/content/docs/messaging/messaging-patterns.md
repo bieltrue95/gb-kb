@@ -23,6 +23,7 @@ graph LR
 ```
 
 **Características**:
+
 - FIFO (First-In-First-Out)
 - 1 mensagem = 1 consumer (work stealing)
 - At-least-once delivery
@@ -66,6 +67,7 @@ graph LR
 ```
 
 **Características**:
+
 - Event broadcasting
 - Múltiplos subscribers independentes
 - Cada subscription tem sua própria cópia
@@ -110,7 +112,7 @@ graph TD
     RQ["RequestQueue"]
     B["ServiceB"]
     REPQ["ReplyQueue"]
-    
+
     A -->|Envia request| RQ
     RQ -->|Consome| B
     B -->|Envia reply| REPQ
@@ -118,6 +120,7 @@ graph TD
 ```
 
 **Características**:
+
 - Correlation ID identifica request/reply
 - Timeout necessário
 - Mais complexo que sync RPC
@@ -126,9 +129,9 @@ graph TD
 
 ```csharp
 // Request
-var replyTo = new ReplyToGroupedProperties 
-{ 
-    ReplyToSessionId = orderId.ToString() 
+var replyTo = new ReplyToGroupedProperties
+{
+    ReplyToSessionId = orderId.ToString()
 };
 var message = new ServiceBusMessage(JsonSerializer.SerializeToUtf8Bytes(pricingRequest))
 {
@@ -162,12 +165,13 @@ Payment Service → Publish: PaymentProcessed ou PaymentFailed
 If PaymentProcessed:
   Inventory Service → Reserve stock
   Shipping Service → Create shipment
-  
+
 If PaymentFailed:
   Compensate: Refund, ReleaseInventory, CancelShipment
 ```
 
 **Tipos**:
+
 - **Choreography**: Serviços publicam eventos, próximo subscreve (descentralizado, difícil debugar)
 - **Orchestration**: Orquestrador comanda passo a passo (explícito, escalável)
 
@@ -178,16 +182,16 @@ If PaymentFailed:
 public class OrderCreatedConsumer : IConsumer<OrderCreated>
 {
     private readonly IPublishEndpoint _publish;
-    
+
     public async Task Consume(ConsumeContext<OrderCreated> context)
     {
         var order = context.Message;
-        
+
         try
         {
             // Tentar processar pagamento
             var paymentResult = await _paymentService.ProcessAsync(order.Total);
-            
+
             // Se sucesso, publicar evento
             await _publish.Publish(new PaymentProcessed { OrderId = order.Id });
         }
@@ -211,24 +215,24 @@ public class OrderSaga : Saga<OrderSagaState>,
     public State PaymentProcessing { get; private set; }
     public State Completed { get; private set; }
     public State Failed { get; private set; }
-    
+
     // Define events
     public Event<OrderCreated> OrderCreatedEvent { get; private set; }
     public Event<PaymentCompleted> PaymentCompletedEvent { get; private set; }
-    
+
     // Configure state machine
     protected override void ConfigureStateMachine(InMemoryStateMachineConfigurator<OrderSagaState> cfg)
     {
         cfg.InstanceState(x => x.CurrentState);
-        
+
         cfg.Event("OrderCreated", x => x.CorrelateById(m => m.Message.OrderId));
         cfg.Event("PaymentCompleted", x => x.CorrelateById(m => m.Message.OrderId));
-        
+
         cfg.Initially()
             .When(OrderCreatedEvent)
             .Then(x => ProcessPayment(x.Data, x.Message))
             .TransitionTo(PaymentProcessing);
-            
+
         cfg.During(PaymentProcessing)
             .When(PaymentCompletedEvent)
             .Then(x => ReserveInventory(x.Data))

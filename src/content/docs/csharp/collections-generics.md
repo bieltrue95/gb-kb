@@ -14,28 +14,28 @@ Escolher a collection errada = seu código é lento. `List<T>` tem O(n) busca. `
 
 ### Big-O comparison
 
-| Operação | Array | List | HashSet | Dict | Queue | Stack |
-|---|---|---|---|---|---|---|
-| **Acesso[i]** | O(1) | O(1) | O(1) | O(1) | O(n) | O(n) |
-| **Busca** | O(n) | O(n) | **O(1)** | **O(1)** | O(n) | O(n) |
-| **Inserir** | O(n) | O(n)* | **O(1)** | **O(1)** | O(1) | **O(1)** |
-| **Remover** | O(n) | O(n)* | **O(1)** | **O(1)** | **O(1)** | **O(1)** |
-| **Memory** | Fixo | Dinâmico | Dinâmico | Dinâmico | Dinâmico | Dinâmico |
+| Operação      | Array | List     | HashSet  | Dict     | Queue    | Stack    |
+| ------------- | ----- | -------- | -------- | -------- | -------- | -------- |
+| **Acesso[i]** | O(1)  | O(1)     | O(1)     | O(1)     | O(n)     | O(n)     |
+| **Busca**     | O(n)  | O(n)     | **O(1)** | **O(1)** | O(n)     | O(n)     |
+| **Inserir**   | O(n)  | O(n)\*   | **O(1)** | **O(1)** | O(1)     | **O(1)** |
+| **Remover**   | O(n)  | O(n)\*   | **O(1)** | **O(1)** | **O(1)** | **O(1)** |
+| **Memory**    | Fixo  | Dinâmico | Dinâmico | Dinâmico | Dinâmico | Dinâmico |
 
-*List no final é O(1) amortizado
+\*List no final é O(1) amortizado
 
 ### Quando usar cada uma
 
-| Collection | Caso de uso |
-|---|---|
-| **Array** | Tamanho fixo, acesso por índice |
-| **List<T>** | Padrão, adicionar/remover no final |
-| **HashSet<T>** | Verificar se existe, sem duplicatas |
-| **Dictionary<K,V>** | Map key → value (lookup rápido) |
-| **Queue<T>** | FIFO (primeiro entra, primeiro sai) |
-| **Stack<T>** | LIFO (último entra, primeiro sai) |
-| **LinkedList<T>** | Inserir/remover no meio com frequência |
-| **SortedSet<T>** | Manter ordenado, busca rápida |
+| Collection          | Caso de uso                            |
+| ------------------- | -------------------------------------- |
+| **Array**           | Tamanho fixo, acesso por índice        |
+| **List<T>**         | Padrão, adicionar/remover no final     |
+| **HashSet<T>**      | Verificar se existe, sem duplicatas    |
+| **Dictionary<K,V>** | Map key → value (lookup rápido)        |
+| **Queue<T>**        | FIFO (primeiro entra, primeiro sai)    |
+| **Stack<T>**        | LIFO (último entra, primeiro sai)      |
+| **LinkedList<T>**   | Inserir/remover no meio com frequência |
+| **SortedSet<T>**    | Manter ordenado, busca rápida          |
 
 ## Na prática
 

@@ -23,7 +23,7 @@ class BlackFridayPricing : IPricingStrategy
 public class Cart
 {
     private IPricingStrategy _pricing;
-    
+
     public Cart(IPricingStrategy pricing) => _pricing = pricing;
     public decimal GetTotal(decimal price) => _pricing.Calculate(price);
 }
@@ -61,7 +61,7 @@ interface IRepository<T> where T : Entity
 class UserRepository : IRepository<User>
 {
     private readonly DbContext _db;
-    
+
     public async Task<User> GetByIdAsync(int id) => await _db.Users.FindAsync(id);
     public async Task AddAsync(User u) { _db.Users.Add(u); }
     public async Task SaveChangesAsync() => await _db.SaveChangesAsync();
@@ -74,7 +74,7 @@ class UserRepository : IRepository<User>
 class UserService
 {
     public event EventHandler<UserCreatedEventArgs> UserCreated;
-    
+
     public void CreateUser(User user)
     {
         UserCreated?.Invoke(this, new UserCreatedEventArgs(user));
@@ -94,7 +94,7 @@ interface IDataRepository { Task<User> GetAsync(int id); }
 class LoggingDecorator : IDataRepository
 {
     private readonly IDataRepository _inner;
-    
+
     public async Task<User> GetAsync(int id)
     {
         _logger.Log($"Getting user {id}");

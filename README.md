@@ -59,18 +59,18 @@ GB Knowledge Base (44+ artigos)
 
 ## ✨ Features
 
-| Feature | Descrição |
-|---------|-----------|
-| ![Icon](public/favicon-32x32.png) **44+ Artigos** | Estruturados e bem documentados |
-| ![Icon](public/favicon-32x32.png) **20 Diagramas** | Mermaid em toda documentação |
-| ![Icon](public/favicon-32x32.png) **Tema Neon** | Identidade visual futurista (Cyberpunk/AppSec) |
-| ![Icon](public/favicon-32x32.png) **Dark Mode** | Otimizado para leitura noturna |
-| ![Icon](public/favicon-32x32.png) **Responsivo** | Desktop, tablet e mobile |
-| ![Icon](public/favicon-32x32.png) **Tabs Interativas** | Organizam conteúdo complexo |
-| ![Icon](public/favicon-32x32.png) **Performance** | 44 pages, ~2MB |
-| ![Icon](public/favicon-32x32.png) **Deploy Automático** | GitHub Pages + Actions (~2 min) |
-| ![Icon](public/favicon-32x32.png) **Search** | Integrado com Pagefind |
-| ![Icon](public/favicon-32x32.png) **Acessível** | WCAG 2.1 AA |
+| Feature                                                 | Descrição                                      |
+| ------------------------------------------------------- | ---------------------------------------------- |
+| ![Icon](public/favicon-32x32.png) **44+ Artigos**       | Estruturados e bem documentados                |
+| ![Icon](public/favicon-32x32.png) **20 Diagramas**      | Mermaid em toda documentação                   |
+| ![Icon](public/favicon-32x32.png) **Tema Neon**         | Identidade visual futurista (Cyberpunk/AppSec) |
+| ![Icon](public/favicon-32x32.png) **Dark Mode**         | Otimizado para leitura noturna                 |
+| ![Icon](public/favicon-32x32.png) **Responsivo**        | Desktop, tablet e mobile                       |
+| ![Icon](public/favicon-32x32.png) **Tabs Interativas**  | Organizam conteúdo complexo                    |
+| ![Icon](public/favicon-32x32.png) **Performance**       | 44 pages, ~2MB                                 |
+| ![Icon](public/favicon-32x32.png) **Deploy Automático** | GitHub Pages + Actions (~2 min)                |
+| ![Icon](public/favicon-32x32.png) **Search**            | Integrado com Pagefind                         |
+| ![Icon](public/favicon-32x32.png) **Acessível**         | WCAG 2.1 AA                                    |
 
 ---
 
@@ -83,6 +83,7 @@ GB Knowledge Base (44+ artigos)
 </div>
 
 ### Frontend
+
 - **[Astro v5](https://astro.build)** - Static site generator moderno
 - **[Starlight](https://starlight.astro.build)** - Documentation theme para Astro
 - **Markdown + MDX** - Conteúdo com componentes React/Vue
@@ -91,11 +92,13 @@ GB Knowledge Base (44+ artigos)
 - **Pagefind** - Search sem JavaScript
 
 ### DevOps
+
 - **GitHub Pages** - Hospedagem gratuita
 - **GitHub Actions** - CI/CD automático
 - **Starlight Data Store** - Cache de conteúdo
 
 ### Desenvolvimento
+
 - **Node.js + npm** - Package manager
 - **Git** - Version control
 
@@ -163,18 +166,23 @@ description: Uma linha descrevendo (máx 160 chars)
 
 ```markdown
 ## Introdução
+
 Por quê aprender?
 
 ## Conceitos principais
+
 Explicação clara.
 
 ## Na prática
+
 Exemplos em C#.
 
 ## Armadilhas comuns
+
 O quê evitar.
 
 ## Referências
+
 Links externos.
 ```
 
@@ -223,16 +231,17 @@ gb-kb/
 
 Identidade visual **Cyberpunk/AppSec** com cores neon vibrantes:
 
-| Cor | Hex | Uso |
-|-----|-----|-----|
-| **Cyan** | `#00f0ff` | Headings, links, borders |
-| **Magenta** | `#ff006e` | Destaques, accents |
-| **Verde** | `#39ff14` | Success, code |
-| **Amarelo** | `#ffff00` | Warnings, alerts |
-| **Roxo** | `#b700ff` | Premium effects |
-| **Dark** | `#0a0e27` | Background (space) |
+| Cor         | Hex       | Uso                      |
+| ----------- | --------- | ------------------------ |
+| **Cyan**    | `#00f0ff` | Headings, links, borders |
+| **Magenta** | `#ff006e` | Destaques, accents       |
+| **Verde**   | `#39ff14` | Success, code            |
+| **Amarelo** | `#ffff00` | Warnings, alerts         |
+| **Roxo**    | `#b700ff` | Premium effects          |
+| **Dark**    | `#0a0e27` | Background (space)       |
 
 ### Efeitos
+
 - ✨ Text glow nos headings
 - 📦 Box glow nas cards/tabs
 - 🔄 Animações pulsantes
@@ -244,6 +253,7 @@ Identidade visual **Cyberpunk/AppSec** com cores neon vibrantes:
 ## 📊 Roadmap
 
 ### ✅ Concluído
+
 - [x] 44+ artigos documentados
 - [x] 20 diagramas Mermaid
 - [x] Tema Neon completo
@@ -253,6 +263,7 @@ Identidade visual **Cyberpunk/AppSec** com cores neon vibrantes:
 - [x] Search integrado
 
 ### ⏳ Planejado
+
 - [ ] Video tutorials
 - [ ] Interactive labs
 - [ ] Community contributions
@@ -292,7 +303,7 @@ Contribuições são bem-vindas! Siga o guia em `.claude/rules/content-guideline
 - 📧 **Email:** devgtrue@gmail.com
 - 🌐 **Site:** https://bieltrue95.github.io/gb-kb
 - 🐙 **GitHub:** https://github.com/bieltrue95/gb-kb
-- 💼 **LinkedIn:** [linkedin.com/in/gabriel-biel]([https://linkedin.com/in/gabriel-biel](https://www.linkedin.com/in/gabriel-jos%C3%A9-dos-santos/))
+- 💼 **LinkedIn:** [linkedin.com/in/gabriel-biel](<[https://linkedin.com/in/gabriel-biel](https://www.linkedin.com/in/gabriel-jos%C3%A9-dos-santos/)>)
 
 ---
 

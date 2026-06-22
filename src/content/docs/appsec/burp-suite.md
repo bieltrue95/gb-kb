@@ -9,10 +9,10 @@ Burp Suite é a ferramenta padrão do mercado para testes de segurança em aplic
 
 ## Versões
 
-| Versão | Custo | Uso |
-|---|---|---|
-| **Community** | Gratuita | Aprendizado, uso pessoal |
-| **Professional** | Pago | Pentest profissional |
+| Versão           | Custo    | Uso                      |
+| ---------------- | -------- | ------------------------ |
+| **Community**    | Gratuita | Aprendizado, uso pessoal |
+| **Professional** | Pago     | Pentest profissional     |
 
 Para estudo, a Community já é suficiente.
 
@@ -29,15 +29,19 @@ Para estudo, a Community já é suficiente.
 ## Funcionalidades principais
 
 ### Proxy
+
 Intercepta e modifica requisições antes de chegarem ao servidor. Principal ferramenta do dia a dia.
 
 ### Repeater
+
 Reenvia requisições modificadas manualmente. Útil para testar variações de um mesmo ataque.
 
 ### Intruder
+
 Automatiza ataques com listas de payloads. Útil para brute force e fuzzing de parâmetros.
 
 ### Scanner (Pro)
+
 Varre automaticamente a aplicação em busca de vulnerabilidades conhecidas.
 
 ---

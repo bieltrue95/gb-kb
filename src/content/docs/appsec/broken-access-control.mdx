@@ -3,8 +3,8 @@ title: OWASP A01 - Broken Access Control
 description: A vulnerabilidade mais crítica do OWASP Top 10. Exploração, prevenção e exemplos práticos em ASP.NET Core
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 
 ## Introdução
 
@@ -14,20 +14,21 @@ import { Aside } from '@astrojs/starlight/components';
 graph LR
     User["👤 Usuário comum"]
     Admin["🔓 Admin"]
-    
+
     User -->|✅ Ver perfil dele| Own["Próprio perfil"]
     User -->|✅ Editar própios dados| OwnEdit["Próprios dados"]
     User -->|✅ Ver próprio histórico| OwnHist["Próprio histórico"]
-    
+
     Admin -->|✅ Ver TODOS perfis| AllProf["TODOS os perfis"]
     Admin -->|✅ Deletar qualquer user| Delete["Delete usuário"]
     Admin -->|✅ Acessar dados confidenciais| Conf["Dados confidenciais"]
-    
+
     Bad["❌ BAC: User consegue acessar Admin resources!"]
 ```
 
 <Aside type="caution" title="Por que é crítica?">
-BAC expõe dados privados, permite roubo de contas, modificação de dados sensíveis. Recrutadores procuram isso em pentests.
+  BAC expõe dados privados, permite roubo de contas, modificação de dados sensíveis. Recrutadores
+  procuram isso em pentests.
 </Aside>
 
 ---
@@ -79,7 +80,8 @@ public async Task<IActionResult> GetUserProfile(int userId)
 // Ataque:
 // GET /api/users/42/profile (vejo dados de outro usuário!)
 // GET /api/users/999/profile (vejo dados de QUALQUER um!)
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ SEGURO">
@@ -89,15 +91,16 @@ public async Task<IActionResult> GetUserProfile(int userId)
 public async Task<IActionResult> GetUserProfile(int userId)
 {
     var currentUserId = int.Parse(User.FindFirst("sub")?.Value);
-    
+
     // ✅ VERIFICAR: User logado é o dono ou admin?
     if (userId != currentUserId && !User.IsInRole("Admin"))
         return Forbid(); // 403 Forbidden
-    
+
     var user = await _db.Users.FindAsync(userId);
     return Ok(user);
 }
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -169,12 +172,12 @@ public async Task<IActionResult> GetInvoice(int orderId)
 public async Task<IActionResult> GetInvoice(int orderId)
 {
     var currentUserId = User.FindFirst("sub").Value;
-    
+
     // Verificar propriedade
     var order = await _db.Orders.FindAsync(orderId);
     if (order.UserId.ToString() != currentUserId)
         return Forbid();
-    
+
     var invoice = await _db.Invoices
         .FirstOrDefaultAsync(i => i.OrderId == orderId);
     return Ok(invoice);
@@ -305,17 +308,17 @@ public async Task<IActionResult> DownloadFile(int fileId)
     var file = await _db.Files.FindAsync(fileId);
     if (file == null)
         return NotFound();
-    
+
     // Verificar propriedade
     var currentUserId = User.FindFirst("sub").Value;
     if (file.UploadedBy.ToString() != currentUserId)
         return Forbid();
-    
+
     var path = file.ServerPath;
     // Garantir que path está dentro de /uploads
     if (!Path.GetFullPath(path).StartsWith("/uploads"))
         return BadRequest("Invalid file");
-    
+
     return PhysicalFile(path, "application/octet-stream");
 }
 ```
@@ -325,6 +328,7 @@ public async Task<IActionResult> DownloadFile(int fileId)
 ## Como Explorar com Burp Suite
 
 ### Passo 1: Capturar request autenticado
+
 ```
 1. Abra Burp Suite
 2. Acesse sua app logado
@@ -333,6 +337,7 @@ public async Task<IActionResult> DownloadFile(int fileId)
 ```
 
 ### Passo 2: Modificar parâmetros
+
 ```
 GET /api/users/123/profile
 Authorization: Bearer seu_token
@@ -343,6 +348,7 @@ GET /api/users/admin/profile (path diferente)
 ```
 
 ### Passo 3: Enviar (Send to Repeater)
+
 ```
 Burp Repeater:
 1. Clique em modificação
@@ -416,7 +422,7 @@ public class AuthorizationMiddleware
     {
         var handler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_KEY"));
-        
+
         return handler.ValidateToken(token, new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,

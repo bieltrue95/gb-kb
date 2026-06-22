@@ -39,26 +39,32 @@ description: [Auto-generated from title]
 ---
 
 ## Introdução
+
 Contexto e por quê aprender isso.
 
 ## Conceitos principais
+
 - Conceito 1
 - Conceito 2
 
 ## Na prática
+
 Exemplo de código em C#.
 
 ## Armadilhas comuns
+
 - Erro 1
 - Erro 2
 
 ## Referências
+
 - Link 1
 ```
 
 ## Validation
 
 After creation, checks:
+
 - ✅ Frontmatter is valid YAML
 - ✅ File in correct location
 - ✅ Filename is kebab-case
@@ -69,6 +75,7 @@ After creation, checks:
 ## Next Steps
 
 After creation:
+
 1. Edit file in `src/content/docs/{category}/{filename}.md`
 2. Add content sections (Introdução, Conceitos, Na prática, etc)
 3. Include C# examples where relevant

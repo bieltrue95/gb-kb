@@ -12,14 +12,14 @@ emoji: 🧨
 
 ### STRIDE (6 categorias de ameaça)
 
-| Ameaça | Exemplo | Mitigação |
-|---|---|---|
-| **S**poofing | Falsificar identidade | Autenticação forte |
-| **T**ampering | Modificar dados | Integridade (HMAC, assinatura) |
-| **R**epudiation | Negar ação | Logging, auditoria |
-| **I**nformation Disclosure | Vazar dados | Criptografia, RBAC |
-| **D**enial of Service | Derruba serviço | Rate limiting, failover |
-| **E**levation of Privilege | Aumentar permissões | Princípio mínimo acesso |
+| Ameaça                     | Exemplo               | Mitigação                      |
+| -------------------------- | --------------------- | ------------------------------ |
+| **S**poofing               | Falsificar identidade | Autenticação forte             |
+| **T**ampering              | Modificar dados       | Integridade (HMAC, assinatura) |
+| **R**epudiation            | Negar ação            | Logging, auditoria             |
+| **I**nformation Disclosure | Vazar dados           | Criptografia, RBAC             |
+| **D**enial of Service      | Derruba serviço       | Rate limiting, failover        |
+| **E**levation of Privilege | Aumentar permissões   | Princípio mínimo acesso        |
 
 ### DFD (Data Flow Diagram)
 

@@ -33,6 +33,7 @@ Com jitter: retry em 800ms-1200ms (aleatório)
 ### Circuit breaker
 
 Estados:
+
 - **Closed:** normal, requisições passam
 - **Open:** muitas falhas detectadas → bloqueia requisições
 - **Half-open:** testando se recuperou → deixa 1 passar
@@ -42,7 +43,7 @@ graph LR
     Closed["🟢 CLOSED<br/>(Normal)"]
     Open["🔴 OPEN<br/>(Bloqueado)"]
     HalfOpen["🟡 HALF-OPEN<br/>(Testando)"]
-    
+
     Closed -->|50% falhas| Open
     Open -->|sleep 30s| HalfOpen
     HalfOpen -->|sucesso| Closed
@@ -65,7 +66,7 @@ var policy = Policy
             _logger.LogWarning($"Retry {retryCount} after {timespan.Ms}ms")
     );
 
-var response = await policy.ExecuteAsync(() => 
+var response = await policy.ExecuteAsync(() =>
     _httpClient.GetAsync("https://api.example.com/data"));
 ```
 
@@ -81,10 +82,10 @@ var policy = Policy
         {
             var exponentialBackoff = TimeSpan.FromMilliseconds(
                 Math.Pow(2, retryAttempt) * 100);
-            
+
             var jitter = TimeSpan.FromMilliseconds(
                 _random.Next(0, (int)exponentialBackoff.TotalMilliseconds));
-            
+
             return exponentialBackoff.Add(jitter);
         }
     );
@@ -103,7 +104,7 @@ var circuitBreaker = Policy
             _logger.LogError($"Circuit aberto por {duration.Seconds}s")
     );
 
-var response = await circuitBreaker.ExecuteAsync(() => 
+var response = await circuitBreaker.ExecuteAsync(() =>
     _httpClient.GetAsync("https://api.example.com/data"));
 ```
 
@@ -127,7 +128,7 @@ var policy = Policy.WrapAsync(retryPolicy, circuitPolicy);
 
 try
 {
-    var response = await policy.ExecuteAsync(() => 
+    var response = await policy.ExecuteAsync(() =>
         _httpClient.GetAsync("https://api.example.com/data"));
 }
 catch (BrokenCircuitException)
@@ -143,7 +144,7 @@ catch (BrokenCircuitException)
 services.AddHttpClient<PaymentService>()
     .AddPolicyHandler(GetRetryPolicy())
     .AddPolicyHandler(GetCircuitBreakerPolicy())
-    .AddTransientHttpErrorPolicy(p => 
+    .AddTransientHttpErrorPolicy(p =>
         p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(100)));
 
 static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy() =>

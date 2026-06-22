@@ -3,8 +3,8 @@ title: JWT Seguro em ASP.NET Core
 description: JSON Web Tokens implementados corretamente com refresh tokens, expiração e proteção contra ataques comuns
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 
 ## Introdução
 
@@ -17,7 +17,7 @@ graph TD
     Port["✅ Portável<br/>(mobile, APIs)"]
     Fast["✅ Rápido<br/>(verificar signature sem BD)"]
     Risk["⚠️ RISCO<br/>Tokens longos, acesso eterno"]
-    
+
     JWT --> Auth
     JWT --> Port
     JWT --> Fast
@@ -25,9 +25,7 @@ graph TD
 ```
 
 <Aside type="tip" title="Quando usar JWT?">
-✅ APIs (mobile, SPA, third-party)  
-✅ Microserviços  
-❌ Apps monolíticas (cookies são mais simples)
+  ✅ APIs (mobile, SPA, third-party) ✅ Microserviços ❌ Apps monolíticas (cookies são mais simples)
 </Aside>
 
 ---
@@ -45,10 +43,10 @@ graph LR
     Header["📋 HEADER<br/>Algorithm<br/>Token type"]
     Payload["📦 PAYLOAD<br/>User Data<br/>Claims"]
     Sig["🔐 SIGNATURE<br/>HMAC header.payload<br/>secret"]
-    
+
     Header -->|Base64| Payload
     Payload -->|Base64| Sig
-    
+
     note["🔒 ASSINADO = Não pode falsificar<br/>(precisa da chave secreta)"]
 ```
 
@@ -79,7 +77,8 @@ var token = new JwtSecurityToken(
 // ├─ Se token é roubado, atacante tem 8h de acesso
 // ├─ Se permissões mudam, usuário continua com permissão antiga
 // └─ Token pode ficar muito grande (payload gigante)
-```
+
+````
   </TabItem>
 
   <TabItem label="✅ Refresh Token Pattern">
@@ -110,7 +109,8 @@ return new LoginResponse
     RefreshToken = refreshToken.Token,
     ExpiresIn = 900 // segundos
 };
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -238,8 +238,10 @@ public class AuthService
 
         return refreshToken;
     }
+
 }
-```
+
+````
   </TabItem>
 
   <TabItem label="Renovar Tokens">
@@ -270,7 +272,8 @@ public async Task<LoginResponse> RefreshAsync(string refreshTokenValue)
         ExpiresIn = 900
     };
 }
-```
+````
+
   </TabItem>
 </Tabs>
 
@@ -312,7 +315,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Refresh()
     {
         var refreshToken = Request.Cookies["refreshToken"];
-        
+
         if (string.IsNullOrEmpty(refreshToken))
             return Unauthorized();
 
@@ -342,13 +345,13 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         var refreshToken = Request.Cookies["refreshToken"];
-        
+
         if (!string.IsNullOrEmpty(refreshToken))
         {
             // Revogar refresh token
             var token = await _db.RefreshTokens
                 .FirstOrDefaultAsync(rt => rt.Token == refreshToken);
-            
+
             if (token != null)
             {
                 token.RevokedAt = DateTime.UtcNow;
@@ -423,16 +426,16 @@ public async Task<LoginResponse> RefreshAsync(string token)
 {
     var refreshToken = await _db.RefreshTokens
         .FirstOrDefaultAsync(rt => rt.Token == token);
-    
+
     if (refreshToken.RevokedAt != null)
         throw new UnauthorizedAccessException("Token já foi usado (possível ataque)");
-    
+
     // Revogar (use-once)
     refreshToken.RevokedAt = DateTime.UtcNow;
-    
+
     // Gerar novo
     var newToken = GenerateRefreshToken(...);
-    
+
     await _db.SaveChangesAsync();
     return newToken;
 }

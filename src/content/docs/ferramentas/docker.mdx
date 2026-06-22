@@ -4,7 +4,7 @@ description: Dockerfile multi-stage, best practices, docker-compose, registry, p
 emoji: 🐳
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 ## Introdução
 
@@ -127,7 +127,7 @@ docker volume prune                            # remover volumes órfãos
 ## Orquestração local
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   api:
@@ -141,13 +141,13 @@ services:
       ASPNETCORE_ENVIRONMENT: "Production"
     depends_on:
       db:
-        condition: service_healthy    # aguardar health check
+        condition: service_healthy # aguardar health check
     volumes:
-      - ./logs:/app/logs            # persistência de logs
-    restart: unless-stopped          # restart automático
+      - ./logs:/app/logs # persistência de logs
+    restart: unless-stopped # restart automático
     networks:
       - backend
-  
+
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
@@ -156,9 +156,20 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - db_data:/var/opt/mssql/data  # persistência de BD
+      - db_data:/var/opt/mssql/data # persistência de BD
     healthcheck:
-      test: ["/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "SA", "-P", "P@ssw0rd123!", "-Q", "SELECT 1"]
+      test:
+        [
+          "/opt/mssql-tools/bin/sqlcmd",
+          "-S",
+          "localhost",
+          "-U",
+          "SA",
+          "-P",
+          "P@ssw0rd123!",
+          "-Q",
+          "SELECT 1",
+        ]
       interval: 10s
       timeout: 3s
       retries: 10
@@ -267,7 +278,7 @@ services:
   api:
     read_only: true
     tmpfs:
-      - /tmp      # único diretório writable
+      - /tmp # único diretório writable
 ```
 
 ## Resource limits
@@ -278,10 +289,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1'
+          cpus: "1"
           memory: 512M
         reservations:
-          cpus: '0.5'
+          cpus: "0.5"
           memory: 256M
 ```
 
@@ -311,24 +322,24 @@ on:
 jobs:
   build-push:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: read
       packages: write
-    
+
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:

@@ -23,6 +23,7 @@ var users = query2.ToList();                   // ← AQUI executa (2 filtros co
 ### Expression trees (IQueryable)
 
 Quando você escreve:
+
 ```csharp
 var query = _db.Users.Where(u => u.Age > 18);
 ```

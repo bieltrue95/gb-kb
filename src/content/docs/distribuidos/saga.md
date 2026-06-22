@@ -15,11 +15,13 @@ Exemplo: criar pedido → reservar estoque → processar pagamento → enviar co
 ### Dois estilos
 
 **1. Choreography (event-driven)**
+
 - Cada serviço publica evento → próximo serviço escuta
 - Descentralizado, mas difícil de debugar
 - Bom para fluxos simples
 
 **2. Orchestration (command-driven)**
+
 - Orquestrador central comanda cada passo
 - Explícito, fácil entender fluxo
 - Escalável com MediatR/Masstransit
@@ -31,19 +33,19 @@ graph TD
     OS["📦 OrderService<br/>1. CreateOrder()"]
     OC["✅ OrderCreated"]
     CANCEL["❌ Cancel order<br/>(compensação)"]
-    
+
     IS["📊 InventoryService<br/>1. ReserveStock()"]
     SR["✅ StockReserved"]
     RELEASE["❌ ReleaseStock<br/>(compensação)"]
-    
+
     PS["💳 PaymentService<br/>1. ProcessPayment()"]
     PP["✅ PaymentProcessed"]
     REFUND["❌ RefundPayment<br/>(compensação)"]
-    
+
     OS --> OC
     IS --> SR
     PS --> PP
-    
+
     IS -.->|Falha| CANCEL
     PS -.->|Falha| RELEASE
     REFUND -.->|Falha| CANCEL
@@ -114,13 +116,13 @@ public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, OrderRespo
         }
     }
 
-    private async Task RollbackOrder(Guid orderId) => 
+    private async Task RollbackOrder(Guid orderId) =>
         await _mediator.Send(new CancelOrderCommand { Id = orderId });
 
-    private async Task ReleaseStock(Guid orderId) => 
+    private async Task ReleaseStock(Guid orderId) =>
         await _mediator.Send(new ReleaseStockCommand { OrderId = orderId });
 
-    private async Task RefundPayment(Guid orderId) => 
+    private async Task RefundPayment(Guid orderId) =>
         await _mediator.Send(new RefundPaymentCommand { OrderId = orderId });
 }
 ```

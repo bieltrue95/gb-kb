@@ -12,18 +12,18 @@ REST = Representational State Transfer. HTTP verbs (GET, POST, PUT, DELETE) + st
 
 ### Status codes (critical!)
 
-| Code | Meaning | Use |
-|---|---|---|
-| **200** | OK | Sucesso |
-| **201** | Created | POST criou recurso |
-| **204** | No Content | Sucesso, sem body |
-| **400** | Bad Request | Input inválido |
-| **401** | Unauthorized | Sem autenticação |
-| **403** | Forbidden | Sem permissão |
-| **404** | Not Found | Recurso não existe |
-| **409** | Conflict | Duplicata, state conflict |
-| **500** | Server Error | Erro interno |
-| **503** | Service Unavailable | Temporariamente fora |
+| Code    | Meaning             | Use                       |
+| ------- | ------------------- | ------------------------- |
+| **200** | OK                  | Sucesso                   |
+| **201** | Created             | POST criou recurso        |
+| **204** | No Content          | Sucesso, sem body         |
+| **400** | Bad Request         | Input inválido            |
+| **401** | Unauthorized        | Sem autenticação          |
+| **403** | Forbidden           | Sem permissão             |
+| **404** | Not Found           | Recurso não existe        |
+| **409** | Conflict            | Duplicata, state conflict |
+| **500** | Server Error        | Erro interno              |
+| **503** | Service Unavailable | Temporariamente fora      |
 
 ### Controllers vs Minimal APIs
 

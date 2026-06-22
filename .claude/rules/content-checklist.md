@@ -7,22 +7,26 @@ Checklist automático para validar qualidade de artigos antes de commit.
 O script `scripts/validate-content.js` verifica:
 
 ### Frontmatter (YAML)
+
 - ✅ `title` existe e começa com maiúscula
 - ✅ `description` existe e tem < 160 chars
 - ✅ Sintaxe YAML válida
 
 ### Estrutura de arquivo
+
 - ✅ Nome em kebab-case (sem espaços, minúsculo)
 - ✅ Arquivo `.md` (não `.txt`, `.doc`, etc)
 - ✅ Localizado em `src/content/docs/{categoria}/`
 
 ### Conteúdo obrigatório
+
 - ✅ Seção `## Introdução` (por quê aprender?)
 - ✅ Seção `## Conceitos principais` (o quê?)
 - ✅ Seção `## Na prática` (como? exemplos de código)
 - ✅ Tem exemplo de código (``` ou `````)
 
 ### Padrão
+
 ```bash
 # Rodar antes de commit
 npm run validate
@@ -76,6 +80,7 @@ Usar este checklist quando criar novo artigo com `/add-content`:
 ## 🚀 Usar no workflow
 
 ### Ao fazer push
+
 1. Clone/checkout branch
 2. Editar `src/content/docs/{categoria}/{arquivo}.md`
 3. Rodar `npm run validate`
@@ -88,6 +93,7 @@ Usar este checklist quando criar novo artigo com `/add-content`:
 5. GitHub Actions roda check automático
 
 ### Se GitHub Actions falhar
+
 - Ler comentário no PR com erro específico
 - Corrigir localmente
 - Rodar `npm run validate` para confirmar
@@ -102,45 +108,54 @@ Usar este checklist quando criar novo artigo com `/add-content`:
 ```markdown
 ---
 title: OWASP Top 10
-description: 
+description:
 ---
 
 Conteúdo aqui
 ```
 
 **Erros:**
+
 - `description` vazio
 - Falta seções obrigatórias
 
 ### ✅ Artigo válido
 
-```markdown
+````markdown
 ---
 title: OWASP Top 10: Broken Access Control
 description: Entenda e previna vulnerabilidades de controle de acesso
 ---
 
 ## Introdução
+
 Broken Access Control é a vulnerabilidade #1 do OWASP...
 
 ## Conceitos principais
+
 - O quê é BAC
 - Por quê é perigoso
 - Exemplos reais
 
 ## Na prática
+
 Exemplo em C#:
+
 ```csharp
 // Código aqui
 ```
+````
 
 ## Armadilhas comuns
+
 - Erro 1
 - Erro 2
 
 ## Referências
+
 - Link 1
-```
+
+````
 
 ---
 
@@ -173,6 +188,6 @@ Rode antes de cada commit:
 npm run validate    # Validar conteúdo
 npm run build       # Build Astro
 npm run lint        # Ambas (validate + build)
-```
+````
 
 Se tudo ✅ passar, pode fazer push com confiança!

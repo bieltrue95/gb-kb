@@ -4,13 +4,14 @@ description: Unit tests, Integration tests, TDD workflow (Red-Green-Refactor), c
 emoji: 🧪
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
 
 ## Introdução
 
 **TDD** = Test-Driven Development (Red → Green → Refactor).
 
 **Pirâmide de testes**:
+
 - 🔴 **Unit** (70%) — isolado, rápido
 - 🟡 **Integration** (20%) — com dependências reais
 - 🟢 **E2E** (10%) — workflow completo
@@ -28,7 +29,7 @@ graph TD
     Green["🟢 GREEN<br/>Implementar mínimo<br/>public class UserService"]
     Refactor["🔵 REFACTOR<br/>Melhorar código<br/>Sem quebrar testes"]
     Repeat["Loop: RED → GREEN → REFACTOR"]
-    
+
     Red -->|Teste falha| Green
     Green -->|Teste passa| Refactor
     Refactor -->|Código limpo| Repeat
@@ -57,20 +58,20 @@ public class UserServiceTests
         mockRepository
             .Setup(r => r.AddAsync(It.IsAny<User>()))
             .ReturnsAsync((User u) => { u.Id = 1; return u; });
-        
+
         var mockEmailService = new Mock<IEmailService>();
         var service = new UserService(mockRepository.Object, mockEmailService.Object);
-        
+
         var dto = new CreateUserDto { Name = "Alice", Email = "alice@example.com" };
-        
+
         // 2. Act: executar
         var result = await service.CreateUserAsync(dto);
-        
+
         // 3. Assert: validar resultado
         Assert.NotNull(result);
         Assert.Equal(1, result.Id);
         Assert.Equal("Alice", result.Name);
-        
+
         // Verificar que serviços foram chamados corretamente
         mockRepository.Verify(
             r => r.AddAsync(It.Is<User>(u => u.Name == "Alice")),
@@ -110,14 +111,14 @@ public class UserServiceFixture : IAsyncLifetime
     public Mock<IUserRepository> MockRepository { get; }
     public Mock<IEmailService> MockEmailService { get; }
     public UserService Service { get; }
-    
+
     public UserServiceFixture()
     {
         MockRepository = new Mock<IUserRepository>();
         MockEmailService = new Mock<IEmailService>();
         Service = new UserService(MockRepository.Object, MockEmailService.Object);
     }
-    
+
     public Task InitializeAsync() => Task.CompletedTask;
     public Task DisposeAsync() => Task.CompletedTask;
 }
@@ -125,9 +126,9 @@ public class UserServiceFixture : IAsyncLifetime
 public class UserServiceTests : IClassFixture<UserServiceFixture>
 {
     private readonly UserServiceFixture _fixture;
-    
+
     public UserServiceTests(UserServiceFixture fixture) => _fixture = fixture;
-    
+
     [Fact]
     public async Task CreateUser_ShouldCallRepository()
     {
@@ -149,7 +150,7 @@ public class UserApiTests : IAsyncLifetime
     private WebApplicationFactory<Program> _factory;
     private HttpClient _client;
     private AppDbContext _dbContext;
-    
+
     public async Task InitializeAsync()
     {
         // Customizar factory pra usar in-memory DB
@@ -163,18 +164,18 @@ public class UserApiTests : IAsyncLifetime
                         d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
                     if (descriptor != null)
                         services.Remove(descriptor);
-                    
+
                     // Usa in-memory
                     services.AddDbContext<AppDbContext>(options =>
                         options.UseInMemoryDatabase("TestDb"));
                 });
             });
-        
+
         _client = _factory.CreateClient();
         _dbContext = _factory.Services.GetRequiredService<AppDbContext>();
         await _dbContext.Database.EnsureCreatedAsync();
     }
-    
+
     [Fact]
     public async Task CreateUser_ValidInput_ReturnsCreated()
     {
@@ -184,17 +185,17 @@ public class UserApiTests : IAsyncLifetime
             JsonSerializer.Serialize(dto),
             Encoding.UTF8,
             "application/json");
-        
+
         // Act
         var response = await _client.PostAsync("/api/users", content);
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         var result = JsonSerializer.Deserialize<UserDto>(
             await response.Content.ReadAsStringAsync());
         Assert.NotNull(result.Id);
     }
-    
+
     [Fact]
     public async Task GetUser_AfterCreate_ReturnsSameUser()
     {
@@ -202,14 +203,14 @@ public class UserApiTests : IAsyncLifetime
         var user = new User { Name = "Bob", Email = "bob@ex.com" };
         _dbContext.Users.Add(user);
         await _dbContext.SaveChangesAsync();
-        
+
         // Act
         var response = await _client.GetAsync($"/api/users/{user.Id}");
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
-    
+
     public async Task DisposeAsync()
     {
         await _dbContext.DisposeAsync();
@@ -242,12 +243,12 @@ dotnet test /p:CollectCoverage=true /p:Threshold=80
 public void CreateUser_ShouldBeUnderXMs()
 {
     var stopwatch = Stopwatch.StartNew();
-    
+
     // Act
     var result = service.CreateUser(new User { Name = "Test" });
-    
+
     stopwatch.Stop();
-    
+
     // Assert: menos de 100ms
     Assert.True(stopwatch.ElapsedMilliseconds < 100,
         $"Levou {stopwatch.ElapsedMilliseconds}ms");
@@ -264,13 +265,13 @@ public void CreateUser_ShouldBeUnderXMs()
 [Fact]
 public async Task CreateUser_WithInjection_ShouldSanitize()
 {
-    var dto = new CreateUserDto 
-    { 
-        Name = "<script>alert('xss')</script>" 
+    var dto = new CreateUserDto
+    {
+        Name = "<script>alert('xss')</script>"
     };
-    
+
     var result = await _service.CreateUserAsync(dto);
-    
+
     // Verificar que script não foi salvo literal
     Assert.DoesNotContain("<script>", result.Name);
 }

@@ -3,15 +3,16 @@ title: Princípios SOLID em C#
 description: Os 5 princípios SOLID aplicados em C# com exemplos práticos e comparações
 ---
 
-import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Aside } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Aside } from "@astrojs/starlight/components";
 
 ## Introdução
 
 SOLID é um acrônimo para **5 princípios de design** que tornam seu código mais fácil de manter, testar e escalar. Especialmente importante em projetos .NET/C# de longo prazo.
 
 <Aside type="tip" title="Por que SOLID importa?">
-Código SOLID é mais fácil de estender, testar e manter. Reduz bugs, facilita refatoração e aumenta a qualidade geral.
+  Código SOLID é mais fácil de estender, testar e manter. Reduz bugs, facilita refatoração e aumenta
+  a qualidade geral.
 </Aside>
 
 ---
@@ -64,14 +65,15 @@ public class UserService
 
 public class EmailService : IEmailService
 {
-    public void SendWelcome(string email) { /* ... */ }
+public void SendWelcome(string email) {/* ... */}
 }
 
 public class FileLogger : ILogger
 {
-    public void LogUserCreated(int userId) { /* ... */ }
+public void LogUserCreated(int userId) {/* ... */}
 }
-```
+
+````
   </TabItem>
 </Tabs>
 
@@ -98,18 +100,19 @@ public class DiscountCalculator
     {
         if (type == "student")
             return price * 0.8m;
-        
+
         if (type == "senior")
             return price * 0.7m;
-        
+
         if (type == "blackfriday")
             return price * 0.5m;
-        
+
         // Novo desconto? MODIFICA aqui! 😞
         return price;
     }
 }
-```
+````
+
   </TabItem>
 
   <TabItem label="✅ Aplicando OCP">
@@ -122,32 +125,33 @@ public abstract class Discount
 
 public class StudentDiscount : Discount
 {
-    public override decimal Calculate(decimal price) => price * 0.8m;
+public override decimal Calculate(decimal price) => price \* 0.8m;
 }
 
 public class SeniorDiscount : Discount
 {
-    public override decimal Calculate(decimal price) => price * 0.7m;
+public override decimal Calculate(decimal price) => price \* 0.7m;
 }
 
 public class BlackFridayDiscount : Discount
 {
-    public override decimal Calculate(decimal price) => price * 0.5m;
+public override decimal Calculate(decimal price) => price \* 0.5m;
 }
 
 // CalculadoraGeral — não precisa mudar!
 public class DiscountCalculator
 {
-    public decimal Calculate(Discount discount, decimal price)
-        => discount.Calculate(price);
+public decimal Calculate(Discount discount, decimal price)
+=> discount.Calculate(price);
 }
 
 // Novo desconto? Cria uma classe nova, sem tocar em nada! 🎉
 public class VIPDiscount : Discount
 {
-    public override decimal Calculate(decimal price) => price * 0.6m;
+public override decimal Calculate(decimal price) => price \* 0.6m;
 }
-```
+
+````
   </TabItem>
 </Tabs>
 
@@ -177,18 +181,19 @@ public interface IWorker
 public class Robot : IWorker
 {
     public void Work() { /* ... */ }
-    
-    public void Eat() 
-    { 
+
+    public void Eat()
+    {
         throw new NotImplementedException(); // ❌ Forced!
     }
-    
-    public void Sleep() 
-    { 
+
+    public void Sleep()
+    {
         throw new NotImplementedException(); // ❌ Forced!
     }
 }
-```
+````
+
   </TabItem>
 
   <TabItem label="✅ Interfaces segregadas">
@@ -201,28 +206,29 @@ public interface IWorkable
 
 public interface IFeedable
 {
-    void Eat();
+void Eat();
 }
 
 public interface ISleepable
 {
-    void Sleep();
+void Sleep();
 }
 
 // Cada classe implementa APENAS o que usa
 public class Human : IWorkable, IFeedable, ISleepable
 {
-    public void Work() { /* ... */ }
-    public void Eat() { /* ... */ }
-    public void Sleep() { /* ... */ }
+public void Work() {/* ... */}
+public void Eat() {/* ... */}
+public void Sleep() {/* ... */}
 }
 
 public class Robot : IWorkable
 {
-    public void Work() { /* ... */ }
-    // Só isso! Sem métodos forçados.
+public void Work() {/* ... */}
+// Só isso! Sem métodos forçados.
 }
-```
+
+````
   </TabItem>
 </Tabs>
 
@@ -264,7 +270,8 @@ public void MakeBirdFly(Bird bird)
 {
     bird.Fly(); // ☠️ Se passar Penguin, exceção!
 }
-```
+````
+
   </TabItem>
 
   <TabItem label="✅ Aplicando LSP">
@@ -275,27 +282,28 @@ public abstract class Bird { }
 // Interface específica
 public interface IFlyable
 {
-    void Fly();
+void Fly();
 }
 
 // Sparrow voa
 public class Sparrow : Bird, IFlyable
 {
-    public void Fly() { /* ... */ }
+public void Fly() {/* ... */}
 }
 
 // Penguin NÃO voa — sem interface IFlyable
 public class Penguin : Bird
 {
-    public void Swim() { /* ... */ }
+public void Swim() {/* ... */}
 }
 
 // Seguro: só chamamos Fly() em IFlyable
 public void MakeBirdFly(IFlyable bird)
 {
-    bird.Fly(); // ✅ Sempre funciona
+bird.Fly(); // ✅ Sempre funciona
 }
-```
+
+````
   </TabItem>
 </Tabs>
 
@@ -316,14 +324,15 @@ public class OrderService
 {
     private readonly SqlUserRepository _userRepo = new();
     private readonly SmtpEmailService _emailService = new();
-    
+
     public void PlaceOrder(Order order)
     {
         var user = _userRepo.GetUser(order.UserId); // ❌ Acoplado!
         _emailService.Send(user.Email, "Pedido recebido"); // ❌ Acoplado!
     }
 }
-```
+````
+
   </TabItem>
 
   <TabItem label="✅ Dependency Injection">
@@ -359,6 +368,7 @@ builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 var mockUserRepo = new Mock<IUserRepository>();
 var mockEmail = new Mock<IEmailService>();
 var service = new OrderService(mockUserRepo.Object, mockEmail.Object);
+
 ```
   </TabItem>
 </Tabs>
@@ -388,3 +398,4 @@ Se responder "não" a qualquer pergunta, refatore! 🔄
 - [SOLID Principles - Wikipedia](https://en.wikipedia.org/wiki/SOLID)
 - [ASP.NET Core Dependency Injection](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection)
 - [Uncle Bob's Blog](https://blog.cleancoder.com/)
+```

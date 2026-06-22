@@ -14,12 +14,12 @@ emoji: 💉
 
 ### Os 3 lifetimes
 
-| | Singleton | Scoped | Transient |
-|---|---|---|---|
-| **Instâncias** | 1 por app | 1 por request | N (cada resolução) |
-| **Memory** | Alto (forever) | Médio (request-scoped) | Baixo (GC limpa) |
-| **Thread-safe** | Deve ser | Pode ser mutable | N/A |
-| **Use** | Config, logging, factories | DbContext, UoW | Stateless services |
+|                 | Singleton                  | Scoped                 | Transient          |
+| --------------- | -------------------------- | ---------------------- | ------------------ |
+| **Instâncias**  | 1 por app                  | 1 por request          | N (cada resolução) |
+| **Memory**      | Alto (forever)             | Médio (request-scoped) | Baixo (GC limpa)   |
+| **Thread-safe** | Deve ser                   | Pode ser mutable       | N/A                |
+| **Use**         | Config, logging, factories | DbContext, UoW         | Stateless services |
 
 ### Captive dependency (armadilha!)
 
@@ -42,9 +42,9 @@ services.AddScoped<DbContext>();
 public class MyService
 {
     private readonly IServiceProvider _provider;
-    
+
     public MyService(IServiceProvider provider) => _provider = provider;
-    
+
     public void DoWork()
     {
         using var scope = _provider.CreateScope();
@@ -101,7 +101,7 @@ public class BackgroundJob
     {
         using var scope = _scopeFactory.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<DbContext>();
-        
+
         // DbContext descartado automaticamente ao final do using
         await db.SaveChangesAsync();
     }

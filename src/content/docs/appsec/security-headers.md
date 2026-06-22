@@ -10,15 +10,15 @@ emoji: 🔐
 
 ## Principais Headers
 
-| Header | Proteção | Exemplo |
-|---|---|---|
-| **CSP** | XSS, injection | `default-src 'self'` |
-| **X-Frame-Options** | Clickjacking | `DENY` |
-| **X-Content-Type-Options** | MIME sniffing | `nosniff` |
-| **HSTS** | Force HTTPS | `max-age=31536000` |
-| **X-XSS-Protection** | XSS legacy | `1; mode=block` |
-| **Referrer-Policy** | Info disclosure | `strict-origin` |
-| **Permissions-Policy** | Feature abuse | `geolocation=()` |
+| Header                     | Proteção        | Exemplo              |
+| -------------------------- | --------------- | -------------------- |
+| **CSP**                    | XSS, injection  | `default-src 'self'` |
+| **X-Frame-Options**        | Clickjacking    | `DENY`               |
+| **X-Content-Type-Options** | MIME sniffing   | `nosniff`            |
+| **HSTS**                   | Force HTTPS     | `max-age=31536000`   |
+| **X-XSS-Protection**       | XSS legacy      | `1; mode=block`      |
+| **Referrer-Policy**        | Info disclosure | `strict-origin`      |
+| **Permissions-Policy**     | Feature abuse   | `geolocation=()`     |
 
 ## Na prática
 
@@ -34,7 +34,7 @@ app.Use(async (context, next) =>
     context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'");
     context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
     context.Response.Headers.Add("Permissions-Policy", "geolocation=(), microphone=()");
-    
+
     await next();
 });
 ```

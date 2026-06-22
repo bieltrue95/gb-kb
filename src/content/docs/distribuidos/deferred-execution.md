@@ -15,12 +15,14 @@ LINQ é **lazy** (preguiçoso). A query não executa quando você a escreve, mas
 ### Execução imediata vs deferred
 
 **Deferred:**
+
 ```csharp
 var query = _db.Users.Where(u => u.Age > 18);  // Não executa ainda
 // query ainda é IQueryable<User>, nenhuma query no BD
 ```
 
 **Imediata (quando consome):**
+
 ```csharp
 var users = query.ToList();  // ← AQUI executa a query
 var first = query.First();   // ← AQUI executa a query
@@ -29,12 +31,12 @@ foreach (var u in query) { } // ← AQUI executa a query
 
 ### IQueryable vs IEnumerable
 
-| | IQueryable | IEnumerable |
-|---|---|---|
-| **Onde filtra** | No banco (SQL) | Em memória (C#) |
-| **Quando executa** | `.ToList()`, `.First()` | Imediatamente |
-| **Performance** | Eficiente (big data) | Lento (big data) |
-| **Operações** | SQL-only | Qualquer C# |
+|                    | IQueryable              | IEnumerable      |
+| ------------------ | ----------------------- | ---------------- |
+| **Onde filtra**    | No banco (SQL)          | Em memória (C#)  |
+| **Quando executa** | `.ToList()`, `.First()` | Imediatamente    |
+| **Performance**    | Eficiente (big data)    | Lento (big data) |
+| **Operações**      | SQL-only                | Qualquer C#      |
 
 ### Problema clássico: N+1
 

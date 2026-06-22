@@ -20,7 +20,7 @@ graph TD
     Success["✅ Commit"]
     Fail["❌ Rollback"]
     Error["Erro?"]
-    
+
     Svc --> UoW
     UoW --> Users
     UoW --> Orders
@@ -44,13 +44,13 @@ public interface IUnitOfWork : IDisposable, IAsyncDisposable
     IRepository<User> Users { get; }
     IRepository<Order> Orders { get; }
     IRepository<OrderItem> OrderItems { get; }
-    
+
     // Transação
     Task SaveChangesAsync(CancellationToken ct = default);
     Task BeginTransactionAsync(CancellationToken ct = default);
     Task CommitAsync(CancellationToken ct = default);
     Task RollbackAsync(CancellationToken ct = default);
-    
+
     // Estado
     bool HasChanges { get; }
 }
@@ -63,39 +63,39 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
     private IDbContextTransaction _transaction;
-    
+
     // Lazy-loaded repositories
     private IRepository<User> _users;
     private IRepository<Order> _orders;
     private IRepository<OrderItem> _orderItems;
-    
+
     public UnitOfWork(AppDbContext context)
     {
         _context = context;
     }
-    
+
     // Properties — lazy initialization
     public IRepository<User> Users
         => _users ??= new Repository<User>(_context);
-    
+
     public IRepository<Order> Orders
         => _orders ??= new Repository<Order>(_context);
-    
+
     public IRepository<OrderItem> OrderItems
         => _orderItems ??= new Repository<OrderItem>(_context);
-    
+
     public bool HasChanges => _context.ChangeTracker.HasChanges();
-    
+
     public async Task BeginTransactionAsync(CancellationToken ct)
     {
         _transaction = await _context.Database.BeginTransactionAsync(ct);
     }
-    
+
     public async Task SaveChangesAsync(CancellationToken ct = default)
     {
         await _context.SaveChangesAsync(ct);
     }
-    
+
     public async Task CommitAsync(CancellationToken ct = default)
     {
         try
@@ -110,7 +110,7 @@ public class UnitOfWork : IUnitOfWork
             throw;
         }
     }
-    
+
     public async Task RollbackAsync(CancellationToken ct = default)
     {
         try
@@ -123,13 +123,13 @@ public class UnitOfWork : IUnitOfWork
             await _transaction?.DisposeAsync();
         }
     }
-    
+
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
         await _transaction?.DisposeAsync();
         await _context.DisposeAsync();
     }
-    
+
     void IDisposable.Dispose()
     {
         _transaction?.Dispose();
@@ -157,34 +157,34 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 public class OrderService
 {
     private readonly IUnitOfWork _uow;
-    
+
     public OrderService(IUnitOfWork uow) => _uow = uow;
-    
+
     public async Task<Order> CreateOrderAsync(CreateOrderRequest req, CancellationToken ct)
     {
         await _uow.BeginTransactionAsync(ct);
-        
+
         try
         {
             // 1. Criar usuário se novo
             var user = new User { Email = req.Email };
             _uow.Users.Add(user);
             await _uow.SaveChangesAsync(ct);
-            
+
             // 2. Criar pedido (depende do user id)
-            var order = new Order 
-            { 
+            var order = new Order
+            {
                 UserId = user.Id,
                 Total = req.Items.Sum(x => x.Price)
             };
             _uow.Orders.Add(order);
             await _uow.SaveChangesAsync(ct);
-            
+
             // 3. Adicionar itens
             foreach (var item in req.Items)
             {
-                var orderItem = new OrderItem 
-                { 
+                var orderItem = new OrderItem
+                {
                     OrderId = order.Id,
                     ProductId = item.ProductId,
                     Quantity = item.Quantity
@@ -192,7 +192,7 @@ public class OrderService
                 _uow.OrderItems.Add(orderItem);
             }
             await _uow.SaveChangesAsync(ct);
-            
+
             // Sucesso
             await _uow.CommitAsync(ct);
             return order;
@@ -217,9 +217,9 @@ public class OrderService
 public class OrderController : ControllerBase
 {
     private readonly OrderService _service;
-    
+
     public OrderController(OrderService service) => _service = service;
-    
+
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateOrderRequest req,
@@ -251,16 +251,16 @@ public async Task CreateOrder_ValidInput_SavesAllRepositories()
     var mockUsersRepo = new Mock<IRepository<User>>();
     var mockOrdersRepo = new Mock<IRepository<Order>>();
     var mockItemsRepo = new Mock<IRepository<OrderItem>>();
-    
+
     mockUow.Setup(x => x.Users).Returns(mockUsersRepo.Object);
     mockUow.Setup(x => x.Orders).Returns(mockOrdersRepo.Object);
     mockUow.Setup(x => x.OrderItems).Returns(mockItemsRepo.Object);
-    
+
     var service = new OrderService(mockUow.Object);
-    
+
     // Act
     await service.CreateOrderAsync(req, CancellationToken.None);
-    
+
     // Assert
     mockUow.Verify(x => x.BeginTransactionAsync(It.IsAny<CancellationToken>()), Times.Once);
     mockUow.Verify(x => x.CommitAsync(It.IsAny<CancellationToken>()), Times.Once);
@@ -280,21 +280,21 @@ Na verdade, **DbContext já é um Unit of Work!**
 public class OrderService
 {
     private readonly AppDbContext _context;
-    
+
     public async Task<Order> CreateOrderAsync(CreateOrderRequest req)
     {
         using var transaction = await _context.Database.BeginTransactionAsync();
-        
+
         try
         {
             var user = new User { Email = req.Email };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            
+
             var order = new Order { UserId = user.Id };
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-            
+
             await transaction.CommitAsync();
             return order;
         }
@@ -308,11 +308,13 @@ public class OrderService
 ```
 
 **Quando usar IUnitOfWork abstrato**:
+
 - ✅ Tests (mock repositories)
 - ✅ Repository pattern (múltiplos repos)
 - ✅ Domain-driven design
 
 **Quando usar DbContext direto**:
+
 - ✅ Aplicações simples
 - ✅ CRUD straightforward
 - ✅ Sem testes complexos

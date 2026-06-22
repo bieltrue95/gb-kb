@@ -107,10 +107,10 @@ public byte[] ComputeHash(ReadOnlySpan<byte> data)
 {
     // Temporário: no stack, se < 64 bytes
     Span<byte> hash = stackalloc byte[32];
-    
+
     using var algo = System.Security.Cryptography.SHA256.Create();
     algo.TryComputeHash(data, hash, out var written);
-    
+
     return hash.ToArray(); // Só aqui aloca heap
 }
 ```

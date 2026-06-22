@@ -41,6 +41,7 @@ npm run preview           # Visualizar build localmente
 ## Adicionar novo conteúdo
 
 ### Método 1: Usar skill (automático)
+
 ```bash
 /add-content
 # Claude cria arquivo, frontmatter, template
@@ -50,6 +51,7 @@ npm run preview           # Visualizar build localmente
 
 1. Criar arquivo em `src/content/docs/{categoria}/{topico}.md`
 2. Incluir frontmatter obrigatório:
+
 ```yaml
 ---
 title: Título em sentence case
@@ -58,24 +60,31 @@ description: Uma linha descrevendo (máx 160 chars)
 ```
 
 3. Seguir estrutura:
+
 ```markdown
 ## Introdução
+
 Por quê aprender?
 
 ## Conceitos principais
+
 Explicação clara.
 
 ## Na prática
+
 Exemplos em C#.
 
 ## Armadilhas comuns
+
 O quê evitar.
 
 ## Referências
+
 Links externos.
 ```
 
 ### Regras (ver `.claude/rules/content-guidelines.md`)
+
 - ✅ Português brasileiro
 - ✅ Exemplos em C# quando possível
 - ✅ Títulos em sentence case
@@ -124,6 +133,7 @@ gb-kb/
 ## Roadmap de conteúdo
 
 ### .NET & C# (Fundação)
+
 - ✅ SOLID Principles
 - ⏳ Entity Framework Core
 - ⏳ ASP.NET Core
@@ -131,6 +141,7 @@ gb-kb/
 - ⏳ Microserviços
 
 ### AppSec (Foco de carreira)
+
 - ✅ OWASP Top 10
 - ✅ Burp Suite
 - ⏳ SAST com Semgrep
@@ -139,6 +150,7 @@ gb-kb/
 - ⏳ Security Headers
 
 ### Ferramentas & DevOps
+
 - ⏳ Docker
 - ⏳ GitHub Actions
 - ⏳ Azure
@@ -148,18 +160,19 @@ gb-kb/
 
 ## Plano de transição AppSec (6 meses)
 
-| Fase | Período | Foco | Resultado |
-|------|---------|------|-----------|
-| 1 | Mês 1-2 | Google Cert, TryHackMe, OWASP | KB + labs |
-| 2 | Mês 2-4 | Burp Suite, PortSwigger, SAST | Proficiency |
-| 3 | Mês 4-5 | CompTIA Security+, portfólio | Certificação |
-| 4 | Mês 6 | Aplicar para AppSec | Transição |
+| Fase | Período | Foco                          | Resultado    |
+| ---- | ------- | ----------------------------- | ------------ |
+| 1    | Mês 1-2 | Google Cert, TryHackMe, OWASP | KB + labs    |
+| 2    | Mês 2-4 | Burp Suite, PortSwigger, SAST | Proficiency  |
+| 3    | Mês 4-5 | CompTIA Security+, portfólio  | Certificação |
+| 4    | Mês 6   | Aplicar para AppSec           | Transição    |
 
 ---
 
 ## Troubleshooting
 
 ### `npm run dev` não inicia
+
 ```bash
 rm -rf node_modules package-lock.json
 npm install
@@ -167,11 +180,13 @@ npm run dev
 ```
 
 ### Build falha
+
 - Verificar frontmatter YAML (title + description obrigatórios)
 - Verificar arquivo em kebab-case
 - Rodar: `npm run build` para ver erro exato
 
 ### Deploy não funciona
+
 - Verificar: push foi para `main`
 - Aguardar: ~2 min
 - Verificar: Actions no GitHub

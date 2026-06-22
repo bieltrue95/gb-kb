@@ -14,13 +14,13 @@ emoji: 🔒
 
 ### Records vs classes
 
-| | Classe | Record |
-|---|---|---|
-| **Igualdade** | Por referência | Por valor ✅ |
-| **ToString** | Object default | Automático ✅ |
-| **Deconstruction** | Manual | Automático ✅ |
-| **Mutação** | Permitida | Desencoraja |
-| **Imutabilidade** | Manual (init) | Built-in |
+|                    | Classe         | Record        |
+| ------------------ | -------------- | ------------- |
+| **Igualdade**      | Por referência | Por valor ✅  |
+| **ToString**       | Object default | Automático ✅ |
+| **Deconstruction** | Manual         | Automático ✅ |
+| **Mutação**        | Permitida      | Desencoraja   |
+| **Imutabilidade**  | Manual (init)  | Built-in      |
 
 ### Record syntax
 
@@ -85,7 +85,7 @@ Console.WriteLine(updated.Name); // Bob (nova instância)
 public class MutableUser
 {
     public string Name { get; set; }
-    
+
     public void Update(Action<MutableUser> mutate)
     {
         lock (this) // Necessário!

@@ -15,16 +15,19 @@ O **Strangler Fig Pattern** é uma estratégia de **migração incremental** de 
 ### As 3 fases
 
 **1. Fase de Proxy (Strangling)**
+
 - Um proxy (ex: YARP) fica entre cliente e sistema
 - Roteia tráfego: algumas requisições → novo, outras → legado
 - Inicialmente: 100% legado
 
 **2. Fase de Dual Write**
+
 - Novas requisições escrevem em AMBOS os sistemas
 - Sistema novo "aprende" com dados do legado
 - Sincronização em tempo real
 
 **3. Fase de Sync Job**
+
 - Dados históricos copiados incrementalmente
 - Background job sincroniza divergências
 - Legado → read-only → desligado
@@ -32,12 +35,12 @@ O **Strangler Fig Pattern** é uma estratégia de **migração incremental** de 
 
 ### Vantagens sobre big bang
 
-| Aspecto | Big Bang | Strangler |
-|---|---|---|
-| Taxa de falha | ~70% | <10% |
-| Time to value | 18-24 meses | 3-4 meses |
-| Rollback | Impossível | Trivial |
-| Risk | Total | Incremental |
+| Aspecto       | Big Bang    | Strangler   |
+| ------------- | ----------- | ----------- |
+| Taxa de falha | ~70%        | <10%        |
+| Time to value | 18-24 meses | 3-4 meses   |
+| Rollback      | Impossível  | Trivial     |
+| Risk          | Total       | Incremental |
 
 ## Na prática
 

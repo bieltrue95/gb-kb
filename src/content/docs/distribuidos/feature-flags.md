@@ -8,7 +8,7 @@ emoji: 🚦
 
 **Feature flags** (ou feature toggles) permitem controlar o rollout de novas funcionalidades em produção **sem deploy**. Você pode ativar para 10% dos usuários, depois 50%, depois 100% — tudo em runtime.
 
-**Diferente de configuração:** Flags são *dinâmicas* (mudam sem restart), *granulares* (por usuário/empresa/região) e *rastreáveis* (auditoria).
+**Diferente de configuração:** Flags são _dinâmicas_ (mudam sem restart), _granulares_ (por usuário/empresa/região) e _rastreáveis_ (auditoria).
 
 ## Conceitos principais
 
@@ -36,12 +36,12 @@ Se rolloutPercent = 30, usuários 0-29 têm a flag ativada. **Sempre**. Sem vari
 
 ### Tipos de flags
 
-| Tipo | Lifetime | Caso de uso |
-|---|---|---|
-| **Release** | Semanas/meses | Controlar nova feature |
-| **Experiment** | Dias | A/B testing |
-| **Ops** | Horas | Kill switch, circuit breaker |
-| **Permission** | Variável | Acesso a beta, early access |
+| Tipo           | Lifetime      | Caso de uso                  |
+| -------------- | ------------- | ---------------------------- |
+| **Release**    | Semanas/meses | Controlar nova feature       |
+| **Experiment** | Dias          | A/B testing                  |
+| **Ops**        | Horas         | Kill switch, circuit breaker |
+| **Permission** | Variável      | Acesso a beta, early access  |
 
 ## Na prática
 

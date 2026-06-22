@@ -14,7 +14,7 @@ emoji: 🔧
 
 ```
 Request →
-  [Exception Handler] 
+  [Exception Handler]
   [CORS]
   [Authentication]
   [Authorization]
@@ -53,9 +53,9 @@ app.Use(async (context, next) =>
 public class LoggingMiddleware
 {
     private readonly RequestDelegate _next;
-    
+
     public LoggingMiddleware(RequestDelegate next) => _next = next;
-    
+
     public async Task InvokeAsync(HttpContext context)
     {
         _logger.LogInformation($"{context.Request.Method} {context.Request.Path}");
@@ -83,9 +83,9 @@ app.UseLogging();
 public class AuthMiddleware
 {
     private readonly RequestDelegate _next;
-    
+
     public AuthMiddleware(RequestDelegate next) => _next = next;
-    
+
     public async Task InvokeAsync(HttpContext context, IAuthService authService)
     {
         var token = context.Request.Headers["Authorization"].ToString();
@@ -93,7 +93,7 @@ public class AuthMiddleware
         {
             context.User = await authService.ValidateTokenAsync(token);
         }
-        
+
         await _next(context);
     }
 }
@@ -110,7 +110,7 @@ app.Use(async (context, next) =>
         await context.Response.WriteAsync("OK");
         return; // Não chama next = para a pipeline
     }
-    
+
     await next();
 });
 ```

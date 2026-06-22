@@ -20,11 +20,11 @@ graph LR
     DB["💾 DB"]
     RMQ["🐇 RabbitMQ"]
     FAIL["❌ FALHA"]
-    
+
     C --> DB
     C --> RMQ
     RMQ --> FAIL
-    
+
     FAIL -.->|Evento perdido| DB
 ```
 
@@ -40,7 +40,7 @@ graph TD
     BG["🔄 Background Service"]
     RMQ["🐇 Publish RabbitMQ"]
     MARK["✅ Marca processado"]
-    
+
     C --> TX
     TX --> DB
     DB --> BG

@@ -19,12 +19,12 @@ services.AddMemoryCache();
 public class UserService
 {
     private readonly IMemoryCache _cache;
-    
+
     public async Task<User> GetUserAsync(int id)
     {
         if (_cache.TryGetValue($"user_{id}", out User user))
             return user;
-        
+
         user = await _db.Users.FindAsync(id);
         _cache.Set($"user_{id}", user, TimeSpan.FromMinutes(10));
         return user;
@@ -42,18 +42,18 @@ services.AddStackExchangeRedisCache(options =>
 public class CachedUserService
 {
     private readonly IDistributedCache _cache;
-    
+
     public async Task<User> GetUserAsync(int id)
     {
         var cached = await _cache.GetStringAsync($"user_{id}");
         if (cached != null)
             return JsonSerializer.Deserialize<User>(cached);
-        
+
         var user = await _db.Users.FindAsync(id);
-        await _cache.SetStringAsync($"user_{id}", 
+        await _cache.SetStringAsync($"user_{id}",
             JsonSerializer.Serialize(user),
             new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10) });
-        
+
         return user;
     }
 }
@@ -65,21 +65,21 @@ public class CachedUserService
 public async Task<Product> GetProductAsync(int id)
 {
     var key = $"product_{id}";
-    
+
     // 1. Tenta cache
     var cached = await _redis.GetStringAsync(key);
     if (cached != null)
         return JsonSerializer.Deserialize<Product>(cached);
-    
+
     // 2. Cache miss → BD
     var product = await _db.Products.FindAsync(id);
     if (product == null)
         return null;
-    
+
     // 3. Armazena no cache
     await _redis.SetStringAsync(key, JsonSerializer.Serialize(product),
         new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1) });
-    
+
     return product;
 }
 ```
@@ -101,11 +101,11 @@ public async Task<List<User>> GetUsersAsync()
     var cached = await _cache.GetStringAsync(key);
     if (cached != null)
         return JsonSerializer.Deserialize<List<User>>(cached);
-    
+
     var users = await _db.Users.ToListAsync();
     await _cache.SetStringAsync(key, JsonSerializer.Serialize(users),
         new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30) });
-    
+
     return users;
 }
 ```
@@ -118,7 +118,7 @@ public class UserService
     public async Task UpdateUserAsync(User user)
     {
         await _db.SaveChangesAsync();
-        
+
         // Invalida cache
         await _cache.RemoveAsync($"user_{user.Id}");
         await _mediator.Publish(new UserUpdated(user.Id));
