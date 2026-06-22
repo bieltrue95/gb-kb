@@ -134,7 +134,7 @@ const totalDocs = docs.filter((d) => d.id !== "index" && d.slug !== "").length;
               .sort((a, b) => a.slug.localeCompare(b.slug))
               .map((doc) => (
                 <a class="kb-card" href={`/gb-kb/${doc.slug}/`}>
-                  <div class="kb-card-emoji">{categoryEmojis[category] || "📚"}</div>
+                  <div class="kb-card-emoji">{doc.data.emoji || categoryEmojis[category] || "📄"}</div>
                   <div class="kb-card-title">{doc.data.title}</div>
                   <div class="kb-card-desc">{doc.data.description}</div>
                 </a>
