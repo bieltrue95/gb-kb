@@ -6,6 +6,9 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://bieltrue95.github.io",
   base: "/gb-kb",
+  redirects: {
+    "/": "/gb-kb/distribuidos/strangler-fig",
+  },
   integrations: [
     // ⚠️ Mermaid deve vir ANTES do Starlight
     mermaid({
