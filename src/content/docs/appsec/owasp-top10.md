@@ -1,6 +1,7 @@
 ---
 title: OWASP Top 10
 description: As 10 vulnerabilidades mais críticas em aplicações web — com exemplos em .NET
+emoji: ⚠️
 ---
 
 ## O que é o OWASP Top 10

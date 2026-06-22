@@ -1,6 +1,7 @@
 ---
 title: Burp Suite
 description: Primeiros passos com Burp Suite para análise de segurança em aplicações web
+emoji: 🧪
 ---
 
 ## O que é
