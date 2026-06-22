@@ -1,0 +1,402 @@
+---
+title: GitHub Actions para .NET
+description: Workflows CI/CD, matrix builds, caching, secrets, releases — automação production-ready
+emoji: ⚙️
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Introdução
+
+**GitHub Actions** = CI/CD integrado no GitHub. Workflows rodam em runners (GitHub ou self-hosted). Grátis até 2000 minutos/mês (public repos).
+
+**Estrutura**: Trigger → Jobs → Steps → Actions
+
+---
+
+<Tabs>
+  <TabItem label="🎯 Triggers">
+
+## Quando rodar workflows
+
+```yaml
+on:
+  push:
+    branches: [main, develop]        # em push
+    paths: ['src/**', '.github/**']   # apenas nesses paths
+  pull_request:
+    branches: [main]                 # em PR
+  schedule:
+    - cron: '0 2 * * *'             # diário às 2am UTC
+  workflow_dispatch:                 # manual via UI
+```
+
+## Jobs & Steps Básicos
+
+```yaml
+jobs:
+  build:
+    runs-on: ubuntu-latest           # GitHub runner
+    steps:
+      - uses: actions/checkout@v3    # Action (reutilizável)
+      - run: echo "Hello"            # Shell command
+      - id: version
+        run: echo "VERSION=1.0.0" >> $GITHUB_OUTPUT
+      - run: echo ${{ steps.version.outputs.VERSION }}
+```
+
+## Env Variables & Secrets
+
+```yaml
+env:
+  DOTNET_VERSION: '8.0'  # variável público
+
+steps:
+  - run: echo ${{ secrets.GITHUB_TOKEN }}  # secret seguro, não printa
+  - run: echo ${{ vars.MY_VAR }}           # variável de repo
+```
+
+</TabItem>
+
+  <TabItem label="✅ CI Workflow">
+
+## Build + Test + Lint
+
+```yaml
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: ['7.0', '8.0']       # Testar múltiplas versões
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+      
+      # Cache NuGet (crucial para performance)
+      - name: Cache NuGet
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+      
+      - name: Restore dependencies
+        run: dotnet restore
+      
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      
+      - name: Test
+        run: dotnet test --configuration Release --no-build --verbosity normal --logger trx
+      
+      # Upload test results
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.dotnet }}
+          path: '**/TestResults/*.trx'
+      
+      # Code coverage
+      - name: Code Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+```
+
+</TabItem>
+
+  <TabItem label="🚀 CD Workflow">
+
+## Build + Push Docker + Deploy
+
+```yaml
+name: CD
+
+on:
+  push:
+    branches: [main]
+  workflow_run:
+    workflows: ['CI']
+    branches: [main]
+    types: [completed]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    
+    permissions:
+      packages: write
+      contents: read
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      # Deploy
+      - name: Deploy to production
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H $DEPLOY_HOST >> ~/.ssh/known_hosts
+          
+          ssh -i ~/.ssh/deploy_key user@$DEPLOY_HOST << 'EOF'
+            cd /app
+            docker pull ghcr.io/${{ github.repository }}:latest
+            docker-compose up -d
+          EOF
+```
+
+</TabItem>
+
+  <TabItem label="📦 Release Workflow">
+
+## Criar Release Automático
+
+```yaml
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+      
+      - name: Publish NuGet Package
+        run: |
+          dotnet pack -c Release
+          dotnet nuget push bin/Release/*.nupkg \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json
+      
+      # Create GitHub Release
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: 'bin/Release/*.nupkg'
+          draft: false
+          prerelease: ${{ contains(github.ref, 'beta') }}
+```
+
+</TabItem>
+
+  <TabItem label="♻️ Reusable Workflows">
+
+## Compartilhar lógica entre workflows
+
+### .github/workflows/build.yml
+
+```yaml
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      dotnet-version:
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ inputs.dotnet-version }}
+      
+      - run: dotnet build
+      - run: dotnet test
+```
+
+### Usar em outro workflow
+
+```yaml
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      dotnet-version: '8.0'
+```
+
+</TabItem>
+
+  <TabItem label="🔐 Secrets & Variables">
+
+## Gerenciar informações sensíveis
+
+### Secrets (encriptados)
+
+```bash
+# Criar secret via CLI
+gh secret set DEPLOY_KEY --body "$(cat ~/.ssh/deploy_key)"
+gh secret set DB_PASSWORD --body "mypassword"
+
+# Usar em workflow
+env:
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}  # nunca printa em logs
+```
+
+### Variables (públicos)
+
+```bash
+# Criar variável
+gh variable set DOCKER_REGISTRY --body "ghcr.io"
+gh variable set DEPLOY_HOST --body "prod.example.com"
+
+# Usar
+run: echo ${{ vars.DOCKER_REGISTRY }}
+```
+
+### Branch Protection + Status Checks
+
+```yaml
+# Exigir que workflow passe antes de mergear
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  required-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - run: dotnet test  # falha se tester falha
+      - run: dotnet build
+      - run: npm run lint  # ou qualquer lint
+```
+
+**GitHub Settings → Branches → Require status checks to pass before merging**
+
+</TabItem>
+
+  <TabItem label="⚡ Performance Tips">
+
+## Otimizar workflows
+
+### 1. Cache NuGet
+
+```yaml
+- uses: actions/cache@v3
+  with:
+    path: ~/.nuget/packages
+    key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+```
+
+### 2. Matrix builds (paralelo)
+
+```yaml
+strategy:
+  matrix:
+    dotnet: ['7.0', '8.0', '9.0']
+    os: [ubuntu-latest, windows-latest, macos-latest]
+```
+
+### 3. Conditional steps
+
+```yaml
+- run: echo "Build OK"
+  if: success()  # ou: failure(), always(), cancelled()
+
+- run: echo "PR only"
+  if: github.event_name == 'pull_request'
+```
+
+### 4. Artifacts para debug
+
+```yaml
+- uses: actions/upload-artifact@v3
+  if: always()
+  with:
+    name: build-logs
+    path: '**/logs/**'
+```
+
+### Práticas
+
+- ✅ Cache de dependências (NuGet, npm)
+- ✅ Matrix builds em paralelo
+- ✅ Conditional steps (não rodar desnecessariamente)
+- ✅ Artifacts para debug
+- ✅ Timeouts nos jobs
+
+</TabItem>
+</Tabs>
+
+---
+
+## ⚠️ Armadilhas comuns
+
+❌ **Sem cache** → Build 2-3x mais lento
+
+❌ **Secrets em logs** → Expor tokens/passwords
+
+❌ **Workflow muito complexo** → Difícil debugar
+
+❌ **Sem timeout** → Jobs rodando eternamente
+
+❌ **Testar só 1 versão .NET** → Break em outras
+
+❌ **Sem artifacts** → Erro de build perdido
+
+## 📚 Referências
+
+- [GitHub Actions Docs](https://docs.github.com/actions)
+- [Actions Marketplace](https://github.com/marketplace?type=actions)
+- [Workflow Syntax](https://docs.github.com/actions/using-workflows/workflow-syntax-for-github-actions)
+- [Branch Protection](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)

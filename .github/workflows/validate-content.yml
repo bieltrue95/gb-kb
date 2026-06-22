@@ -1,0 +1,95 @@
+name: Validar conteúdo
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/content/docs/**/*.md'
+      - 'src/content/docs/**/*.mdx'
+      - 'package.json'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validação de qualidade
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Validar frontmatter e conteúdo
+        run: npm run validate
+        continue-on-error: true
+        id: validate
+
+      - name: Build (verificar erros Astro)
+        run: npm run build
+        id: build
+
+      - name: Checar links internos
+        run: npm run check-links
+        continue-on-error: true
+        id: links
+
+      - name: Comentar resultado no PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            let comment = '## ✅ Validação de conteúdo\n\n';
+
+            if ('${{ steps.validate.outcome }}' === 'failure') {
+              comment += '### ❌ Validação falhou\n\n';
+              comment += 'Rode localmente para corrigir:\n```bash\nnpm run validate\n```\n\n';
+            } else {
+              comment += '### ✅ Validação passou\n';
+            }
+
+            if ('${{ steps.build.outcome }}' === 'failure') {
+              comment += '### ❌ Build falhou\n\n';
+              comment += 'Erro ao compilar o site. Verifique:\n- Sintaxe markdown\n- Frontmatter YAML válido\n\n';
+            } else {
+              comment += '### ✅ Build passou\n';
+            }
+
+            if ('${{ steps.links.outcome }}' === 'failure') {
+              comment += '### ❌ Links internos quebrados\n\n';
+              comment += 'Rode localmente:\n```bash\nnpm run build && npm run check-links\n```\n\n';
+            } else {
+              comment += '### ✅ Links internos OK\n';
+            }
+
+            comment += '\n**Checklist:**\n';
+            comment += '- [x] Frontmatter válido (title, description)\n';
+            comment += '- [x] Arquivo em kebab-case\n';
+            comment += '- [x] Build sem erros\n';
+            comment += '- [x] Links internos resolvem\n\n';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Bloquear merge se falhou
+        if: always()
+        run: |
+          if [ "${{ steps.validate.outcome }}" = "failure" ] || [ "${{ steps.links.outcome }}" = "failure" ] || [ "${{ steps.build.outcome }}" = "failure" ]; then
+            echo "❌ Validação, build ou links falharam. Corrija os erros acima."
+            exit 1
+          fi
+          echo "✅ Validação, build e links OK."

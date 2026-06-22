@@ -1,0 +1,65 @@
+/* Conforto de leitura — sobre o tema Flexoki.
+   Mantém as cores do tema; ajusta apenas tipografia e ritmo. */
+
+:root {
+  /* Fonte legível para corpo e UI */
+  --sl-font: 'Inter', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  /* Mono confortável para código */
+  --sl-font-mono: 'JetBrains Mono', 'Fira Code', 'SFMono-Regular', Consolas,
+    'Liberation Mono', monospace;
+}
+
+/* Tamanho e espaçamento confortáveis no conteúdo dos artigos */
+.sl-markdown-content {
+  font-size: 1.0625rem;   /* ~17px */
+  line-height: 1.75;
+  letter-spacing: 0.003em;
+}
+
+/* Largura de leitura agradável (~70 caracteres) */
+.sl-markdown-content > :where(p, ul, ol, blockquote) {
+  max-width: 70ch;
+}
+
+/* Espaço entre parágrafos para respiro */
+.sl-markdown-content p {
+  margin-block: 0 1.15em;
+}
+
+/* Títulos com um pouco mais de ar */
+.sl-markdown-content :where(h2, h3) {
+  line-height: 1.3;
+  margin-top: 2.25rem;
+}
+
+/* Código inline e blocos um pouco maiores para leitura */
+.sl-markdown-content code {
+  font-size: 0.95em;
+}
+
+.sl-markdown-content pre {
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* ===== Diagramas Mermaid — responsivos e centralizados ===== */
+.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.75rem 0;
+  overflow-x: auto;        /* rolagem horizontal em telas estreitas */
+}
+
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mermaid renderiza dentro de <pre>; remove o visual de bloco de código */
+pre.mermaid,
+pre:has(> .mermaid) {
+  background: none !important;
+  border: none;
+  padding: 0;
+}

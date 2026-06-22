@@ -1,0 +1,153 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/Base.astro';
+
+const docs = await getCollection('docs');
+
+// Mapeia emoji por categoria (pasta)
+const categoryEmojis: Record<string, string> = {
+  distribuidos: '🌐',
+  csharp: '🔷',
+  async: '⏳',
+  arquitetura: '🏗️',
+  aspnet: '🌍',
+  data: '🗄️',
+  devops: '🧪',
+  messaging: '📨',
+  appsec: '🛡️',
+  redes: '🌐',
+  ferramentas: '🛠️',
+};
+
+// Nomes de seção por categoria
+const categoryNames: Record<string, string> = {
+  distribuidos: 'Padrões Distribuídos',
+  csharp: 'C# Fundamentals',
+  async: 'Async & Performance',
+  arquitetura: 'Architecture & Design',
+  aspnet: 'ASP.NET Core',
+  data: 'Data & EF Core',
+  devops: 'Testing & DevOps',
+  messaging: 'Messaging & Events',
+  appsec: 'AppSec',
+  redes: 'Redes',
+  ferramentas: 'Ferramentas & DevOps',
+};
+
+// Agrupa docs por categoria (primeira parte do path)
+const grouped: Record<string, typeof docs> = {};
+docs.forEach(doc => {
+  if (doc.id === 'index' || doc.slug === '') return; // Pula index.md e raiz
+
+  const pathParts = doc.id.split('/');
+  const category = pathParts[0]; // ex: 'distribuidos', 'csharp'
+
+  if (!grouped[category]) {
+    grouped[category] = [];
+  }
+  grouped[category].push(doc);
+});
+
+// Ordena categorias (ordem do roadmap)
+const categoryOrder = [
+  'distribuidos',
+  'csharp',
+  'async',
+  'arquitetura',
+  'aspnet',
+  'data',
+  'devops',
+  'messaging',
+  'appsec',
+  'redes',
+  'ferramentas',
+];
+
+const sortedCategories = Object.keys(grouped)
+  .sort((a, b) => {
+    const aIdx = categoryOrder.indexOf(a);
+    const bIdx = categoryOrder.indexOf(b);
+    return (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
+  });
+
+// Conta total de docs
+const totalDocs = docs.filter(d => d.id !== 'index' && d.slug !== '').length;
+---
+
+<BaseLayout title="Knowledge Base · Gabriel" description="Guia completo de .NET, C#, ASP.NET Core, EF Core, arquitetura e padrões distribuídos">
+  <div class="kb-home">
+    <!-- Hero -->
+    <div class="kb-hero">
+      <div class="kb-logo-container">
+        <img src="/gb-kb/favicon.svg" alt="GB Logo" class="kb-logo" />
+      </div>
+      <div class="kb-eyebrow">⬡ C# & .NET Study Guide</div>
+      <h1>Knowledge Base · Gabriel</h1>
+      <p>Guia completo de .NET, C#, ASP.NET Core, EF Core, arquitetura e padrões distribuídos — referência de estudo e preparação técnica.</p>
+      <div class="kb-stats">
+        <div>
+          <div class="kb-stat-num">{totalDocs}+</div>
+          <div class="kb-stat-lbl">tópicos cobertos</div>
+        </div>
+        <div>
+          <div class="kb-stat-num">34+</div>
+          <div class="kb-stat-lbl">perguntas de entrevista</div>
+        </div>
+        <div>
+          <div class="kb-stat-num">{sortedCategories.length}</div>
+          <div class="kb-stat-lbl">áreas de estudo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Study path -->
+    <div class="kb-studypath">
+      <h2>Caminho de estudo sugerido</h2>
+      <div class="kb-steps">
+        <div class="kb-step"><span class="kb-step-num">1</span>C# Fundamentals</div>
+        <span class="kb-arrow">→</span>
+        <div class="kb-step"><span class="kb-step-num">2</span>Async & Performance</div>
+        <span class="kb-arrow">→</span>
+        <div class="kb-step"><span class="kb-step-num">3</span>Architecture & Design</div>
+        <span class="kb-arrow">→</span>
+        <div class="kb-step"><span class="kb-step-num">4</span>ASP.NET & EF Core</div>
+        <span class="kb-arrow">→</span>
+        <div class="kb-step"><span class="kb-step-num">5</span>Padrões Distribuídos</div>
+      </div>
+    </div>
+
+    <!-- Seções dinâmicas por categoria -->
+    {sortedCategories.map(category => (
+      <div class="kb-section">
+        <div class="kb-section-head">
+          <span>{categoryEmojis[category] || '📚'}</span>
+          <h2>{categoryNames[category] || category}</h2>
+        </div>
+        <div class="kb-cards">
+          {grouped[category]
+            .sort((a, b) => a.slug.localeCompare(b.slug))
+            .map(doc => (
+              <a
+                class="kb-card"
+                href={`/gb-kb/${doc.slug}/`}
+              >
+                <div class="kb-card-emoji">
+                  {doc.data.emoji || '📄'}
+                </div>
+                <div class="kb-card-title">
+                  {doc.data.title}
+                </div>
+                <div class="kb-card-desc">
+                  {doc.data.description}
+                </div>
+              </a>
+            ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  /* CSS já definido em src/styles/theme.css */
+</style>

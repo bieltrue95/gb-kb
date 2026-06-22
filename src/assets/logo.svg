@@ -1,0 +1,10 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#2563EB" opacity="0.1" stroke="#2563EB" stroke-width="2"/>
+
+  <!-- G -->
+  <text x="28" y="72" font-family="Arial, sans-serif" font-size="56" font-weight="bold" fill="#2563EB">G</text>
+
+  <!-- B -->
+  <text x="56" y="72" font-family="Arial, sans-serif" font-size="56" font-weight="bold" fill="#2563EB">B</text>
+</svg>

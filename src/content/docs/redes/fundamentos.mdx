@@ -1,0 +1,367 @@
+---
+title: Fundamentos de redes para AppSec
+description: Modelo OSI, TCP/IP, protocolos essenciais e SSL/TLS com foco em segurança de aplicação
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+
+## Introdução
+
+**Redes são a base da AppSec.** Se não entende como dados viajam pela internet, não consegue protegê-los. Este guia cobre o essencial para aplicações web seguras em .NET.
+
+<Aside type="tip" title="Por que redes importam em AppSec?">
+90% dos ataques exploram falhas na comunicação de rede: man-in-the-middle, DNS spoofing, TLS mal configurado. Conhecer redes = detectar ataques.
+</Aside>
+
+---
+
+## Modelo OSI — 7 Camadas
+
+```mermaid
+flowchart TB
+    L7["7️⃣ Application — HTTP/HTTPS, FTP, SSH, DNS"]
+    L6["6️⃣ Presentation — Criptografia, SSL/TLS"]
+    L5["5️⃣ Session — Conexões, cookies"]
+    L4["4️⃣ Transport — TCP / UDP, portas"]
+    L3["3️⃣ Network — IP, roteamento"]
+    L2["2️⃣ Data Link — MAC, switches"]
+    L1["1️⃣ Physical — Cabos, sinais"]
+
+    L7 --> L6 --> L5 --> L4 --> L3 --> L2 --> L1
+
+    style L7 fill:#bfdbfe,stroke:#2563eb,color:#000
+    style L6 fill:#bfdbfe,stroke:#2563eb,color:#000
+    style L4 fill:#bfdbfe,stroke:#2563eb,color:#000
+```
+
+> 🔵 Em destaque: as camadas mais relevantes para **AppSec** (7, 6 e 4).
+
+### Para AppSec, focamos em:
+- **Camada 7 (Application):** HTTP/HTTPS, credenciais, tokens
+- **Camada 6 (Presentation):** SSL/TLS, criptografia
+- **Camada 4 (Transport):** TCP, portas abertas
+
+---
+
+## TCP/IP — Como funciona
+
+```mermaid
+sequenceDiagram
+    participant C as 🖥️ Cliente
+    participant S as 🖥️ Servidor
+
+    Note over C,S: 🤝 Three-way handshake
+    C->>S: 1️⃣ SYN (Olá?)
+    S->>C: 2️⃣ SYN-ACK (Oi! ✅)
+    C->>S: 3️⃣ ACK (Confirmado!)
+    Note over C,S: ✅ Conexão estabelecida
+
+    C->>S: 4️⃣ GET / HTTP/1.1
+    S->>C: 5️⃣ HTTP 200 + HTML
+
+    Note over C,S: 👋 Encerramento
+    C->>S: 6️⃣ FIN (Tchau!)
+    S->>C: 7️⃣ FIN-ACK
+    Note over C,S: ❌ Conexão fechada
+```
+
+> 📌 O *three-way handshake* torna o TCP **confiável** (tudo chega). O UDP pula essa etapa: mais rápido, mas pode perder pacotes.
+
+---
+
+## Protocolos Essenciais
+
+### HTTP/HTTPS
+
+<Tabs>
+<TabItem label="HTTP (❌ Inseguro)">
+
+```mermaid
+sequenceDiagram
+    participant C as 🖥️ Cliente
+    participant S as 🖥️ Servidor
+    
+    C->>S: GET / HTTP/1.1<br/>Host: example.com<br/>(TEXTO PURO!)
+    S->>C: 200 OK<br/>&lt;html&gt;...<br/>(ANYONE CAN READ!)
+```
+
+🔓 **PROBLEMA**: Qualquer um no WiFi lê seus dados!
+- Senhas, cookies, tokens → expostos
+
+</TabItem>
+
+<TabItem label="HTTPS (✅ Seguro)">
+
+```mermaid
+sequenceDiagram
+    participant C as 🖥️ Cliente
+    participant S as 🖥️ Servidor
+    
+    C->>S: CONNECT (TLS)<br/>Handshake SSL/TLS
+    S->>C: Certificate<br/>[Verificar]
+    C->>S: GET / (CRIPTOGRAFADO)<br/>🔒 AES-256
+    S->>C: 200 OK (CRIPTOGRAFADO)<br/>🔒 Dados protegidos
+```
+
+🔒 **SEGURANÇA**: Dados cifrados ponta-a-ponta
+- Atacante vê: 🔒🔒🔒🔒🔒 (ilegível)
+
+</TabItem>
+</Tabs>
+
+### DNS (Domain Name System)
+
+```mermaid
+graph TD
+    C["🖥️ Cliente<br/>Qual é o IP de google.com?"]
+    RR["📍 Recursive Resolver<br/>(seu ISP)"]
+    Root["🌍 Root Nameserver<br/>Pergunte ao .com"]
+    TLD["🏢 TLD Nameserver<br/>Pergunte ao google.com"]
+    Auth["✅ Authoritative<br/>IP é 172.217.164.46"]
+    
+    C --> RR
+    RR --> Root
+    Root --> TLD
+    TLD --> Auth
+    Auth -.-> C
+```
+
+🚨 **RISCO: DNS Spoofing**
+- Atacante responde primeiro
+- Você acessa fake-google.com do atacante
+- Credenciais roubadas
+
+**Proteção:** DNSSEC, DoH (DNS over HTTPS)
+
+### SSH (Secure Shell)
+
+```
+🔐 SSH = Terminal remoto + criptografia
+
+ssh -i private.key usuario@server.com
+   │
+   ├─ Autentica com chave (RSA 4096)
+   ├─ Cifra conexão (AES-256)
+   └─ Você tem acesso remoto seguro
+
+✅ Melhor que Telnet (que é texto puro!)
+```
+
+### FTP vs SFTP
+
+| Protocolo | Porta | Segurança | Quando usar |
+|-----------|-------|-----------|-------------|
+| **FTP** | 21 | ❌ NENHUMA | Nunca em produção! |
+| **SFTP** | 22 | ✅ SSH | Deploy automático, CI/CD |
+| **FTPS** | 990 | ✅ TLS | Se obrigado a usar FTP |
+
+---
+
+## Portas Comuns (Mapa de risco)
+
+| 🟢 PORTA | PROTOCOLO | SEGURANÇA | QUANDO USAR |
+|----------|-----------|-----------|------------|
+| 80 | HTTP | ❌ Inseguro | Redireciona para 443 |
+| 443 | HTTPS | ✅ Seguro | Deve estar aberta |
+| 22 | SSH | ✅ Seguro | Apenas devs (firewall) |
+| 3306 | MySQL | ❌ NUNCA | Apenas interno (firewall) |
+| 5432 | PostgreSQL | ❌ NUNCA | Apenas interno (firewall) |
+
+| 🔴 PORTA | PROTOCOLO | RISCO | AÇÃO |
+|----------|-----------|-------|------|
+| 23 | Telnet | Texto puro | ❌ Use SSH |
+| 21 | FTP | Texto puro | ❌ Use SFTP |
+| 25 | SMTP | Sem auth | ❌ Relay aberto |
+| 53 | DNS | Amplificação | ❌ Feche! |
+| 139 | NetBIOS | Compartilhamento | ❌ Windows shares |
+| 3389 | RDP | Brute force | ❌ Alvo favorito |
+
+**Em ASP.NET:**
+```csharp
+// Checar portas abertas (Burp Suite)
+// Recomendação: apenas 80/443 liberadas externamente
+
+app.UseHttpsRedirection(); // Força HTTPS
+app.UseHsts(); // HTTP Strict Transport Security
+```
+
+---
+
+## SSL/TLS — Handshake Detalhado
+
+```mermaid
+sequenceDiagram
+    participant C as 🖥️ CLIENTE
+    participant S as 🖥️ SERVIDOR
+    
+    C->>S: 1️⃣ ClientHello<br/>TLS 1.3, Ciphers, Random
+    S->>C: 2️⃣ ServerHello<br/>Cipher escolhido, Cert, Public Key
+    Note over C: 3️⃣ Verificar Certificado<br/>CA asinou? Expirado? Domínio OK?
+    C->>S: 4️⃣ Pre-Master Secret<br/>(cifrado com Public Key)
+    Note over C,S: 5️⃣ Ambos calculam Master Secret<br/>(chave simétrica)
+    Note over C,S: 6️⃣ Cifra AES-256 ativada ✅<br/>CONEXÃO SEGURA 🔒
+```
+
+<Aside type="tip" title="TLS 1.3 vs 1.2">
+TLS 1.3 é mais rápido (1 round trip vs 2) e mais seguro. Desabilite TLS 1.0, 1.1, 1.2 em produção.
+</Aside>
+
+**Em ASP.NET:**
+```csharp
+services.AddHttpsRedirection(options =>
+{
+    options.HttpsPort = 443;
+});
+
+services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+    options.Preload = true; // HSTS Preload List
+});
+```
+
+---
+
+## Certificados SSL/TLS
+
+| Componente | Valor |
+|-----------|-------|
+| **Subject** | example.com |
+| **Issuer** | Let's Encrypt |
+| **Válido** | 2024-01-01 até 2025-01-01 |
+| **Public Key** | -----BEGIN RSA PUBLIC KEY----- |
+| **Signature** | CA asinou digitalmente |
+
+✅ **Let's Encrypt**: Grátis, automático, recomendado  
+✅ **DigiCert/GoDaddy**: Pago, suporte comercial  
+❌ **Self-signed**: Navegador avisa "não confiável"
+
+**Em ASP.NET (appsettings.json):**
+```json
+{
+  "Kestrel": {
+    "Endpoints": {
+      "HttpsDefaultCert": {
+        "Url": "https://localhost:7001",
+        "Certificate": {
+          "Path": "/etc/ssl/certs/certificate.pfx",
+          "Password": "${CERT_PASSWORD}"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## CORS — Cross-Origin Resource Sharing
+
+```mermaid
+sequenceDiagram
+    participant C as 🌐 CLIENTE<br/>(https://app.com)
+    participant A as 🌐 API<br/>(https://api.com)
+    
+    C->>A: 1️⃣ OPTIONS /api/users<br/>(CORS preflight)
+    A->>C: 2️⃣ Access-Control-Allow-*<br/>(Servidor permite?)
+    
+    alt CORS Permitido ✅
+        C->>A: 3️⃣ GET /api/users
+        A->>C: 4️⃣ 200 OK + dados
+    else CORS Bloqueado ❌
+        C->>C: 🚫 Bloqueado pelo navegador
+    end
+```
+
+**Configurar em ASP.NET:**
+```csharp
+// ❌ Inseguro
+services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+// ✅ Seguro
+services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecific", builder =>
+    {
+        builder.WithOrigins("https://app.com")
+               .WithMethods("GET", "POST")
+               .WithHeaders("Authorization", "Content-Type")
+               .AllowCredentials();
+    });
+});
+```
+
+---
+
+## Na prática: Auditando segurança de rede
+
+### 1. Verificar certificado SSL
+```bash
+# Ver detalhes do certificado
+openssl s_client -connect api.seuapp.com:443
+
+# Verificar expiração
+openssl x509 -noout -dates -in certificate.crt
+```
+
+### 2. Escanear portas (Burp Suite)
+```
+1. Burp > Network > Port Scanner
+2. Inserir: seuapp.com
+3. Ver quais portas estão abertas (risco!)
+4. ❌ 3306 aberto = CRÍTICO
+5. ✅ 80,443 abertos = OK (redirect HTTP)
+```
+
+### 3. Verificar headers de segurança
+```bash
+curl -I https://seuapp.com
+
+# Deve ter:
+# ✅ Strict-Transport-Security: max-age=31536000
+# ✅ X-Content-Type-Options: nosniff
+# ✅ X-Frame-Options: DENY
+# ✅ Content-Security-Policy: default-src 'self'
+```
+
+### 4. Testar HTTPS redirect
+```bash
+curl -I http://seuapp.com
+
+# Deve retornar:
+# HTTP/1.1 301 Moved Permanently
+# Location: https://seuapp.com/
+```
+
+---
+
+## Checklist de segurança de rede
+
+- [ ] ✅ HTTPS (TLS 1.3) em TODAS as URLs
+- [ ] ✅ Certificado válido (não auto-assinado)
+- [ ] ✅ Apenas portas 80/443 abertas externamente
+- [ ] ✅ Banco de dados EM FIREWALL (porta 3306/5432 fechada)
+- [ ] ✅ SSH com autenticação por chave (sem senha)
+- [ ] ✅ HSTS + CORS configurados
+- [ ] ✅ Sem protocols inseguros (FTP, Telnet, TLS 1.0/1.1)
+- [ ] ✅ Security headers presentes (X-Frame, CSP, etc)
+
+---
+
+## Referências
+
+- [RFC 7230 — HTTP/1.1](https://tools.ietf.org/html/rfc7230)
+- [RFC 8446 — TLS 1.3](https://tools.ietf.org/html/rfc8446)
+- [OWASP — Secure Communication](https://cheatsheetseries.owasp.org/cheatsheets/Secure_Communication_Cheat_Sheet.html)
+- [ASP.NET Security Headers](https://learn.microsoft.com/en-us/aspnet/core/security/http-header-security)
+- [Mozilla SSL Labs](https://www.ssllabs.com/ssltest/)

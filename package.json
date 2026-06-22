@@ -1,0 +1,24 @@
+{
+  "name": "gb-kb",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "validate": "node scripts/validate-content.js",
+    "check-links": "node scripts/check-links.js",
+    "lint": "npm run validate && astro check",
+    "pre-commit": "npm run lint"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.37.7",
+    "@mermaid-js/layout-elk": "^0.2.1",
+    "astro": "^5.0.0",
+    "astro-mermaid": "^2.0.4",
+    "mermaid": "^11.15.0"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.2.0"
+  }
+}

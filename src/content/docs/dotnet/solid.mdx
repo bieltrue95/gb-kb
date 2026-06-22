@@ -1,0 +1,390 @@
+---
+title: Princípios SOLID em C#
+description: Os 5 princípios SOLID aplicados em C# com exemplos práticos e comparações
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Aside } from '@astrojs/starlight/components';
+
+## Introdução
+
+SOLID é um acrônimo para **5 princípios de design** que tornam seu código mais fácil de manter, testar e escalar. Especialmente importante em projetos .NET/C# de longo prazo.
+
+<Aside type="tip" title="Por que SOLID importa?">
+Código SOLID é mais fácil de estender, testar e manter. Reduz bugs, facilita refatoração e aumenta a qualidade geral.
+</Aside>
+
+---
+
+## S — Single Responsibility Principle
+
+**Uma classe deve ter apenas um motivo para mudar.**
+
+Cada classe deve ter uma única responsabilidade. Se tem mais, significa que deveria ser dividida.
+
+<Tabs>
+  <TabItem label="❌ Violando SRP">
+```csharp
+// Uma classe faz TUDO — criar user, enviar email, logar
+public class UserService
+{
+    public void CreateUser(User user)
+    {
+        // Salva no banco
+        db.Users.Add(user);
+        db.SaveChanges();
+        
+        // Envia email (responsabilidade diferente!)
+        var smtp = new SmtpClient("smtp.gmail.com");
+        smtp.Send(new MailMessage("..."));
+        
+        // Loga (responsabilidade diferente!)
+        File.AppendAllText("log.txt", $"User created: {user.Id}");
+    }
+}
+```
+  </TabItem>
+
+  <TabItem label="✅ Aplicando SRP">
+```csharp
+// Cada classe tem UM motivo para mudar
+public class UserService
+{
+    private readonly IUserRepository _repo;
+    private readonly IEmailService _email;
+    private readonly ILogger _logger;
+    
+    public void CreateUser(User user)
+    {
+        _repo.Add(user);
+        _email.SendWelcome(user.Email);
+        _logger.LogUserCreated(user.Id);
+    }
+}
+
+public class EmailService : IEmailService
+{
+    public void SendWelcome(string email) { /* ... */ }
+}
+
+public class FileLogger : ILogger
+{
+    public void LogUserCreated(int userId) { /* ... */ }
+}
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="caution" title="Evite god classes">
+Se uma classe tem muitos públicos métodos, provavelmente viola SRP. Refatore!
+</Aside>
+
+---
+
+## O — Open/Closed Principle
+
+**Aberto para extensão, fechado para modificação.**
+
+Você deve poder adicionar nova funcionalidade SEM modificar código existente. Use abstração (interfaces, classes abstratas).
+
+<Tabs>
+  <TabItem label="❌ Violando OCP">
+```csharp
+// Toda vez que um novo tipo de desconto aparece,
+// precisa modificar DiscountCalculator (RUIM!)
+public class DiscountCalculator
+{
+    public decimal Calculate(string type, decimal price)
+    {
+        if (type == "student")
+            return price * 0.8m;
+        
+        if (type == "senior")
+            return price * 0.7m;
+        
+        if (type == "blackfriday")
+            return price * 0.5m;
+        
+        // Novo desconto? MODIFICA aqui! 😞
+        return price;
+    }
+}
+```
+  </TabItem>
+
+  <TabItem label="✅ Aplicando OCP">
+```csharp
+// Abstrato — pode estender SEM modificar
+public abstract class Discount
+{
+    public abstract decimal Calculate(decimal price);
+}
+
+public class StudentDiscount : Discount
+{
+    public override decimal Calculate(decimal price) => price * 0.8m;
+}
+
+public class SeniorDiscount : Discount
+{
+    public override decimal Calculate(decimal price) => price * 0.7m;
+}
+
+public class BlackFridayDiscount : Discount
+{
+    public override decimal Calculate(decimal price) => price * 0.5m;
+}
+
+// CalculadoraGeral — não precisa mudar!
+public class DiscountCalculator
+{
+    public decimal Calculate(Discount discount, decimal price)
+        => discount.Calculate(price);
+}
+
+// Novo desconto? Cria uma classe nova, sem tocar em nada! 🎉
+public class VIPDiscount : Discount
+{
+    public override decimal Calculate(decimal price) => price * 0.6m;
+}
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="note" title="Estratégia de padrão">
+OCP é implementado com Strategy Pattern, Template Method, Factory, etc.
+</Aside>
+
+---
+
+## I — Interface Segregation Principle
+
+**Nenhuma classe deve ser forçada a implementar métodos que não usa.**
+
+Crie interfaces específicas e focadas, não interfaces gigantes.
+
+<Tabs>
+  <TabItem label="❌ Interface gorda">
+```csharp
+// Robot é forçado a implementar Eat() que não usa!
+public interface IWorker
+{
+    void Work();
+    void Eat();      // 🤖 Robô não come!
+    void Sleep();    // 🤖 Robô não dorme!
+}
+
+public class Robot : IWorker
+{
+    public void Work() { /* ... */ }
+    
+    public void Eat() 
+    { 
+        throw new NotImplementedException(); // ❌ Forced!
+    }
+    
+    public void Sleep() 
+    { 
+        throw new NotImplementedException(); // ❌ Forced!
+    }
+}
+```
+  </TabItem>
+
+  <TabItem label="✅ Interfaces segregadas">
+```csharp
+// Interfaces específicas
+public interface IWorkable
+{
+    void Work();
+}
+
+public interface IFeedable
+{
+    void Eat();
+}
+
+public interface ISleepable
+{
+    void Sleep();
+}
+
+// Cada classe implementa APENAS o que usa
+public class Human : IWorkable, IFeedable, ISleepable
+{
+    public void Work() { /* ... */ }
+    public void Eat() { /* ... */ }
+    public void Sleep() { /* ... */ }
+}
+
+public class Robot : IWorkable
+{
+    public void Work() { /* ... */ }
+    // Só isso! Sem métodos forçados.
+}
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="Regra prática">
+Se uma classe nunca vai usar um método de uma interface, a interface é muito gorda.
+</Aside>
+
+---
+
+## L — Liskov Substitution Principle
+
+**Subclasses devem poder substituir suas classes base SEM quebrar o sistema.**
+
+Se `Derived` herda de `Base`, você deve poder usar `Derived` em qualquer lugar que espera `Base`.
+
+<Tabs>
+  <TabItem label="❌ Violando LSP">
+```csharp
+public abstract class Bird
+{
+    public abstract void Fly();
+}
+
+public class Sparrow : Bird
+{
+    public override void Fly() { /* ... */ }
+}
+
+public class Penguin : Bird
+{
+    public override void Fly()
+    {
+        throw new NotImplementedException(); // ❌ Pinguim não voa!
+    }
+}
+
+// Código quebra!
+public void MakeBirdFly(Bird bird)
+{
+    bird.Fly(); // ☠️ Se passar Penguin, exceção!
+}
+```
+  </TabItem>
+
+  <TabItem label="✅ Aplicando LSP">
+```csharp
+// Bird genérico
+public abstract class Bird { }
+
+// Interface específica
+public interface IFlyable
+{
+    void Fly();
+}
+
+// Sparrow voa
+public class Sparrow : Bird, IFlyable
+{
+    public void Fly() { /* ... */ }
+}
+
+// Penguin NÃO voa — sem interface IFlyable
+public class Penguin : Bird
+{
+    public void Swim() { /* ... */ }
+}
+
+// Seguro: só chamamos Fly() em IFlyable
+public void MakeBirdFly(IFlyable bird)
+{
+    bird.Fly(); // ✅ Sempre funciona
+}
+```
+  </TabItem>
+</Tabs>
+
+---
+
+## D — Dependency Inversion Principle
+
+**Dependa de abstrações, não de implementações concretas.**
+
+Classes de alto nível não devem depender de classes de baixo nível. Ambas devem depender de abstrações.
+
+<Tabs>
+  <TabItem label="❌ Dependência concreta">
+```csharp
+// OrderService conhece TUDO sobre SqlUserRepository
+// Se trocar de banco, quebra!
+public class OrderService
+{
+    private readonly SqlUserRepository _userRepo = new();
+    private readonly SmtpEmailService _emailService = new();
+    
+    public void PlaceOrder(Order order)
+    {
+        var user = _userRepo.GetUser(order.UserId); // ❌ Acoplado!
+        _emailService.Send(user.Email, "Pedido recebido"); // ❌ Acoplado!
+    }
+}
+```
+  </TabItem>
+
+  <TabItem label="✅ Dependency Injection">
+```csharp
+// OrderService depende de abstrações
+// Fácil de trocar, testar, estender
+public class OrderService
+{
+    private readonly IUserRepository _userRepo;
+    private readonly IEmailService _emailService;
+    
+    // Injetar abstrações — não concretas!
+    public OrderService(
+        IUserRepository userRepo,
+        IEmailService emailService)
+    {
+        _userRepo = userRepo;
+        _emailService = emailService;
+    }
+    
+    public void PlaceOrder(Order order)
+    {
+        var user = _userRepo.GetUser(order.UserId);
+        _emailService.Send(user.Email, "Pedido recebido");
+    }
+}
+
+// No Startup / Program.cs (ASP.NET Core)
+builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+
+// Em testes
+var mockUserRepo = new Mock<IUserRepository>();
+var mockEmail = new Mock<IEmailService>();
+var service = new OrderService(mockUserRepo.Object, mockEmail.Object);
+```
+  </TabItem>
+</Tabs>
+
+<Aside type="tip" title="DI em ASP.NET Core">
+O ASP.NET Core já tem tudo integrado: `builder.Services.AddScoped<Interface, Implementation>()` é a forma natural de fazer DI.
+</Aside>
+
+---
+
+## Na prática: Checklist SOLID
+
+Antes de fazer push, pergunte-se:
+
+- ✅ **S** — Cada classe tem UMA responsabilidade?
+- ✅ **O** — Posso estender comportamento SEM modificar código existente?
+- ✅ **I** — Minhas interfaces são focadas (não gordinhas)?
+- ✅ **L** — Subclasses podem substituir suas bases sem quebrar?
+- ✅ **D** — Dependo de interfaces/abstrações, não de concretas?
+
+Se responder "não" a qualquer pergunta, refatore! 🔄
+
+---
+
+## Referências
+
+- [SOLID Principles - Wikipedia](https://en.wikipedia.org/wiki/SOLID)
+- [ASP.NET Core Dependency Injection](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection)
+- [Uncle Bob's Blog](https://blog.cleancoder.com/)

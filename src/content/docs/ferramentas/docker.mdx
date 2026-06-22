@@ -1,0 +1,371 @@
+---
+title: Docker & containerização
+description: Dockerfile multi-stage, best practices, docker-compose, registry, production patterns
+emoji: 🐳
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Introdução
+
+**Docker** = isolamento em containers (leve, reproduzível). **Image** = template. **Container** = instância rodando.
+
+**Regra de ouro**: Layer é cache — organize COPY statements para máxima reusabilidade.
+
+---
+
+<Tabs>
+  <TabItem label="🏗️ Best Practices">
+
+## Multi-stage builds
+
+```dockerfile
+# Stage 1: Build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY *.csproj .
+RUN dotnet restore
+COPY . .
+RUN dotnet publish -c Release -o /app/publish
+
+# Stage 2: Runtime (minimal, ~200MB)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+
+# Não rodar como root (security)
+RUN useradd -m -u 1000 appuser
+
+WORKDIR /app
+COPY --from=build /app/publish .
+COPY --chown=appuser:appuser . .
+
+USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:8080/health || exit 1
+
+ENTRYPOINT ["dotnet", "MyApp.dll"]
+```
+
+## .dockerignore
+
+```
+.git
+.gitignore
+bin
+obj
+*.user
+node_modules
+dist
+.vs
+.idea
+```
+
+## Otimização de layers
+
+```dockerfile
+# ❌ Ruim: RUN dotnet restore && COPY . && RUN dotnet build
+# Qualquer mudança em código invalida cache do restore
+
+# ✅ Bom: Separar restore de build
+COPY *.csproj ./
+RUN dotnet restore         # cache reutilizado
+
+COPY . .
+RUN dotnet publish        # roda apenas se .cs mudou
+```
+
+</TabItem>
+
+  <TabItem label="⚙️ Commands">
+
+## Build
+
+```bash
+docker build -t myapp:1.0 .                    # nomear com tag
+docker build -t myapp:latest --no-cache .     # ignora cache
+```
+
+## Run
+
+```bash
+docker run -p 8080:8080 myapp:1.0              # expor porta
+docker run -e DB_PASS="secret" myapp:1.0       # variáveis
+docker run -v /data:/app/data myapp:1.0        # volumes (persistência)
+docker run -d myapp:1.0                        # detached (background)
+```
+
+## Container management
+
+```bash
+docker ps                                      # containers rodando
+docker logs -f <container_id>                  # tail logs
+docker exec -it <id> /bin/bash                 # entrar no container
+docker stop <id>                               # parar gracefully
+docker kill <id>                               # parar força
+```
+
+## Images
+
+```bash
+docker images                                  # listar imagens
+docker inspect <image_id>                      # detalhes da imagem
+docker history <image_id>                      # ver layers
+```
+
+## Cleanup
+
+```bash
+docker prune -a                                # remover imagens não usadas
+docker volume prune                            # remover volumes órfãos
+```
+
+</TabItem>
+
+  <TabItem label="📦 Docker Compose">
+
+## Orquestração local
+
+```yaml
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=db;Database=mydb;..."
+      ASPNETCORE_ENVIRONMENT: "Production"
+    depends_on:
+      db:
+        condition: service_healthy    # aguardar health check
+    volumes:
+      - ./logs:/app/logs            # persistência de logs
+    restart: unless-stopped          # restart automático
+    networks:
+      - backend
+  
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "P@ssw0rd123!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - db_data:/var/opt/mssql/data  # persistência de BD
+    healthcheck:
+      test: ["/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "SA", "-P", "P@ssw0rd123!", "-Q", "SELECT 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:
+    driver: bridge
+```
+
+## Comandos docker-compose
+
+```bash
+docker-compose up -d                     # start serviços
+docker-compose down                      # stop e remove
+docker-compose logs -f api              # tail logs
+docker-compose ps                       # status dos serviços
+docker-compose exec db sqlcmd ...       # comando no container
+```
+
+</TabItem>
+
+  <TabItem label="🔐 Registry">
+
+## Docker Hub
+
+```bash
+# Login
+docker login
+
+# Tag
+docker tag myapp:1.0 username/myapp:1.0
+
+# Push
+docker push username/myapp:1.0
+
+# Pull
+docker pull username/myapp:1.0
+```
+
+## Azure Container Registry (ACR)
+
+```bash
+# Login
+az acr login --name myregistry
+
+# Tag
+docker tag myapp:1.0 myregistry.azurecr.io/myapp:1.0
+
+# Push
+docker push myregistry.azurecr.io/myapp:1.0
+
+# Pull
+docker pull myregistry.azurecr.io/myapp:1.0
+```
+
+## GitHub Container Registry (GHCR)
+
+```bash
+# Login
+docker login ghcr.io -u username
+
+# Tag
+docker tag myapp:1.0 ghcr.io/username/myapp:1.0
+
+# Push
+docker push ghcr.io/username/myapp:1.0
+```
+
+</TabItem>
+
+  <TabItem label="🛡️ Security">
+
+## Rodar como non-root
+
+```dockerfile
+RUN useradd -m -u 1000 appuser
+USER appuser  # ✅ não rodar como root
+```
+
+## Minimal base image
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine  # ~150MB vs 500MB
+```
+
+## Read-only filesystem
+
+```yaml
+# docker-compose.yml
+services:
+  api:
+    read_only: true
+    tmpfs:
+      - /tmp      # único diretório writable
+```
+
+## Resource limits
+
+```yaml
+services:
+  api:
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+```
+
+## Security scanning
+
+```bash
+# Docker Scout (built-in)
+docker scout cves myapp:1.0
+
+# Trivy (ferramenta externa)
+trivy image myapp:1.0
+```
+
+</TabItem>
+
+  <TabItem label="🚀 CI/CD">
+
+## GitHub Actions — Push Docker + Deploy
+
+```yaml
+name: Docker CI/CD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+</TabItem>
+</Tabs>
+
+---
+
+## ⚠️ Armadilhas comuns
+
+❌ **Multi-stage não usado** → Imagem 5x maior
+
+❌ **Rodar como root** → Container comprometido = host comprometido
+
+❌ **Cache inválido** → Cada build 5+ minutos
+
+❌ **Sem health checks** → Container morto rodando
+
+❌ **Sem resource limits** → 1 container consume tudo
+
+❌ **Sem volumes** → Dados perdidos ao parar
+
+❌ **Sem .dockerignore** → Envia node_modules, bin, obj
+
+## 📚 Referências
+
+- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+- [Dockerfile Reference](https://docs.docker.com/engine/reference/builder/)
+- [compose file Reference](https://docs.docker.com/compose/compose-file/)
+- [Container Security](https://docs.docker.com/engine/security/)
+- [Docker Scout](https://docs.docker.com/scout/)

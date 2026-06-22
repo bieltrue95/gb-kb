@@ -1,0 +1,342 @@
+---
+title: Azure & Deploy
+description: App Service (plans, slots, scaling), Static Web Apps, Application Insights, Diagnose & Solve
+emoji: ☁️
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Introdução
+
+**Azure App Service** = PaaS para Web Apps, APIs, backend mobile. **Static Web Apps** = frontend + serverless API. **Application Insights** = observabilidade (traces, metrics, logs).
+
+---
+
+<Tabs>
+  <TabItem label="📊 Plans & Pricing">
+
+| SKU | vCPU | RAM | Slots | Auto-scale | Use |
+|---|---|---|---|---|---|
+| **F1** (Free) | 0.5 | 1GB | ❌ | ❌ | Dev/test |
+| **B1** (Basic) | 1 | 1.75GB | ❌ | ❌ | Small apps |
+| **S1** (Standard) | 1 | 1.75GB | ✅ | ✅ | Production |
+| **P1** (Premium) | 2 | 3.5GB | ✅ | ✅ | High-traffic |
+| **Isolated** | 4-8 | 8-14GB | ✅ | ✅ | Enterprise/VNET |
+
+**Slots** = ambiente separado (staging, canary). Swap instantâneo com zero downtime.
+
+</TabItem>
+
+  <TabItem label="🔄 Deployment Slots">
+
+## Zero Downtime Deploy
+
+```bash
+# Criar slot staging
+az webapp deployment slot create \
+  --resource-group mygroup \
+  --name myapp \
+  --slot staging
+
+# Deploy pra staging
+az webapp deployment source config-zip \
+  --resource-group mygroup \
+  --name myapp \
+  --slot staging \
+  --src-path publish.zip
+
+# Testar em staging (URL: myapp-staging.azurewebsites.net)
+# ...
+
+# Swap com production (instantâneo, zero downtime)
+az webapp deployment slot swap \
+  --resource-group mygroup \
+  --name myapp \
+  --slot staging
+```
+
+</TabItem>
+
+  <TabItem label="🚀 CI/CD">
+
+## GitHub Actions (automático)
+
+```yaml
+# .github/workflows/deploy.yml
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+      
+      - name: Publish
+        run: dotnet publish -c Release -o publish
+      
+      - name: Deploy to App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: myapp
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: ./publish
+```
+
+## Azure CLI Manual
+
+```bash
+# Build
+dotnet publish -c Release -o publish
+
+# Create App Service Plan
+az appservice plan create \
+  --name myplan \
+  --resource-group mygroup \
+  --sku S1
+
+# Create Web App
+az webapp create \
+  --name myapp \
+  --resource-group mygroup \
+  --plan myplan
+
+# Deploy
+az webapp deployment source config-zip \
+  --resource-group mygroup \
+  --name myapp \
+  --src-path publish.zip
+```
+
+</TabItem>
+
+  <TabItem label="📊 Application Insights">
+
+## Setup e Logging
+
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+
+// Adicionar Application Insights
+var aiOptions = new ApplicationInsightsServiceOptions 
+{ 
+    InstrumentationKey = builder.Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"],
+    EnableAdaptiveSampling = true,
+    EnableDependencyTrackingTelemetryModule = true
+};
+
+builder.Services.AddApplicationInsightsTelemetry(aiOptions);
+
+// Configurar logging pra Application Insights
+builder.Logging.AddApplicationInsights(
+    configureTelemetryModule: (module, _) =>
+    {
+        module.EnableDependencyTrackingTelemetryModule.IsEnabled = true;
+    });
+
+var app = builder.Build();
+```
+
+## Instrumentação customizada
+
+```csharp
+public class OrderService
+{
+    private readonly TelemetryClient _telemetry;
+    private readonly ILogger<OrderService> _logger;
+
+    public OrderService(TelemetryClient telemetry, ILogger<OrderService> logger)
+    {
+        _telemetry = telemetry;
+        _logger = logger;
+    }
+
+    public async Task<Order> CreateAsync(CreateOrderRequest req)
+    {
+        using var operation = _telemetry.StartOperation<RequestTelemetry>("CreateOrder");
+        
+        try
+        {
+            _logger.LogInformation("Creating order for {CustomerId}", req.CustomerId);
+            
+            // Custom properties
+            operation.Telemetry.Properties["CustomerId"] = req.CustomerId;
+            operation.Telemetry.Properties["Total"] = req.Total.ToString();
+            
+            var order = new Order { Id = Guid.NewGuid(), Total = req.Total };
+            
+            // Custom metric
+            _telemetry.TrackEvent("OrderCreated", 
+                properties: new Dictionary<string, string> { { "CustomerId", req.CustomerId } },
+                metrics: new Dictionary<string, double> { { "Total", req.Total } });
+            
+            return order;
+        }
+        catch (Exception ex)
+        {
+            _telemetry.TrackException(ex);
+            throw;
+        }
+    }
+}
+```
+
+</TabItem>
+
+  <TabItem label="⚙️ Configuration">
+
+## Connection Strings e App Settings
+
+```bash
+# Via Azure Portal ou CLI
+az webapp config appsettings set \
+  --resource-group mygroup \
+  --name myapp \
+  --settings \
+    ASPNETCORE_ENVIRONMENT=Production \
+    ConnectionStrings__DefaultConnection="Server=mydb;Database=mydb;..." \
+    APPINSIGHTS_INSTRUMENTATIONKEY="your-key"
+
+# Ler em Program.cs
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var insightsKey = builder.Configuration["APPINSIGHTS_INSTRUMENTATIONKEY"];
+```
+
+## Key Vault Integration
+
+```csharp
+var keyVaultUrl = new Uri($"https://{keyVaultName}.vault.azure.net/");
+
+var azureCredential = new DefaultAzureCredential();
+builder.Configuration.AddAzureKeyVault(keyVaultUrl, azureCredential);
+
+// Ler secrets como appsettings
+var dbPassword = builder.Configuration["DbPassword"];
+```
+
+</TabItem>
+
+  <TabItem label="🌐 Static Web Apps">
+
+## Frontend + API serverless
+
+```bash
+# Criar
+az staticwebapp create \
+  --name myapp \
+  --resource-group mygroup \
+  --location eastus \
+  --source https://github.com/user/repo \
+  --branch main
+
+# Configurar build
+# Cria automaticamente .github/workflows/azure-static-web-apps-*.yml
+```
+
+## staticwebapp.config.json
+
+```json
+{
+  "routes": [
+    { "route": "/api/*", "methods": ["POST"], "allowUnauthenticated": false },
+    { "route": "/api/*", "methods": ["GET"], "allowUnauthenticated": true },
+    { "route": "/*", "serve": "/index.html", "statusCode": 200 }
+  ],
+  "auth": {
+    "identityProviders": {
+      "azureActiveDirectory": {
+        "registration": { "openIdIssuer": "..." }
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+
+  <TabItem label="📈 Scaling">
+
+## Auto-scale Rules
+
+```bash
+az monitor autoscale create \
+  --resource-group mygroup \
+  --resource myapp \
+  --resource-type "Microsoft.Web/serverfarms" \
+  --name scale-rule \
+  --min-count 1 \
+  --max-count 5 \
+  --count 2
+
+# Adicionar regra: scale out se CPU > 70%
+az monitor autoscale rule create \
+  --autoscale-name scale-rule \
+  --resource-group mygroup \
+  --condition "Percentage CPU > 70 avg 5m" \
+  --scale out 1
+
+# Scale in se CPU < 30%
+az monitor autoscale rule create \
+  --autoscale-name scale-rule \
+  --resource-group mygroup \
+  --condition "Percentage CPU < 30 avg 5m" \
+  --scale in 1
+```
+
+</TabItem>
+
+  <TabItem label="🔍 Health Checks">
+
+## Application Insights + Health Checks
+
+```csharp
+builder.Services.AddHealthChecks()
+    .AddDbContextCheck<AppDbContext>()
+    .AddRabbitMQ(sp => sp.GetRequiredService<ConnectionFactory>().CreateConnection())
+    .AddSqlServer(builder.Configuration.GetConnectionString("Default"));
+
+app.MapHealthChecks("/health");
+```
+
+## Diagnose & Solve
+
+**Portal → App Service → Diagnose and solve problems**
+
+- **Troubleshooting Tools**: Profiler, Memory Dump
+- **Best Practices**: Recomendações de otimização
+- **Performance**: CPU, Memory, Requests traces
+
+</TabItem>
+</Tabs>
+
+---
+
+## ⚠️ Armadilhas comuns
+
+❌ **SKU muito pequeno** → Timeouts, CPU throttling
+
+❌ **Sem slots** → Downtime durante deploy
+
+❌ **Sem Application Insights** → Cego em produção
+
+❌ **Connection strings em código** → Security breach
+
+❌ **Sem health checks** → Liveness issues não detectados
+
+❌ **Scaling horizontal sem stateless** → Inconsistência de dados
+
+## 📚 Referências
+
+- [Azure App Service Docs](https://docs.microsoft.com/en-us/azure/app-service/)
+- [Deployment Slots](https://docs.microsoft.com/en-us/azure/app-service/deploy-staging-slots)
+- [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/)
+- [Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/)
+- [Auto-scale Guide](https://docs.microsoft.com/en-us/azure/azure-monitor/autoscale/autoscale-get-started)

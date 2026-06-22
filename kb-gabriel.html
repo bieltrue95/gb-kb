@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Knowledge Base · Gabriel True</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0f1117;--bg2:#161820;--bg3:#1c1e27;--bg4:#22242e;--border:#2a2d3a;--border2:#353848;--text:#e2e4f0;--text2:#9096b0;--text3:#5a6080;--accent:#6c7bff;--accent2:#4facfe;--accent-bg:rgba(108,123,255,.1);--green:#3dd68c;--green-bg:rgba(61,214,140,.1);--orange:#f5a623;--orange-bg:rgba(245,166,35,.1);--red:#ff6b6b;--red-bg:rgba(255,107,107,.1);--purple:#b57bee;--purple-bg:rgba(181,123,238,.1);--cyan:#4de8d1;--cyan-bg:rgba(77,232,209,.1);--sw:268px;--font:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.7;min-height:100vh}.layout{display:flex;min-height:100vh}
+.sb{width:var(--sw);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;overflow-y:auto;display:flex;flex-direction:column;z-index:100;transition:transform .25s}
+.sb-logo{padding:18px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}.logo-hex{width:28px;height:28px;background:var(--accent);clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0}.lt{font-size:13px;font-weight:600;color:var(--text);letter-spacing:.01em}.ls{font-size:11px;color:var(--text3)}
+.sb-srch{margin:10px 12px;display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:6px 10px}.sb-srch svg{width:14px;height:14px;opacity:.5;flex-shrink:0}.sb-srch input{background:none;border:none;outline:none;color:var(--text);font-size:13px;width:100%;font-family:var(--font)}.sb-srch input::placeholder{color:var(--text3)}
+.sb-nav{flex:1;padding:6px 0 32px}.ng{padding:13px 16px 3px;font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}.ng::after{content:'▸';font-size:10px;opacity:.5;transition:transform .2s}.ng.open::after{transform:rotate(90deg)}.ng-i{display:none}.ng.open+.ng-i{display:block}
+.nl{display:flex;align-items:center;padding:5px 16px;font-size:13px;color:var(--text2);gap:7px;transition:color .15s,background .15s;position:relative;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:var(--font)}.nl:hover{color:var(--text);background:var(--bg3)}.nl.active{color:var(--accent);background:var(--accent-bg)}.nl.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);border-radius:0 2px 2px 0}
+.nb{margin-left:auto;font-size:10px;padding:1px 6px;border-radius:4px;font-family:var(--mono);flex-shrink:0}.nb-b{background:rgba(79,172,254,.15);color:var(--accent2)}.nb-g{background:var(--green-bg);color:var(--green)}.nb-o{background:var(--orange-bg);color:var(--orange)}.nb-p{background:var(--purple-bg);color:var(--purple)}.nb-r{background:var(--red-bg);color:var(--red)}.nb-c{background:var(--cyan-bg);color:var(--cyan)}
+.main{margin-left:var(--sw);flex:1;padding:0 0 80px}.pg{display:none;padding:44px 52px}.pg.active{display:block}
+.bc{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text3);margin-bottom:28px}.bc button{color:var(--text3);background:none;border:none;cursor:pointer;font-size:12px;font-family:var(--font)}.bc button:hover{color:var(--accent)}.bc span{opacity:.5}
+.hero{margin-bottom:40px}.hero-eye{font-size:12px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}.hero h1{font-size:30px;font-weight:600;color:var(--text);line-height:1.2;margin-bottom:12px}.hero p{font-size:15px;color:var(--text2);max-width:600px}
+.h-stats{display:flex;gap:28px;margin-top:20px}.hs-n{font-size:22px;font-weight:600;color:var(--text)}.hs-l{font-size:12px;color:var(--text3);margin-top:1px}
+.sp{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 22px;margin-bottom:44px}.sp h2{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}.sp-steps{display:flex;align-items:center;flex-wrap:wrap;gap:0}.sp-step{display:flex;align-items:center;gap:7px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:7px 13px;font-size:13px;font-weight:500;color:var(--text)}.sp-n{width:19px;height:19px;border-radius:50%;background:var(--accent-bg);color:var(--accent);font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0}.sp-a{color:var(--text3);font-size:13px;padding:0 5px}
+.sec{margin-bottom:48px}.sec-hd{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}.sec-ico{font-size:18px}.sec-ttl{font-size:18px;font-weight:600;color:var(--text)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:11px}.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:15px 17px;color:inherit;display:flex;flex-direction:column;transition:border-color .15s,background .15s,transform .12s;cursor:pointer;text-align:left;font-family:var(--font);width:100%}.card:hover{border-color:var(--border2);background:var(--bg3);transform:translateY(-1px)}.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:7px}.card-em{font-size:20px;line-height:1;flex-shrink:0}.card-bs{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end}.badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px;font-family:var(--mono)}.card-ttl{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}.card-dsc{font-size:12px;color:var(--text2);line-height:1.55;flex:1}
+.tp-eye{font-size:11px;font-weight:500;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}.tp-h1{font-size:26px;font-weight:600;color:var(--text);line-height:1.25;margin-bottom:10px}.tp-lead{font-size:15px;color:var(--text2);max-width:620px;line-height:1.7;margin-bottom:16px}.tp-tags{display:flex;gap:7px;margin-bottom:32px;flex-wrap:wrap}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:24px;flex-wrap:wrap}.tab{padding:8px 16px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border:none;background:none;font-family:var(--font);border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s}.tab:hover{color:var(--text)}.tab.active{color:var(--accent);border-bottom-color:var(--accent)}.tab-c{display:none}.tab-c.active{display:block}
+.content h2{font-size:19px;font-weight:600;color:var(--text);margin:32px 0 12px}.content h3{font-size:15px;font-weight:600;color:var(--text);margin:20px 0 8px}.content p{color:var(--text2);margin-bottom:12px;line-height:1.75}.content ul,.content ol{color:var(--text2);padding-left:20px;margin-bottom:12px}.content li{margin-bottom:5px;line-height:1.65}.content strong{color:var(--text);font-weight:600}
+code{background:var(--bg4);border:1px solid var(--border);padding:1px 6px;border-radius:4px;font-family:var(--mono);font-size:12px;color:var(--cyan)}pre{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:16px 18px;margin:12px 0;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--text)}
+.kw{color:#7c6aff}.tp2{color:#4facfe}.st{color:#3dd68c}.cm{color:#5a6080;font-style:italic}.nm{color:#f5a623}.at{color:#ff9d4d}.pr{color:#b57bee}
+.callout{border-radius:9px;padding:13px 17px;margin:14px 0;border-left:3px solid;font-size:13.5px;line-height:1.65;color:var(--text2)}.callout.info{background:rgba(108,123,255,.08);border-color:var(--accent)}.callout.warn{background:var(--orange-bg);border-color:var(--orange)}.callout.good{background:var(--green-bg);border-color:var(--green)}.callout.bad{background:var(--red-bg);border-color:var(--red)}.callout strong{color:var(--text)}
+.tw{overflow-x:auto;margin:12px 0}table{width:100%;border-collapse:collapse;font-size:13px}th{background:var(--bg3);color:var(--text2);font-weight:600;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:.05em}td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top}tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg2)}
+.qa-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}.qa{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden}.qa-q{padding:13px 17px;font-size:14px;font-weight:500;color:var(--text);display:flex;align-items:flex-start;gap:9px;cursor:pointer;transition:background .15s}.qa-q:hover{background:var(--bg3)}.qa-q::before{content:'❓';font-size:14px;flex-shrink:0;margin-top:1px}.qa-q .arr{margin-left:auto;font-size:12px;color:var(--text3);transition:transform .2s;flex-shrink:0;margin-top:2px}.qa-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.qa-a.open{max-height:900px}.qa-inner{padding:0 17px 14px 40px;font-size:13px;color:var(--text2);line-height:1.7;border-top:1px solid var(--border)}
+.dg{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin:16px 0;display:flex;flex-direction:column;align-items:center}.db{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 16px;font-size:13px;color:var(--text);text-align:center;min-width:120px}.db.accent{border-color:var(--accent);color:var(--accent);background:var(--accent-bg)}.db.green{border-color:var(--green);color:var(--green);background:var(--green-bg)}.db.orange{border-color:var(--orange);color:var(--orange);background:var(--orange-bg)}.db.red{border-color:var(--red);color:var(--red);background:var(--red-bg)}.db.cyan{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-bg)}.da{color:var(--text3);font-size:13px;padding:4px 0}.dr{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+.pg-nav{display:flex;justify-content:space-between;margin-top:48px;padding-top:20px;border-top:1px solid var(--border)}.pnb{display:flex;flex-direction:column;gap:2px;cursor:pointer;border:none;background:none;font-family:var(--font);text-align:left;padding:0}.pnb.r{text-align:right}.pnb span:first-child{font-size:11px;color:var(--text3)}.pnb span:last-child{font-size:13px;font-weight:500;color:var(--accent)}.pnb:hover span:last-child{text-decoration:underline}
+.sb-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;cursor:pointer;color:var(--text);font-size:17px;line-height:1}
+@media(max-width:840px){.sb{transform:translateX(-100%)}.sb.open{transform:translateX(0)}.sb-toggle{display:flex;align-items:center}.main{margin-left:0}.pg{padding:64px 20px 60px}.cards{grid-template-columns:1fr}.sp-steps{flex-direction:column;align-items:flex-start;gap:6px}.sp-a{display:none}.hero h1{font-size:23px}.dr{flex-direction:column}}
+</style></head><body>
+<button class="sb-toggle" onclick="document.querySelector('.sb').classList.toggle('open')" aria-label="Menu">☰</button>
+<div class="layout">
+
+<aside class="sb">
+  <div class="sb-logo"><div class="logo-hex"></div><div><div class="lt">Knowledge Base</div><div class="ls">.NET · C# · Full Stack</div></div></div>
+  <div class="sb-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Buscar tópicos..." id="sq" oninput="filterNav(this.value)"></div>
+  <nav class="sb-nav" id="sbnav">
+    <div class="ng open" onclick="tg(this)">Início</div><div class="ng-i">
+      <button class="nl active" onclick="go('home')">🏠 Início</button>
+    </div>
+    <div class="ng open" onclick="tg(this)">C# Fundamentals</div><div class="ng-i">
+      <button class="nl" onclick="go('poly')">🔷 Polymorphism <span class="nb nb-b">virtual</span></button>
+      <button class="nl" onclick="go('iface')">📐 Interfaces vs Abstract <span class="nb nb-p">design</span></button>
+      <button class="nl" onclick="go('coll')">📦 Collections &amp; Generics <span class="nb nb-o">Big-O</span></button>
+      <button class="nl" onclick="go('immu')">🔒 Immutability <span class="nb nb-c">records</span></button>
+      <button class="nl" onclick="go('recpat')">🧩 Records &amp; Patterns <span class="nb nb-p">switch</span></button>
+      <button class="nl" onclick="go('dele')">📡 Delegates &amp; Events <span class="nb nb-g">Func/Action</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">Async &amp; Performance</div><div class="ng-i">
+      <button class="nl" onclick="go('linq')">🔗 LINQ &amp; Deferred <span class="nb nb-b">IQueryable</span></button>
+      <button class="nl" onclick="go('async')">⏳ Async/Await <span class="nb nb-p">Task</span></button>
+      <button class="nl" onclick="go('thread')">🧵 Threading <span class="nb nb-o">locks</span></button>
+      <button class="nl" onclick="go('mem')">🧠 Memory &amp; Span <span class="nb nb-c">zero-alloc</span></button>
+      <button class="nl" onclick="go('parallel')">⚙️ Parallel <span class="nb nb-g">PLINQ</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">Architecture &amp; Design</div><div class="ng-i">
+      <button class="nl" onclick="go('di')">💉 Dependency Injection <span class="nb nb-g">lifetimes</span></button>
+      <button class="nl" onclick="go('err')">🚨 Error Handling <span class="nb nb-r">try/catch</span></button>
+      <button class="nl" onclick="go('disp')">🗑️ IDisposable <span class="nb nb-o">using</span></button>
+      <button class="nl" onclick="go('serial')">📋 Serialization <span class="nb nb-b">JSON</span></button>
+      <button class="nl" onclick="go('solid')">🏗️ SOLID Principles <span class="nb nb-b">5 princ.</span></button>
+      <button class="nl" onclick="go('dp')">🎨 Design Patterns <span class="nb nb-p">GoF</span></button>
+      <button class="nl" onclick="go('cqrs')">📖 CQRS &amp; Event Sourcing <span class="nb nb-o">MediatR</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">Padrões Distribuídos</div><div class="ng-i">
+      <button class="nl" onclick="go('strangler')">🌿 Strangler Fig <span class="nb nb-g">3 fases</span></button>
+      <button class="nl" onclick="go('flags')">🚦 Feature Flags <span class="nb nb-o">hash</span></button>
+      <button class="nl" onclick="go('outbox')">📬 Outbox Pattern <span class="nb nb-c">idempot.</span></button>
+      <button class="nl" onclick="go('saga')">🔄 Saga Pattern <span class="nb nb-p">2 tipos</span></button>
+      <button class="nl" onclick="go('resilience')">⚡ Resilience <span class="nb nb-r">Polly</span></button>
+      <button class="nl" onclick="go('deferred')">🔍 Deferred Execution <span class="nb nb-b">EF Core</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">ASP.NET Core</div><div class="ng-i">
+      <button class="nl" onclick="go('rest')">🌍 REST API Design <span class="nb nb-c">minimal</span></button>
+      <button class="nl" onclick="go('mid')">🔧 Middleware &amp; Pipeline <span class="nb nb-b">pipeline</span></button>
+      <button class="nl" onclick="go('auth')">🔐 Auth &amp; Authorization <span class="nb nb-r">JWT</span></button>
+      <button class="nl" onclick="go('owasp')">🛡️ Security &amp; OWASP <span class="nb nb-o">OWASP</span></button>
+      <button class="nl" onclick="go('bg')">🔄 Background Services <span class="nb nb-g">IHosted</span></button>
+      <button class="nl" onclick="go('cache')">💾 Caching <span class="nb nb-g">Redis</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">Messaging &amp; Events</div><div class="ng-i">
+      <button class="nl" onclick="go('msg')">📨 Messaging Patterns <span class="nb nb-p">pub/sub</span></button>
+      <button class="nl" onclick="go('rabbit')">🐇 RabbitMQ <span class="nb nb-o">AMQP</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">Data &amp; EF Core</div><div class="ng-i">
+      <button class="nl" onclick="go('ef1')">🗄️ EF Core Basics <span class="nb nb-b">DbContext</span></button>
+      <button class="nl" onclick="go('ef2')">📊 EF Core Advanced <span class="nb nb-p">queries</span></button>
+    </div>
+    <div class="ng open" onclick="tg(this)">Testing &amp; DevOps</div><div class="ng-i">
+      <button class="nl" onclick="go('test')">🧪 Testing &amp; TDD <span class="nb nb-g">xUnit</span></button>
+      <button class="nl" onclick="go('docker')">🐳 Docker &amp; CI/CD <span class="nb nb-c">Actions</span></button>
+      <button class="nl" onclick="go('azure')">☁️ Azure &amp; Deploy <span class="nb nb-b">SWA</span></button>
+    </div>
+  </nav>
+</aside>
+<main class="main" id="main">
+
+<!-- ═══════════ HOME ═══════════ -->
+<div class="pg active" id="p-home">
+<div class="bc"><button onclick="go('home')">🏠 Início</button></div>
+<div class="hero">
+  <div class="hero-eye">⬡ C# &amp; .NET Study Guide</div>
+  <h1>Knowledge Base · Gabriel True</h1>
+  <p>Guia completo de .NET, C#, sistemas distribuídos e arquitetura — preparação para entrevistas e referência no dia a dia.</p>
+  <div class="h-stats">
+    <div><div class="hs-n">40+</div><div class="hs-l">tópicos</div></div>
+    <div><div class="hs-n">60+</div><div class="hs-l">perguntas de entrevista</div></div>
+    <div><div class="hs-n">10</div><div class="hs-l">áreas de estudo</div></div>
+  </div>
+</div>
+<div class="sp">
+  <h2>Caminho de Estudo Sugerido</h2>
+  <div class="sp-steps">
+    <div class="sp-step"><span class="sp-n">1</span>C# Fundamentals</div><span class="sp-a">→</span>
+    <div class="sp-step"><span class="sp-n">2</span>Async &amp; Performance</div><span class="sp-a">→</span>
+    <div class="sp-step"><span class="sp-n">3</span>Architecture &amp; Design</div><span class="sp-a">→</span>
+    <div class="sp-step"><span class="sp-n">4</span>ASP.NET &amp; EF Core</div><span class="sp-a">→</span>
+    <div class="sp-step"><span class="sp-n">5</span>Padrões Distribuídos</div>
+  </div>
+</div>
+<div class="sec"><div class="sec-hd"><span class="sec-ico">🌐</span><span class="sec-ttl">Padrões Distribuídos</span></div><div class="cards">
+  <button class="card" onclick="go('strangler')"><div class="card-top"><span class="card-em">🌿</span><div class="card-bs"><span class="badge nb-g">YARP</span><span class="badge nb-c">3 fases</span></div></div><div class="card-ttl">Strangler Fig</div><div class="card-dsc">Migração incremental do legado em 3 fases. Proxy, dual write, sync job. Evita big bang rewrite com ~70% de taxa de falha.</div></button>
+  <button class="card" onclick="go('flags')"><div class="card-top"><span class="card-em">🚦</span><div class="card-bs"><span class="badge nb-o">hash %</span><span class="badge nb-b">rollout</span></div></div><div class="card-ttl">Feature Flags</div><div class="card-dsc">Hash determinístico para % de tráfego. userId → SHA256 → int → % 100. O mesmo GUID sempre cai no mesmo bucket.</div></button>
+  <button class="card" onclick="go('outbox')"><div class="card-top"><span class="card-em">📬</span><div class="card-bs"><span class="badge nb-c">Outbox</span><span class="badge nb-p">Idempotent</span></div></div><div class="card-ttl">Outbox + Idempotência</div><div class="card-dsc">Garante que eventos não se perdem. At-least-once delivery com tabela de outbox transacional e consumer idempotente.</div></button>
+  <button class="card" onclick="go('saga')"><div class="card-top"><span class="card-em">🔄</span><div class="card-bs"><span class="badge nb-b">Choreo</span><span class="badge nb-p">Orch</span></div></div><div class="card-ttl">Saga Pattern</div><div class="card-dsc">Transações distribuídas com compensating transactions. Choreography (eventos) e Orchestration (process manager).</div></button>
+  <button class="card" onclick="go('resilience')"><div class="card-top"><span class="card-em">⚡</span><div class="card-bs"><span class="badge nb-r">Polly</span></div></div><div class="card-ttl">Resilience com Polly</div><div class="card-dsc">Circuit Breaker, Retry com exponential backoff + jitter. Jitter evita thundering herd distribuindo retries no tempo.</div></button>
+  <button class="card" onclick="go('deferred')"><div class="card-top"><span class="card-em">🔍</span><div class="card-bs"><span class="badge nb-b">EF Core</span></div></div><div class="card-ttl">Deferred Execution</div><div class="card-dsc">IEnumerable vs IQueryable — onde o filtro realmente executa. Use IQueryable para filtros que devem rodar no banco.</div></button>
+</div></div>
+<div class="sec"><div class="sec-hd"><span class="sec-ico">🔷</span><span class="sec-ttl">C# Fundamentals</span></div><div class="cards">
+  <button class="card" onclick="go('poly')"><div class="card-top"><span class="card-em">🔷</span><div class="card-bs"><span class="badge nb-b">virtual</span><span class="badge nb-c">override</span></div></div><div class="card-ttl">Polymorphism</div><div class="card-dsc">Virtual dispatch, interfaces, pattern matching, strategy. Simulador de pricing com diferentes estratégias de desconto.</div></button>
+  <button class="card" onclick="go('iface')"><div class="card-top"><span class="card-em">📐</span><div class="card-bs"><span class="badge nb-p">design</span></div></div><div class="card-ttl">Interfaces vs Abstract</div><div class="card-dsc">Quando usar cada um. Decision tree, Template Method, versioning com default interface methods do C# 8+.</div></button>
+  <button class="card" onclick="go('coll')"><div class="card-top"><span class="card-em">📦</span><div class="card-bs"><span class="badge nb-o">Big-O</span></div></div><div class="card-ttl">Collections &amp; Generics</div><div class="card-dsc">Array, List, Dictionary, Queue, Stack. Big-O de cada operação. Quando usar HashSet vs List.</div></button>
+  <button class="card" onclick="go('immu')"><div class="card-top"><span class="card-em">🔒</span><div class="card-bs"><span class="badge nb-c">records</span></div></div><div class="card-ttl">Immutability</div><div class="card-dsc">Records, StringBuilder, string interning, thread safety. record vs class vs struct — guia de escolha.</div></button>
+  <button class="card" onclick="go('dele')"><div class="card-top"><span class="card-em">📡</span><div class="card-bs"><span class="badge nb-g">Func</span><span class="badge nb-b">Action</span></div></div><div class="card-ttl">Delegates &amp; Events</div><div class="card-dsc">Func/Action, multicast delegates, events, pub/sub assíncrono. Diferença entre event e delegate exposto.</div></button>
+</div></div>
+<div class="sec"><div class="sec-hd"><span class="sec-ico">⏳</span><span class="sec-ttl">Async &amp; Performance</span></div><div class="cards">
+  <button class="card" onclick="go('linq')"><div class="card-top"><span class="card-em">🔗</span><div class="card-bs"><span class="badge nb-b">IQueryable</span></div></div><div class="card-ttl">LINQ &amp; Deferred</div><div class="card-dsc">Deferred vs immediate execution, IQueryable, closures, expression trees. Armadilhas comuns em loops com LINQ.</div></button>
+  <button class="card" onclick="go('async')"><div class="card-top"><span class="card-em">⏳</span><div class="card-bs"><span class="badge nb-p">Task</span><span class="badge nb-c">async/await</span></div></div><div class="card-ttl">Async/Await</div><div class="card-dsc">State machine gerada pelo compilador, cancellation tokens, ConfigureAwait(false), parallel vs sequential.</div></button>
+  <button class="card" onclick="go('thread')"><div class="card-top"><span class="card-em">🧵</span><div class="card-bs"><span class="badge nb-o">locks</span></div></div><div class="card-ttl">Threading</div><div class="card-dsc">lock, SemaphoreSlim, Interlocked, concurrent collections. Race condition simulator e como evitar.</div></button>
+  <button class="card" onclick="go('mem')"><div class="card-top"><span class="card-em">🧠</span><div class="card-bs"><span class="badge nb-c">zero-alloc</span></div></div><div class="card-ttl">Memory &amp; Span</div><div class="card-dsc">Stack vs heap, Span&lt;T&gt;, Memory&lt;T&gt;, ArrayPool, reduzindo pressão no GC em hot paths.</div></button>
+</div></div>
+<div class="sec"><div class="sec-hd"><span class="sec-ico">🏗️</span><span class="sec-ttl">Architecture &amp; Design</span></div><div class="cards">
+  <button class="card" onclick="go('di')"><div class="card-top"><span class="card-em">💉</span><div class="card-bs"><span class="badge nb-g">lifetimes</span></div></div><div class="card-ttl">Dependency Injection</div><div class="card-dsc">Singleton, Scoped, Transient — diferenças, captive dependency, testabilidade.</div></button>
+  <button class="card" onclick="go('solid')"><div class="card-top"><span class="card-em">🏗️</span><div class="card-bs"><span class="badge nb-b">5 princ.</span></div></div><div class="card-ttl">SOLID Principles</div><div class="card-dsc">Os 5 princípios com exemplos bad/good em C#. Por que cada um importa na prática.</div></button>
+  <button class="card" onclick="go('dp')"><div class="card-top"><span class="card-em">🎨</span><div class="card-bs"><span class="badge nb-p">GoF</span></div></div><div class="card-ttl">Design Patterns</div><div class="card-dsc">Strategy, Observer, Factory, Decorator, Repository, Unit of Work com exemplos .NET reais.</div></button>
+  <button class="card" onclick="go('cqrs')"><div class="card-top"><span class="card-em">📖</span><div class="card-bs"><span class="badge nb-o">MediatR</span></div></div><div class="card-ttl">CQRS &amp; Event Sourcing</div><div class="card-dsc">Command/Query separation, MediatR pipeline behaviors, event store, projections.</div></button>
+</div></div>
+<div class="sec"><div class="sec-hd"><span class="sec-ico">🌍</span><span class="sec-ttl">ASP.NET Core</span></div><div class="cards">
+  <button class="card" onclick="go('rest')"><div class="card-top"><span class="card-em">🌍</span><div class="card-bs"><span class="badge nb-c">minimal</span></div></div><div class="card-ttl">REST API Design</div><div class="card-dsc">Controllers vs Minimal APIs, status codes, versionamento, problem details RFC 7807.</div></button>
+  <button class="card" onclick="go('mid')"><div class="card-top"><span class="card-em">🔧</span><div class="card-bs"><span class="badge nb-b">pipeline</span></div></div><div class="card-ttl">Middleware &amp; Pipeline</div><div class="card-dsc">Request pipeline, custom middleware, ordem importa, medir latência por rota.</div></button>
+  <button class="card" onclick="go('auth')"><div class="card-top"><span class="card-em">🔐</span><div class="card-bs"><span class="badge nb-r">JWT</span></div></div><div class="card-ttl">Auth &amp; Authorization</div><div class="card-dsc">JWT, claims, policies, role vs policy-based, OAuth 2.0, OIDC, PKCE.</div></button>
+  <button class="card" onclick="go('cache')"><div class="card-top"><span class="card-em">💾</span><div class="card-bs"><span class="badge nb-g">Redis</span></div></div><div class="card-ttl">Caching</div><div class="card-dsc">IMemoryCache, IDistributedCache, cache-aside pattern, TTL, invalidação.</div></button>
+</div></div>
+<div class="sec"><div class="sec-hd"><span class="sec-ico">🗄️</span><span class="sec-ttl">Data &amp; EF Core</span></div><div class="cards">
+  <button class="card" onclick="go('ef1')"><div class="card-top"><span class="card-em">🗄️</span><div class="card-bs"><span class="badge nb-b">DbContext</span></div></div><div class="card-ttl">EF Core Basics</div><div class="card-dsc">DbContext lifecycle, migrations, change tracker, relacionamentos. Fluent API vs Data Annotations.</div></button>
+  <button class="card" onclick="go('ef2')"><div class="card-top"><span class="card-em">📊</span><div class="card-bs"><span class="badge nb-p">queries</span><span class="badge nb-c">Mapster</span></div></div><div class="card-ttl">EF Core Advanced</div><div class="card-dsc">Performance de queries, raw SQL, concorrência otimista, global filters, Mapster com IRegister.</div></button>
+</div></div>
+<!-- Perguntas Clássicas -->
+<div class="sec"><div class="sec-hd"><span class="sec-ico">❓</span><span class="sec-ttl">Perguntas Clássicas de Entrevista</span></div>
+<div class="qa-list">
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">Por que Strangler Fig em vez de reescrever tudo do zero?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Big bang rewrite tem ~70% de taxa de falha. Strangler Fig entrega valor incrementalmente, permite rollback a qualquer momento e mantém o sistema em produção durante toda a migração. O proxy (ex: YARP) roteia tráfego e você migra rota por rota.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">Como o hash garante que o mesmo usuário sempre vai para o mesmo bucket de feature flag?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">SHA256 é determinístico — o mesmo input sempre produz o mesmo output. O fluxo é: <code>userId → SHA256 → primeiros 4 bytes → uint → % 100</code>. O resultado é estável para o mesmo GUID, garantindo experiência consistente sem armazenar estado.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">Por que usar jitter no exponential backoff?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Sem jitter, todos os clientes que falharam ao mesmo tempo esperam o mesmo delay e tentam novamente ao mesmo tempo — thundering herd. Jitter randomiza o delay dentro de um intervalo, distribuindo a carga no tempo e evitando picos no servidor.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">IEnumerable vs IQueryable — quando usar cada um?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner"><code>IQueryable</code> traduz expressões LINQ para SQL via expression trees — o filtro roda no banco. <code>IEnumerable</code> carrega tudo em memória e filtra no C#. Use <code>IQueryable</code> para filtros que devem rodar no banco; use <code>AsEnumerable()</code> quando precisar de operações que só existem em C#.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">Qual a diferença entre Singleton, Scoped e Transient no DI do ASP.NET Core?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner"><strong>Singleton</strong>: uma instância por aplicação. <strong>Scoped</strong>: uma instância por request HTTP. <strong>Transient</strong>: nova instância a cada resolução. Armadilha clássica: injetar um Scoped em um Singleton causa "captive dependency" — o Scoped fica vivo mais tempo que deveria.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">O que é o Outbox Pattern e qual problema ele resolve?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Resolve o problema de dual write: salvar no banco E publicar no broker de forma atômica. Persista o evento em uma tabela <code>outbox</code> na mesma transação. Um background service lê e publica assincronamente. Garante at-least-once delivery e evita mensagens perdidas em caso de falha.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">Qual a diferença entre async void e async Task?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner"><code>async void</code> não pode ser awaited e exceções não são capturáveis — elas vão pro thread pool e podem derrubar o processo. Use apenas em event handlers onde a assinatura exige <code>void</code>. Em todo o resto, retorne <code>Task</code> ou <code>Task&lt;T&gt;</code>.</div></div></div>
+  <div class="qa"><div class="qa-q" onclick="tqa(this)">Por que usar record em vez de class para DTOs?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Records têm igualdade por valor, imutabilidade por padrão com init-only properties, <code>with</code>-expressions, <code>ToString</code> automático e deconstruct. São ideais para DTOs, value objects e respostas de API onde você quer dados sem identidade mutável. Classes são melhores quando você precisa de estado mutável e identidade de referência.</div></div></div>
+</div>
+<p style="margin-top:16px;font-size:13px;color:var(--text3);">📝 Clique em qualquer tópico na sidebar ou nos cards acima para ver o conteúdo completo com exemplos de código, tabelas e diagramas.</p>
+</div>
+</div>
+
+<!-- ═══════════ SOLID ═══════════ -->
+<div class="pg" id="p-solid">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>SOLID Principles</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">🏗️ SOLID Principles</div>
+<p class="tp-lead">Os 5 princípios fundamentais de design orientado a objetos para código limpo, extensível e testável em C#/.NET — compilados por Robert C. Martin (Uncle Bob).</p>
+<div class="tp-tags"><span class="badge nb-b">5 princ.</span><span class="badge nb-g">C# 12</span><span class="badge nb-p">.NET 8</span></div>
+<div class="tabs">
+  <button class="tab active" onclick="st(this,'ts0')">Visão Geral</button>
+  <button class="tab" onclick="st(this,'ts1')">S — Single Responsibility</button>
+  <button class="tab" onclick="st(this,'ts2')">O — Open/Closed</button>
+  <button class="tab" onclick="st(this,'ts3')">L — Liskov</button>
+  <button class="tab" onclick="st(this,'ts4')">I — Interface Segregation</button>
+  <button class="tab" onclick="st(this,'ts5')">D — Dependency Inversion</button>
+  <button class="tab" onclick="st(this,'ts6')">Código</button>
+</div>
+<div class="content">
+<div class="tab-c active" id="ts0">
+<h2>Os 5 Princípios</h2>
+<div class="tw"><table><thead><tr><th>Letra</th><th>Princípio</th><th>Resumo</th><th>Benefício</th></tr></thead><tbody>
+<tr><td><code>S</code></td><td>Single Responsibility</td><td>Uma classe deve ter apenas um motivo para mudar</td><td>Menos acoplamento, mais coesão</td></tr>
+<tr><td><code>O</code></td><td>Open/Closed</td><td>Aberto para extensão, fechado para modificação</td><td>Adicionar comportamento sem quebrar existente</td></tr>
+<tr><td><code>L</code></td><td>Liskov Substitution</td><td>Subtipos devem ser substituíveis pelo tipo base</td><td>Hierarquias corretas, sem surpresas</td></tr>
+<tr><td><code>I</code></td><td>Interface Segregation</td><td>Interfaces específicas são melhores que uma genérica</td><td>Clientes não dependem do que não usam</td></tr>
+<tr><td><code>D</code></td><td>Dependency Inversion</td><td>Dependa de abstrações, não de implementações</td><td>Desacoplamento total, testabilidade</td></tr>
+</tbody></table></div>
+<div class="callout info"><strong>Como os princípios se conectam:</strong> SRP cria classes pequenas e focadas. OCP garante que você estenda sem modificar. LSP valida que hierarquias de herança fazem sentido. ISP evita interfaces inchadas. DIP conecta tudo via abstrações, habilitando DI containers como o do ASP.NET Core.</div>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Por que SOLID é importante em projetos .NET Enterprise?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Em projetos grandes, SOLID reduz o custo de mudança. SRP significa que uma alteração no cálculo de imposto não afeta o envio de email. OCP permite adicionar novos tipos de pagamento sem tocar no processador existente. DIP permite trocar o banco de dados de SQL Server para PostgreSQL sem alterar a camada de domínio. Na prática, SOLID é o que torna Clean Architecture e DDD possíveis.</div></div></div>
+</div>
+</div>
+<div class="tab-c" id="ts1">
+<h2>S — Single Responsibility Principle</h2>
+<p>Uma classe deve ter <strong>um único motivo para mudar</strong>. Se uma classe faz cálculo de pedido <em>e</em> envia email, ela muda quando a regra de negócio muda <em>e</em> quando o provider de email muda.</p>
+<div class="callout bad"><strong>❌ Violação:</strong> OrderService tem duas responsabilidades</div>
+<pre><span class="kw">public class</span> <span class="tp2">OrderService</span>
+{
+    <span class="kw">public void</span> <span class="nm">CreateOrder</span>(<span class="tp2">Order</span> order)
+    {
+        <span class="cm">// Responsabilidade 1: persistência</span>
+        _db.Orders.Add(order);
+        _db.SaveChanges();
+        <span class="cm">// Responsabilidade 2: notificação — motivo diferente para mudar!</span>
+        <span class="kw">var</span> smtp = <span class="kw">new</span> <span class="tp2">SmtpClient</span>();
+        smtp.Send(<span class="st">"confirm@shop.com"</span>, order.CustomerEmail, ...);
+    }
+}</pre>
+<div class="callout good"><strong>✅ Correto:</strong> cada classe tem uma responsabilidade</div>
+<pre><span class="kw">public class</span> <span class="tp2">OrderService</span>(<span class="tp2">IOrderRepository</span> repo, <span class="tp2">IEmailService</span> email)
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">CreateOrderAsync</span>(<span class="tp2">Order</span> order, <span class="tp2">CancellationToken</span> ct)
+    {
+        <span class="kw">await</span> repo.SaveAsync(order, ct);
+        <span class="kw">await</span> email.SendConfirmationAsync(order, ct);
+    }
+}
+<span class="kw">public class</span> <span class="tp2">EmailService</span>(<span class="tp2">SmtpClient</span> smtp) : <span class="tp2">IEmailService</span>
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">SendConfirmationAsync</span>(<span class="tp2">Order</span> o, <span class="tp2">CancellationToken</span> ct) { ... }
+}</pre>
+<div class="qa-list"><div class="qa"><div class="qa-q" onclick="tqa(this)">Qual a diferença entre SRP e coesão?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">SRP é um princípio de design; coesão é uma métrica de quão relacionadas são as responsabilidades de um módulo. SRP orienta você a ter alta coesão. Uma classe com alta coesão naturalmente tende a cumprir o SRP. A diferença é que SRP foca em <em>razão para mudar</em> (conceito organizacional), enquanto coesão mede o relacionamento funcional entre membros.</div></div></div></div>
+</div>
+<div class="tab-c" id="ts2">
+<h2>O — Open/Closed Principle</h2>
+<p>Entidades de software devem ser <strong>abertas para extensão</strong> mas <strong>fechadas para modificação</strong>. Adicionar um novo comportamento não deve exigir editar código existente.</p>
+<pre><span class="cm">// ❌ Violação: adicionar forma exige editar AreaCalculator</span>
+<span class="kw">public class</span> <span class="tp2">AreaCalculator</span>
+{
+    <span class="kw">public double</span> <span class="nm">Calculate</span>(<span class="kw">object</span> shape)
+    {
+        <span class="kw">if</span> (shape <span class="kw">is</span> <span class="tp2">Circle</span> c) <span class="kw">return</span> Math.PI * c.Radius * c.Radius;
+        <span class="kw">if</span> (shape <span class="kw">is</span> <span class="tp2">Rectangle</span> r) <span class="kw">return</span> r.Width * r.Height;
+        <span class="cm">// para adicionar Triangle tem que editar aqui 😢</span>
+        <span class="kw">throw new</span> <span class="tp2">NotSupportedException</span>();
+    }
+}
+
+<span class="cm">// ✅ Interface permite extensão sem modificar calculadora</span>
+<span class="kw">public interface</span> <span class="tp2">IShape</span> { <span class="kw">double</span> <span class="nm">Area</span>(); }
+
+<span class="kw">public record</span> <span class="tp2">Circle</span>(<span class="kw">double</span> Radius) : <span class="tp2">IShape</span>
+    { <span class="kw">public double</span> <span class="nm">Area</span>() => Math.PI * Radius * Radius; }
+<span class="kw">public record</span> <span class="tp2">Rectangle</span>(<span class="kw">double</span> W, <span class="kw">double</span> H) : <span class="tp2">IShape</span>
+    { <span class="kw">public double</span> <span class="nm">Area</span>() => W * H; }
+<span class="cm">// Triangle novo — ZERO modificação em código existente</span>
+<span class="kw">public record</span> <span class="tp2">Triangle</span>(<span class="kw">double</span> B, <span class="kw">double</span> H) : <span class="tp2">IShape</span>
+    { <span class="kw">public double</span> <span class="nm">Area</span>() => B * H / 2; }
+
+<span class="kw">public class</span> <span class="tp2">AreaCalculator</span>
+{
+    <span class="kw">public double</span> <span class="nm">TotalArea</span>(<span class="tp2">IEnumerable</span>&lt;<span class="tp2">IShape</span>&gt; shapes) => shapes.Sum(s => s.Area());
+}</pre>
+<div class="qa-list"><div class="qa"><div class="qa-q" onclick="tqa(this)">Como OCP se relaciona com padrões GoF?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Strategy, Template Method, Decorator e Observer são implementações naturais de OCP: permitem adicionar comportamento sem modificar código existente. Strategy troca algoritmos via interface. Decorator adiciona responsabilidades sem modificar a classe base. Observer permite reação a eventos sem o emissor conhecer os ouvintes.</div></div></div></div>
+</div>
+<div class="tab-c" id="ts3">
+<h2>L — Liskov Substitution Principle</h2>
+<p>Subtipos devem ser substituíveis pela classe base sem quebrar o comportamento. O cliente que usa a base <strong>não deve saber</strong> que está lidando com uma subclasse.</p>
+<pre><span class="cm">// ❌ Square quebra o contrato de Rectangle</span>
+<span class="kw">public class</span> <span class="tp2">Rectangle</span>
+{
+    <span class="kw">public virtual int</span> Width  { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public virtual int</span> Height { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public int</span> Area => Width * Height;
+}
+<span class="kw">public class</span> <span class="tp2">Square</span> : <span class="tp2">Rectangle</span>
+{
+    <span class="kw">public override int</span> Width  { set { <span class="kw">base</span>.Width = <span class="kw">base</span>.Height = value; } }
+    <span class="kw">public override int</span> Height { set { <span class="kw">base</span>.Width = <span class="kw">base</span>.Height = value; } }
+}
+<span class="cm">// r.Width=3; r.Height=5; Area esperado=15, com Square=25 → LSP violado</span></pre>
+<div class="callout info"><strong>Regra prática:</strong> se a subclasse precisa lançar <code>NotImplementedException</code> ou ignorar parâmetros do contrato da base, há violação do LSP.</div>
+<div class="qa-list"><div class="qa"><div class="qa-q" onclick="tqa(this)">Dê um exemplo real de violação do LSP em .NET.<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">O exemplo clássico é <code>ReadOnlyCollection&lt;T&gt;</code> que herda de <code>Collection&lt;T&gt;</code> e lança <code>NotSupportedException</code> em <code>Add()</code>. Quem recebe <code>Collection&lt;T&gt;</code> e chama <code>Add()</code> não espera exceção. A solução correta seria uma hierarquia diferente com <code>IReadOnlyCollection&lt;T&gt;</code> separado — que é exatamente o que o .NET fez em versões posteriores.</div></div></div></div>
+</div>
+<div class="tab-c" id="ts4">
+<h2>I — Interface Segregation Principle</h2>
+<p>Clientes não devem ser forçados a depender de métodos que não usam. Prefira <strong>interfaces menores e coesas</strong> a uma interface grande.</p>
+<pre><span class="cm">// ❌ Interface gorda — Robot precisa implementar Eat e Sleep?</span>
+<span class="kw">public interface</span> <span class="tp2">IWorker</span> { <span class="kw">void</span> <span class="nm">Work</span>(); <span class="kw">void</span> <span class="nm">Eat</span>(); <span class="kw">void</span> <span class="nm">Sleep</span>(); }
+
+<span class="cm">// ✅ Segregar em interfaces pequenas e coesas</span>
+<span class="kw">public interface</span> <span class="tp2">IWorkable</span>  { <span class="kw">void</span> <span class="nm">Work</span>(); }
+<span class="kw">public interface</span> <span class="tp2">IFeedable</span>  { <span class="kw">void</span> <span class="nm">Eat</span>(); }
+<span class="kw">public interface</span> <span class="tp2">ISleepable</span> { <span class="kw">void</span> <span class="nm">Sleep</span>(); }
+
+<span class="kw">public class</span> <span class="tp2">Human</span> : <span class="tp2">IWorkable</span>, <span class="tp2">IFeedable</span>, <span class="tp2">ISleepable</span> { ... }
+<span class="kw">public class</span> <span class="tp2">Robot</span> : <span class="tp2">IWorkable</span> { <span class="kw">public void</span> <span class="nm">Work</span>() { ... } }</pre>
+</div>
+<div class="tab-c" id="ts5">
+<h2>D — Dependency Inversion Principle</h2>
+<p>Módulos de alto nível não devem depender de módulos de baixo nível. Ambos devem depender de <strong>abstrações</strong>. É a base do DI container do ASP.NET Core.</p>
+<pre><span class="cm">// ❌ Alto nível acoplado ao baixo nível</span>
+<span class="kw">public class</span> <span class="tp2">OrderController</span>
+{
+    <span class="kw">private readonly</span> <span class="tp2">SqlOrderRepository</span> _repo = <span class="kw">new</span>(); <span class="cm">// new concreto!</span>
+}
+
+<span class="cm">// ✅ Dependência de abstração — permite trocar SQL por InMemory em testes</span>
+<span class="kw">public interface</span> <span class="tp2">IOrderRepository</span>
+{
+    <span class="tp2">Task</span>&lt;<span class="tp2">Order</span>?&gt; <span class="nm">GetByIdAsync</span>(<span class="kw">int</span> id, <span class="tp2">CancellationToken</span> ct);
+    <span class="tp2">Task</span> <span class="nm">SaveAsync</span>(<span class="tp2">Order</span> order, <span class="tp2">CancellationToken</span> ct);
+}
+<span class="kw">public class</span> <span class="tp2">OrderController</span>(<span class="tp2">IOrderRepository</span> repo)
+{
+    [<span class="at">HttpGet</span>(<span class="st">"{id}"</span>)]
+    <span class="kw">public async</span> <span class="tp2">Task</span>&lt;<span class="tp2">IActionResult</span>&gt; <span class="nm">Get</span>(<span class="kw">int</span> id, <span class="tp2">CancellationToken</span> ct)
+        => Ok(<span class="kw">await</span> repo.GetByIdAsync(id, ct));
+}</pre>
+<div class="qa-list"><div class="qa"><div class="qa-q" onclick="tqa(this)">DIP é a mesma coisa que Dependency Injection?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Não. DIP é o <em>princípio</em> (dependa de abstrações). DI é um <em>padrão de implementação</em> que ajuda a cumprir o DIP: em vez de criar dependências internamente (<code>new Repo()</code>), elas são injetadas de fora. O DI container do ASP.NET Core automatiza a injeção, mas o DIP exige que você projete a abstração (<code>interface</code>) primeiro.</div></div></div></div>
+</div>
+<div class="tab-c" id="ts6">
+<h2>Código Completo — SOLID aplicado</h2>
+<pre><span class="cm">// Exemplo completo: sistema de notificação SOLID</span>
+<span class="cm">// SRP: cada classe uma responsabilidade</span>
+<span class="cm">// OCP: novo canal (SMS) sem modificar código existente</span>
+<span class="cm">// LSP: EmailNotifier e SmsNotifier substituíveis por INotifier</span>
+<span class="cm">// ISP: INotifier tem apenas Send, não FormatTemplate</span>
+<span class="cm">// DIP: OrderService depende de INotifier, não de EmailClient</span>
+
+<span class="kw">public interface</span> <span class="tp2">INotifier</span>
+{
+    <span class="tp2">Task</span> <span class="nm">SendAsync</span>(<span class="kw">string</span> to, <span class="kw">string</span> message, <span class="tp2">CancellationToken</span> ct);
+}
+
+<span class="kw">public class</span> <span class="tp2">EmailNotifier</span>(<span class="tp2">SmtpClient</span> smtp) : <span class="tp2">INotifier</span>
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">SendAsync</span>(<span class="kw">string</span> to, <span class="kw">string</span> msg, <span class="tp2">CancellationToken</span> ct)
+        => <span class="kw">await</span> smtp.SendMailAsync(to, msg, ct);
+}
+
+<span class="cm">// Novo canal — ZERO modificação nas classes existentes (OCP)</span>
+<span class="kw">public class</span> <span class="tp2">SmsNotifier</span>(<span class="tp2">ITwilioClient</span> twilio) : <span class="tp2">INotifier</span>
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">SendAsync</span>(<span class="kw">string</span> to, <span class="kw">string</span> msg, <span class="tp2">CancellationToken</span> ct)
+        => <span class="kw">await</span> twilio.SendSmsAsync(to, msg, ct);
+}
+
+<span class="kw">public class</span> <span class="tp2">OrderService</span>(<span class="tp2">IOrderRepository</span> repo, <span class="tp2">INotifier</span> notifier)
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">CreateOrderAsync</span>(<span class="tp2">Order</span> order, <span class="tp2">CancellationToken</span> ct)
+    {
+        <span class="kw">await</span> repo.SaveAsync(order, ct);
+        <span class="kw">await</span> notifier.SendAsync(order.CustomerEmail, <span class="st">"Pedido confirmado!"</span>, ct);
+    }
+}
+
+<span class="cm">// Program.cs</span>
+builder.Services.AddScoped&lt;<span class="tp2">IOrderRepository</span>, <span class="tp2">SqlOrderRepository</span>&gt;();
+builder.Services.AddTransient&lt;<span class="tp2">INotifier</span>, <span class="tp2">EmailNotifier</span>&gt;(); <span class="cm">// troca por SmsNotifier sem mudar OrderService</span></pre>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('serial')"><span>← Anterior</span><span>📋 Serialization</span></button>
+  <button class="pnb r" onclick="go('dp')"><span>Próximo →</span><span>🎨 Design Patterns</span></button>
+</div>
+</div>
+
+<!-- ═══════════ ASYNC/AWAIT ═══════════ -->
+<div class="pg" id="p-async">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Async &amp; Performance</span><span>/</span><span>Async/Await</span></div>
+<div class="tp-eye">Async &amp; Performance</div>
+<div class="tp-h1">⏳ Async/Await &amp; Tasks</div>
+<p class="tp-lead"><code>async</code>/<code>await</code> compõe <strong>Tasks</strong> para que trabalho I/O-bound (HTTP, DB, arquivo, sockets) rode <strong>sem bloquear</strong> threads. O compilador gera uma <strong>state machine</strong> que pausa no <code>await</code> e resume quando a Task completa.</p>
+<div class="tp-tags"><span class="badge nb-p">Task</span><span class="badge nb-b">ConfigureAwait</span><span class="badge nb-c">CancellationToken</span><span class="badge nb-o">ValueTask</span></div>
+<div class="tabs">
+  <button class="tab active" onclick="st(this,'ta0')">Conceitos</button>
+  <button class="tab" onclick="st(this,'ta1')">Cancellation</button>
+  <button class="tab" onclick="st(this,'ta2')">Sequential vs Parallel</button>
+  <button class="tab" onclick="st(this,'ta3')">Async Streams</button>
+  <button class="tab" onclick="st(this,'ta4')">Código</button>
+</div>
+<div class="content">
+<div class="tab-c active" id="ta0">
+<h2>Como funciona a state machine</h2>
+<p>Quando você marca um método com <code>async</code>, o compilador transforma o corpo em uma <strong>state machine</strong>. Cada <code>await</code> é um ponto de suspensão: se a operação I/O ainda não completou, a thread é liberada e o método retorna uma <code>Task</code>. Quando o I/O completa, a continuação é agendada e o método resume de onde parou.</p>
+<div class="dg">
+  <div class="db accent">Call async method</div><div class="da">↓</div>
+  <div class="db">Execute sync part</div><div class="da">↓</div>
+  <div class="db orange">await I/O → yield thread</div><div class="da">↓</div>
+  <div class="db">I/O completes</div><div class="da">↓</div>
+  <div class="db green">Resume after await ✓</div>
+</div>
+<h2>I/O-bound vs CPU-bound</h2>
+<div class="tw"><table><thead><tr><th>Tipo</th><th>Exemplos</th><th>Abordagem</th><th>Bloqueia thread?</th></tr></thead><tbody>
+<tr><td><strong>I/O-bound</strong></td><td>HTTP, banco, arquivo, socket</td><td><code>async/await</code></td><td>Não</td></tr>
+<tr><td><strong>CPU-bound</strong></td><td>Cálculo pesado, criptografia, parsing</td><td><code>Task.Run</code> (offload para ThreadPool)</td><td>Sim (na worker thread)</td></tr>
+</tbody></table></div>
+<h2>Task vs ValueTask</h2>
+<div class="tw"><table><thead><tr><th>Aspecto</th><th>Task&lt;T&gt;</th><th>ValueTask&lt;T&gt;</th></tr></thead><tbody>
+<tr><td>Alocação</td><td>Sempre aloca no heap</td><td>Stack quando síncrono, heap quando async</td></tr>
+<tr><td>Quando usar</td><td>Padrão para a maioria dos cenários</td><td>Hot path com resultado síncrono frequente</td></tr>
+<tr><td>Pode awaitar múltiplas vezes?</td><td>Sim</td><td>Não</td></tr>
+<tr><td>Regra</td><td>Use por padrão</td><td>Use somente quando <strong>mediu</strong> que ajuda</td></tr>
+</tbody></table></div>
+<h2>Retorno de métodos async</h2>
+<div class="tw"><table><thead><tr><th>Retorno</th><th>Quando usar</th><th>Pode awaitar?</th><th>Propaga exceção?</th></tr></thead><tbody>
+<tr><td><code>Task</code></td><td>Método async sem retorno</td><td>Sim</td><td>Sim</td></tr>
+<tr><td><code>Task&lt;T&gt;</code></td><td>Método async com retorno</td><td>Sim</td><td>Sim</td></tr>
+<tr><td><code>async void</code></td><td><strong>Somente</strong> event handlers</td><td>Não</td><td>Não (crash)</td></tr>
+</tbody></table></div>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Por que não se deve usar async void?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner"><code>async void</code> não retorna Task, então o chamador <strong>não pode awaitar</strong> nem observar exceções. Se uma exceção ocorre, ela vai para o <code>SynchronizationContext</code> e geralmente crasha o processo. A única exceção é em <strong>event handlers</strong> (ex: <code>Button_Click</code>), onde a assinatura é imposta pelo framework. Em qualquer outro caso, retorne <code>Task</code>.</div></div></div>
+<div class="qa"><div class="qa-q" onclick="tqa(this)">O que acontece se você esquecer de awaitar uma Task?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">A Task roda em "fire-and-forget" — exceções são silenciosamente engolidas. O compilador emite warning CS4014 para alertar. Sempre awaite ou armazene a Task explicitamente com descarte (<code>_ = DoAsync()</code>).</div></div></div>
+<div class="qa"><div class="qa-q" onclick="tqa(this)">ConfigureAwait(false) — quando e por quê?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Por padrão, <code>await</code> captura o <code>SynchronizationContext</code> e resume no mesmo contexto. <code>ConfigureAwait(false)</code> pula essa captura — a continuação roda em qualquer thread do pool. <strong>Use em código de biblioteca</strong> para evitar deadlocks e reduzir overhead. Em ASP.NET Core não há UI context, mas em bibliotecas compartilhadas ainda é boa prática.</div></div></div>
+</div>
+</div>
+<div class="tab-c" id="ta1">
+<h2>CancellationToken</h2>
+<p>Sempre propague <code>CancellationToken</code> em operações longas. Quando o client abortar a requisição HTTP, o ASP.NET Core cancela o token automaticamente.</p>
+<pre><span class="cm">// ASP.NET Core injeta CancellationToken automaticamente no parâmetro</span>
+[<span class="at">HttpGet</span>]
+<span class="kw">public async</span> <span class="tp2">Task</span>&lt;<span class="tp2">IActionResult</span>&gt; <span class="nm">GetProducts</span>(<span class="tp2">CancellationToken</span> ct)
+{
+    <span class="kw">var</span> products = <span class="kw">await</span> _repo.GetAllAsync(ct);
+    <span class="kw">return</span> Ok(products);
+}
+
+<span class="cm">// No repositório: propague sempre</span>
+<span class="kw">public async</span> <span class="tp2">Task</span>&lt;<span class="tp2">List</span>&lt;<span class="tp2">Product</span>&gt;&gt; <span class="nm">GetAllAsync</span>(<span class="tp2">CancellationToken</span> ct)
+    => <span class="kw">await</span> _ctx.Products
+        .AsNoTracking()
+        .ToListAsync(ct); <span class="cm">// propaga para o EF Core</span>
+
+<span class="cm">// Criar token com timeout manual</span>
+<span class="kw">using var</span> cts = <span class="kw">new</span> <span class="tp2">CancellationTokenSource</span>(<span class="tp2">TimeSpan</span>.FromSeconds(<span class="nm">5</span>));
+<span class="kw">try</span>
+{
+    <span class="kw">var</span> result = <span class="kw">await</span> _http.GetStringAsync(url, cts.Token);
+}
+<span class="kw">catch</span> (<span class="tp2">OperationCanceledException</span>)
+{
+    <span class="cm">// timeout ou cancelamento externo</span>
+}</pre>
+</div>
+<div class="tab-c" id="ta2">
+<h2>Sequential vs Parallel</h2>
+<pre><span class="cm">// Sequential: total ~3s (aguarda cada uma)</span>
+<span class="kw">var</span> a = <span class="kw">await</span> <span class="nm">GetAAsync</span>(); <span class="cm">// 1s</span>
+<span class="kw">var</span> b = <span class="kw">await</span> <span class="nm">GetBAsync</span>(); <span class="cm">// 1s</span>
+<span class="kw">var</span> c = <span class="kw">await</span> <span class="nm">GetCAsync</span>(); <span class="cm">// 1s</span>
+
+<span class="cm">// Parallel com Task.WhenAll: total ~1s</span>
+<span class="kw">var</span> taskA = <span class="nm">GetAAsync</span>();   <span class="cm">// dispara imediatamente</span>
+<span class="kw">var</span> taskB = <span class="nm">GetBAsync</span>();
+<span class="kw">var</span> taskC = <span class="nm">GetCAsync</span>();
+<span class="kw">await</span> <span class="tp2">Task</span>.WhenAll(taskA, taskB, taskC); <span class="cm">// aguarda todas</span>
+<span class="kw">var</span> (ra, rb, rc) = (taskA.Result, taskB.Result, taskC.Result);
+
+<span class="cm">// WhenAny — pega o resultado da mais rápida</span>
+<span class="kw">var</span> fastest = <span class="kw">await</span> <span class="tp2">Task</span>.WhenAny(taskA, taskB, taskC);
+<span class="kw">var</span> result  = <span class="kw">await</span> fastest;</pre>
+<div class="callout warn"><strong>Cuidado:</strong> <code>Task.Run</code> em controllers ASP.NET apenas troca threads sem ganho — você sai de uma thread de request para uma thread do pool igualmente bloqueada. Use <code>Task.Run</code> apenas para CPU-bound fora do thread de request.</div>
+</div>
+<div class="tab-c" id="ta3">
+<h2>Async Streams — IAsyncEnumerable</h2>
+<p>Permite iterar sobre streams de dados assíncrono sem carregar tudo na memória.</p>
+<pre><span class="cm">// Produtor: yield return assíncrono</span>
+<span class="kw">public async</span> <span class="tp2">IAsyncEnumerable</span>&lt;<span class="tp2">Product</span>&gt; <span class="nm">StreamProductsAsync</span>(
+    [<span class="at">EnumeratorCancellation</span>] <span class="tp2">CancellationToken</span> ct = <span class="kw">default</span>)
+{
+    <span class="kw">await foreach</span> (<span class="kw">var</span> batch <span class="kw">in</span> _db.Products.AsAsyncEnumerable().WithCancellation(ct))
+    {
+        <span class="kw">yield return</span> batch; <span class="cm">// processa um por vez, sem carregar tudo</span>
+    }
+}
+
+<span class="cm">// Consumidor</span>
+<span class="kw">await foreach</span> (<span class="kw">var</span> product <span class="kw">in</span> <span class="nm">StreamProductsAsync</span>(ct))
+{
+    <span class="kw">await</span> ProcessAsync(product, ct);
+}</pre>
+</div>
+<div class="tab-c" id="ta4">
+<h2>Código — State Machine gerada pelo compilador</h2>
+<pre><span class="cm">// O que você escreve:</span>
+<span class="kw">public async</span> <span class="tp2">Task</span>&lt;<span class="kw">string</span>&gt; <span class="nm">GetDataAsync</span>(<span class="tp2">CancellationToken</span> ct)
+{
+    <span class="kw">var</span> json = <span class="kw">await</span> _http.GetStringAsync(<span class="st">"https://api.example.com"</span>, ct);
+    <span class="kw">return</span> json.ToUpper();
+}
+
+<span class="cm">// Simplificado do que o compilador gera (struct de state machine):</span>
+<span class="kw">private struct</span> <span class="tp2">GetDataAsyncStateMachine</span> : <span class="tp2">IAsyncStateMachine</span>
+{
+    <span class="kw">public int</span> _state;
+    <span class="kw">public</span> <span class="tp2">AsyncTaskMethodBuilder</span>&lt;<span class="kw">string</span>&gt; _builder;
+    <span class="kw">private</span> <span class="tp2">TaskAwaiter</span>&lt;<span class="kw">string</span>&gt; _awaiter;
+
+    <span class="kw">public void</span> <span class="nm">MoveNext</span>()
+    {
+        <span class="kw">switch</span> (_state)
+        {
+            <span class="kw">case</span> <span class="nm">0</span>: <span class="cm">// início — dispara o request</span>
+                _awaiter = _http.GetStringAsync(...).GetAwaiter();
+                <span class="kw">if</span> (!_awaiter.IsCompleted) { _state = <span class="nm">1</span>; <span class="kw">return</span>; } <span class="cm">// yield!</span>
+                <span class="kw">goto case</span> <span class="nm">1</span>;
+            <span class="kw">case</span> <span class="nm">1</span>: <span class="cm">// continuação após I/O</span>
+                <span class="kw">var</span> json = _awaiter.GetResult();
+                _builder.SetResult(json.ToUpper());
+                <span class="kw">break</span>;
+        }
+    }
+}</pre>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('linq')"><span>← Anterior</span><span>🔗 LINQ &amp; Deferred</span></button>
+  <button class="pnb r" onclick="go('thread')"><span>Próximo →</span><span>🧵 Threading</span></button>
+</div>
+</div>
+
+<!-- ═══════════ OUTBOX ═══════════ -->
+<div class="pg" id="p-outbox">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Padrões Distribuídos</span><span>/</span><span>Outbox Pattern</span></div>
+<div class="tp-eye">Padrões Distribuídos</div>
+<div class="tp-h1">📬 Outbox Pattern + Idempotência</div>
+<p class="tp-lead"><strong>Regra de ouro:</strong> o evento e o estado de negócio commitam na <strong>mesma transação de banco</strong>. Nunca publique pro broker antes do commit.</p>
+<div class="tp-tags"><span class="badge nb-c">Outbox</span><span class="badge nb-p">idempotent</span><span class="badge nb-g">at-least-once</span></div>
+<div class="tabs">
+  <button class="tab active" onclick="st(this,'to0')">O Problema</button>
+  <button class="tab" onclick="st(this,'to1')">Outbox</button>
+  <button class="tab" onclick="st(this,'to2')">Relay Worker</button>
+  <button class="tab" onclick="st(this,'to3')">Idempotência</button>
+</div>
+<div class="content">
+<div class="tab-c active" id="to0">
+<h2>O problema sem Outbox</h2>
+<p><strong>Cenário:</strong> OrderService salva o pedido no banco <em>e depois</em> publica o evento pro broker. E se o broker estiver fora? O pedido existe, o evento não. O InventoryService nunca decrementa o estoque.</p>
+<div class="tw"><table><thead><tr><th>Ordem das operações</th><th>O que pode dar errado</th></tr></thead><tbody>
+<tr><td>1. Salva no banco ✓ &nbsp; 2. Publica no broker ✗</td><td>Evento perdido para sempre</td></tr>
+<tr><td>1. Publica no broker ✓ &nbsp; 2. Salva no banco ✗</td><td>Evento sem dado correspondente</td></tr>
+<tr><td>Outbox: ambos na mesma transação</td><td>Atômico — tudo ou nada</td></tr>
+</tbody></table></div>
+<div class="dg">
+  <div class="db red">❌ Dual Write — não atômico</div><div class="da">↓</div>
+  <div class="dr"><div class="db green">SaveChanges() ✓</div><div class="db red">Broker cai 💥</div></div>
+  <div class="da">→ evento perdido para sempre</div>
+</div>
+</div>
+<div class="tab-c" id="to1">
+<h2>Solução: Outbox Table</h2>
+<pre><span class="cm">// 1. Entidade Outbox</span>
+<span class="kw">public class</span> <span class="tp2">OutboxMessage</span>
+{
+    <span class="kw">public</span> <span class="tp2">Guid</span>     Id          { <span class="kw">get</span>; <span class="kw">init</span>; } = <span class="tp2">Guid</span>.NewGuid();
+    <span class="kw">public string</span>   Type        { <span class="kw">get</span>; <span class="kw">init</span>; } = <span class="kw">default</span>!; <span class="cm">// nome do evento</span>
+    <span class="kw">public string</span>   Payload     { <span class="kw">get</span>; <span class="kw">init</span>; } = <span class="kw">default</span>!; <span class="cm">// JSON serializado</span>
+    <span class="kw">public</span> <span class="tp2">DateTime</span> OccurredAt  { <span class="kw">get</span>; <span class="kw">init</span>; } = <span class="tp2">DateTime</span>.UtcNow;
+    <span class="kw">public</span> <span class="tp2">DateTime</span>? ProcessedAt { <span class="kw">get</span>; <span class="kw">set</span>; }             <span class="cm">// null = pendente</span>
+    <span class="kw">public string</span>?  Error       { <span class="kw">get</span>; <span class="kw">set</span>; }
+}
+
+<span class="cm">// 2. Na mesma transação do domínio</span>
+<span class="kw">await using var</span> tx = <span class="kw">await</span> _ctx.Database.BeginTransactionAsync(ct);
+
+_ctx.Orders.Add(order);
+_ctx.OutboxMessages.Add(<span class="kw">new</span>
+{
+    Type    = <span class="kw">nameof</span>(<span class="tp2">OrderCreatedEvent</span>),
+    Payload = <span class="tp2">JsonSerializer</span>.Serialize(<span class="kw">new</span> <span class="tp2">OrderCreatedEvent</span>(order.Id, order.CustomerEmail))
+});
+
+<span class="kw">await</span> _ctx.SaveChangesAsync(ct); <span class="cm">// atômico: order + outbox juntos</span>
+<span class="kw">await</span> tx.CommitAsync(ct);</pre>
+</div>
+<div class="tab-c" id="to2">
+<h2>Relay Worker — publica a outbox</h2>
+<pre><span class="kw">public class</span> <span class="tp2">OutboxProcessor</span>(<span class="tp2">IServiceScopeFactory</span> factory, <span class="tp2">ILogger</span>&lt;<span class="tp2">OutboxProcessor</span>&gt; logger)
+    : <span class="tp2">BackgroundService</span>
+{
+    <span class="kw">protected override async</span> <span class="tp2">Task</span> <span class="nm">ExecuteAsync</span>(<span class="tp2">CancellationToken</span> ct)
+    {
+        <span class="kw">while</span> (!ct.IsCancellationRequested)
+        {
+            <span class="kw">await using var</span> scope = factory.CreateAsyncScope();
+            <span class="kw">var</span> ctx = scope.ServiceProvider.GetRequiredService&lt;<span class="tp2">AppDbContext</span>&gt;();
+            <span class="kw">var</span> bus = scope.ServiceProvider.GetRequiredService&lt;<span class="tp2">IMessageBus</span>&gt;();
+
+            <span class="kw">var</span> pending = <span class="kw">await</span> ctx.OutboxMessages
+                .Where(m => m.ProcessedAt == <span class="kw">null</span> &amp;&amp; m.Error == <span class="kw">null</span>)
+                .OrderBy(m => m.OccurredAt)
+                .Take(<span class="nm">20</span>)
+                .ToListAsync(ct);
+
+            <span class="kw">foreach</span> (<span class="kw">var</span> msg <span class="kw">in</span> pending)
+            {
+                <span class="kw">try</span>
+                {
+                    <span class="kw">await</span> bus.PublishAsync(msg.Type, msg.Payload, ct);
+                    msg.ProcessedAt = <span class="tp2">DateTime</span>.UtcNow;
+                }
+                <span class="kw">catch</span> (<span class="tp2">Exception</span> ex)
+                {
+                    msg.Error = ex.Message;
+                    logger.LogError(ex, <span class="st">"Failed to publish outbox message {Id}"</span>, msg.Id);
+                }
+            }
+            <span class="kw">await</span> ctx.SaveChangesAsync(ct);
+            <span class="kw">await</span> <span class="tp2">Task</span>.Delay(<span class="tp2">TimeSpan</span>.FromSeconds(<span class="nm">1</span>), ct);
+        }
+    }
+}</pre>
+</div>
+<div class="tab-c" id="to3">
+<h2>Consumer Idempotente</h2>
+<p>At-least-once delivery significa que o mesmo evento pode ser entregue mais de uma vez. O consumer deve ser idempotente — processar duas vezes deve ter o mesmo efeito que processar uma.</p>
+<pre><span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">HandleAsync</span>(<span class="tp2">OrderCreatedEvent</span> evt, <span class="tp2">CancellationToken</span> ct)
+{
+    <span class="cm">// Verifica se já processou usando a chave de deduplicação</span>
+    <span class="kw">var</span> alreadyProcessed = <span class="kw">await</span> _ctx.ProcessedMessages
+        .AnyAsync(p => p.MessageId == evt.MessageId, ct);
+
+    <span class="kw">if</span> (alreadyProcessed)
+    {
+        _logger.LogInformation(<span class="st">"Duplicate message {Id} ignored"</span>, evt.MessageId);
+        <span class="kw">return</span>; <span class="cm">// idempotente: ignora duplicata sem erro</span>
+    }
+
+    <span class="cm">// Processar o evento...</span>
+    <span class="kw">await</span> _inventoryService.DecrementStockAsync(evt.ProductId, ct);
+
+    <span class="cm">// Marcar como processado (na mesma transação)</span>
+    _ctx.ProcessedMessages.Add(<span class="kw">new</span> <span class="tp2">ProcessedMessage</span> { MessageId = evt.MessageId });
+    <span class="kw">await</span> _ctx.SaveChangesAsync(ct);
+}</pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Outbox garante exactly-once delivery?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Não — Outbox garante <strong>at-least-once</strong>. Se o processor publicar mas cair antes de marcar ProcessedAt, vai publicar novamente. Para efeito de exactly-once: combine Outbox (garante que o evento chega) com consumer idempotente (garante que o efeito só ocorre uma vez). Exactly-once verdadeiro exige coordenação transacional entre banco e broker (Two-Phase Commit) — caro e raramente vale a pena.</div></div></div>
+</div>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('flags')"><span>← Anterior</span><span>🚦 Feature Flags</span></button>
+  <button class="pnb r" onclick="go('saga')"><span>Próximo →</span><span>🔄 Saga Pattern</span></button>
+</div>
+</div>
+
+<!-- ═══════════ RESILIENCE ═══════════ -->
+<div class="pg" id="p-resilience">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Padrões Distribuídos</span><span>/</span><span>Resilience</span></div>
+<div class="tp-eye">Padrões Distribuídos</div>
+<div class="tp-h1">⚡ Resilience com Polly v8</div>
+<p class="tp-lead">Circuit Breaker, Retry com exponential backoff e jitter via Polly v8 integrado ao <code>Microsoft.Extensions.Http.Resilience</code>.</p>
+<div class="tp-tags"><span class="badge nb-r">Polly v8</span><span class="badge nb-b">ResiliencePipeline</span><span class="badge nb-o">jitter</span></div>
+<div class="tabs">
+  <button class="tab active" onclick="st(this,'tr0')">Exponential Backoff</button>
+  <button class="tab" onclick="st(this,'tr1')">Por que Jitter</button>
+  <button class="tab" onclick="st(this,'tr2')">Circuit Breaker</button>
+  <button class="tab" onclick="st(this,'tr3')">Código .NET</button>
+</div>
+<div class="content">
+<div class="tab-c active" id="tr0">
+<h2>Exponential Backoff — fórmula: 2ⁿ segundos</h2>
+<p>A cada falha o delay dobra. Dá tempo pro serviço se recuperar antes de tentar de novo.</p>
+<div class="tw"><table><thead><tr><th>Tentativa</th><th>Delay base (2ⁿ)</th><th>Com Jitter</th><th>Total acumulado</th></tr></thead><tbody>
+<tr><td><strong>1ª falha</strong></td><td><code>2¹ = 1s</code></td><td><code>1s + ~250ms = 1.25s</code></td><td>~1.25s</td></tr>
+<tr><td><strong>2ª falha</strong></td><td><code>2² = 2s</code></td><td><code>2s + ~100ms = 2.10s</code></td><td>~3.35s</td></tr>
+<tr><td><strong>3ª falha</strong></td><td><code>2³ = 4s</code></td><td><code>4s + ~400ms = 4.40s</code></td><td>~7.75s</td></tr>
+<tr><td><strong>Desiste</strong></td><td>—</td><td>falha propagada ao caller</td><td>—</td></tr>
+</tbody></table></div>
+<div class="callout info">Fórmula: <code>delay = 2^attempt × baseDelay + random(0, maxJitter)</code></div>
+</div>
+<div class="tab-c" id="tr1">
+<h2>Por que Jitter é essencial</h2>
+<p>Sem jitter, todos os clientes que falharam simultaneamente esperam exatamente o mesmo delay e tentam novamente ao mesmo tempo — <strong>thundering herd</strong>. O servidor upstream recebe uma rajada exatamente quando estava se recuperando.</p>
+<div class="dg">
+  <div class="db red">❌ Sem Jitter: thundering herd</div><div class="da">↓</div>
+  <div class="dr"><div class="db">Client A: retry em 2s</div><div class="db">Client B: retry em 2s</div><div class="db">Client C: retry em 2s</div></div>
+  <div class="da">→ todos batem no servidor ao mesmo tempo</div>
+  <div style="height:12px"></div>
+  <div class="db green">✅ Com Jitter: distribuído no tempo</div><div class="da">↓</div>
+  <div class="dr"><div class="db green">Client A: 1.8s</div><div class="db green">Client B: 2.3s</div><div class="db green">Client C: 1.5s</div></div>
+</div>
+</div>
+<div class="tab-c" id="tr2">
+<h2>Circuit Breaker — os 3 estados</h2>
+<div class="dg">
+  <div class="db green">Closed — operação normal</div><div class="da">↓ falhas &gt; threshold na janela</div>
+  <div class="db red">Open — fast fail imediato</div><div class="da">↓ após BreakDuration</div>
+  <div class="db orange">Half-Open — testa 1 request probe</div><div class="da">↓ sucesso → Closed | falha → Open</div>
+</div>
+<div class="tw"><table><thead><tr><th>Estado</th><th>Comportamento</th><th>Transição</th></tr></thead><tbody>
+<tr><td><strong>Closed</strong></td><td>Chamadas passam normalmente</td><td>→ Open quando falhas &gt; threshold</td></tr>
+<tr><td><strong>Open</strong></td><td>Fail fast — rejeita sem chamar downstream</td><td>→ Half-Open após BreakDuration</td></tr>
+<tr><td><strong>Half-Open</strong></td><td>Testa com probe requests</td><td>→ Closed (sucesso) ou Open (falha)</td></tr>
+</tbody></table></div>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Quando Circuit Breaker é mais importante que Retry?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Retry assume que a falha é transitória. Quando o serviço downstream está completamente indisponível, retry com backoff apenas atrasa a falha e desperdiça recursos. Circuit Breaker detecta essa situação e para de tentar imediatamente — <em>fail fast</em> — liberando recursos e dando tempo ao serviço se recuperar. Use ambos em conjunto: retry para falhas transitórias, circuit breaker para outages.</div></div></div>
+</div>
+</div>
+<div class="tab-c" id="tr3">
+<h2>Polly v8 — ResiliencePipeline no .NET 8</h2>
+<pre><span class="cm">// Program.cs — via Microsoft.Extensions.Http.Resilience</span>
+builder.Services
+    .AddHttpClient&lt;<span class="tp2">IProductApiClient</span>, <span class="tp2">ProductApiClient</span>&gt;()
+    .AddResilienceHandler(<span class="st">"product-pipeline"</span>, pipeline =>
+    {
+        <span class="cm">// 1. Timeout por tentativa</span>
+        pipeline.AddTimeout(<span class="tp2">TimeSpan</span>.FromSeconds(<span class="nm">3</span>));
+
+        <span class="cm">// 2. Retry com exponential backoff + jitter</span>
+        pipeline.AddRetry(<span class="kw">new</span> <span class="tp2">HttpRetryStrategyOptions</span>
+        {
+            MaxRetryAttempts = <span class="nm">3</span>,
+            Delay            = <span class="tp2">TimeSpan</span>.FromSeconds(<span class="nm">1</span>),
+            BackoffType      = <span class="tp2">DelayBackoffType</span>.Exponential,
+            UseJitter        = <span class="kw">true</span>,
+            ShouldHandle     = <span class="kw">new</span> <span class="tp2">PredicateBuilder</span>&lt;<span class="tp2">HttpResponseMessage</span>&gt;()
+                .Handle&lt;<span class="tp2">HttpRequestException</span>&gt;()
+                .HandleResult(r => (<span class="kw">int</span>)r.StatusCode >= <span class="nm">500</span>)
+        });
+
+        <span class="cm">// 3. Circuit Breaker</span>
+        pipeline.AddCircuitBreaker(<span class="kw">new</span> <span class="tp2">HttpCircuitBreakerStrategyOptions</span>
+        {
+            FailureRatio      = <span class="nm">0.5</span>,  <span class="cm">// abre com 50% de falhas</span>
+            SamplingDuration  = <span class="tp2">TimeSpan</span>.FromSeconds(<span class="nm">10</span>),
+            MinimumThroughput = <span class="nm">10</span>,
+            BreakDuration     = <span class="tp2">TimeSpan</span>.FromSeconds(<span class="nm">30</span>)
+        });
+    });
+
+<span class="cm">// Via ResiliencePipelineBuilder direto (sem HttpClient)</span>
+<span class="kw">var</span> pipeline = <span class="kw">new</span> <span class="tp2">ResiliencePipelineBuilder</span>()
+    .AddRetry(<span class="kw">new</span> <span class="tp2">RetryStrategyOptions</span>
+    {
+        MaxRetryAttempts = <span class="nm">3</span>,
+        UseJitter        = <span class="kw">true</span>,
+        OnRetry = args =>
+        {
+            logger.LogWarning(<span class="st">"Retry {Attempt} after {Delay}"</span>,
+                args.AttemptNumber, args.RetryDelay);
+            <span class="kw">return</span> <span class="kw">default</span>;
+        }
+    })
+    .Build();
+
+<span class="kw">await</span> pipeline.ExecuteAsync(<span class="kw">async</span> ct =>
+    <span class="kw">await</span> _http.GetStringAsync(<span class="st">"https://api.example.com"</span>, ct), ct);</pre>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('saga')"><span>← Anterior</span><span>🔄 Saga Pattern</span></button>
+  <button class="pnb r" onclick="go('deferred')"><span>Próximo →</span><span>🔍 Deferred Execution</span></button>
+</div>
+</div>
+
+<!-- ═══════════ DI ═══════════ -->
+<div class="pg" id="p-di">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>Dependency Injection</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">💉 Dependency Injection</div>
+<p class="tp-lead">DI fornece dependências de fora (via construtor) em vez de criá-las internamente. Desacopla o código, melhora a testabilidade e torna os lifetimes explícitos.</p>
+<div class="tp-tags"><span class="badge nb-g">lifetimes</span><span class="badge nb-b">IServiceCollection</span><span class="badge nb-r">captive dependency</span></div>
+<div class="tabs">
+  <button class="tab active" onclick="st(this,'td0')">Conceitos</button>
+  <button class="tab" onclick="st(this,'td1')">Lifetimes</button>
+  <button class="tab" onclick="st(this,'td2')">Service Locator</button>
+  <button class="tab" onclick="st(this,'td3')">Testing</button>
+  <button class="tab" onclick="st(this,'td4')">Código</button>
+</div>
+<div class="content">
+<div class="tab-c active" id="td0">
+<h2>O que é Dependency Injection?</h2>
+<p>DI é um padrão onde uma classe <strong>recebe</strong> suas dependências em vez de <strong>criar</strong> internamente. O mecanismo mais comum é <strong>Constructor Injection</strong>: a dependência é passada como parâmetro do construtor.</p>
+<pre><span class="kw">public interface</span> <span class="tp2">IClock</span> { <span class="tp2">DateTime</span> UtcNow { <span class="kw">get</span>; } }
+<span class="kw">public sealed class</span> <span class="tp2">SystemClock</span> : <span class="tp2">IClock</span>
+    { <span class="kw">public</span> <span class="tp2">DateTime</span> UtcNow => <span class="tp2">DateTime</span>.UtcNow; }
+
+<span class="kw">public sealed class</span> <span class="tp2">Greeter</span>(<span class="tp2">IClock</span> clock)
+{
+    <span class="kw">public string</span> <span class="nm">Greet</span>(<span class="kw">string</span> name) => <span class="st">$"[{clock.UtcNow:o}] Hello, {name}!"</span>;
+}
+<span class="cm">// Greeter depende da ABSTRAÇÃO (IClock), não do tipo concreto.</span>
+<span class="cm">// Em testes: injete FakeClock. Em produção: injete SystemClock.</span></pre>
+<h2>Composition Root</h2>
+<p>O único lugar onde todas as dependências são registradas e conectadas. Em ASP.NET Core, isso é o <code>Program.cs</code>. Nenhuma outra classe deve saber que o container existe.</p>
+<pre><span class="cm">// Program.cs — o Composition Root</span>
+<span class="kw">var</span> builder = <span class="tp2">WebApplication</span>.CreateBuilder(args);
+
+builder.Services.AddSingleton&lt;<span class="tp2">IClock</span>, <span class="tp2">SystemClock</span>&gt;();
+builder.Services.AddTransient&lt;<span class="tp2">Greeter</span>&gt;();
+builder.Services.AddScoped&lt;<span class="tp2">IOrderRepository</span>, <span class="tp2">SqlOrderRepository</span>&gt;();
+builder.Services.AddDbContext&lt;<span class="tp2">AppDbContext</span>&gt;(opt =>
+    opt.UseSqlServer(connectionString));
+<span class="cm">// Daqui pra frente, nenhuma classe sabe que o container existe</span></pre>
+</div>
+<div class="tab-c" id="td1">
+<h2>Os 3 Lifetimes</h2>
+<div class="tw"><table><thead><tr><th>Lifetime</th><th>Instância criada</th><th>Compartilhada?</th><th>Quando usar</th></tr></thead><tbody>
+<tr><td><code>Singleton</code></td><td>1x por aplicação</td><td>Todos os requests</td><td>Cache, configs, HttpClient</td></tr>
+<tr><td><code>Scoped</code></td><td>1x por request HTTP</td><td>Dentro do mesmo request</td><td>DbContext, Unit of Work</td></tr>
+<tr><td><code>Transient</code></td><td>A cada resolução</td><td>Nunca</td><td>Serviços leves e stateless</td></tr>
+</tbody></table></div>
+<h2>Captive Dependency — bug silencioso</h2>
+<p>Ocorre quando um serviço de vida <strong>longa</strong> captura um serviço de vida <strong>curta</strong>.</p>
+<pre><span class="cm">// ❌ Singleton capturando Scoped — DbContext vivo para sempre!</span>
+<span class="kw">public class</span> <span class="tp2">CacheService</span>(<span class="tp2">AppDbContext</span> db) <span class="cm">// Singleton capturando Scoped</span>
+{
+    <span class="cm">// _db será o mesmo DbContext em todos os requests → problema de estado</span>
+}
+
+<span class="cm">// ✅ Singleton que precisa de Scoped: use IServiceScopeFactory</span>
+<span class="kw">public class</span> <span class="tp2">CacheService</span>(<span class="tp2">IServiceScopeFactory</span> factory)
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">RefreshAsync</span>(<span class="tp2">CancellationToken</span> ct)
+    {
+        <span class="kw">await using var</span> scope = factory.CreateAsyncScope();
+        <span class="kw">var</span> db = scope.ServiceProvider.GetRequiredService&lt;<span class="tp2">AppDbContext</span>&gt;();
+        <span class="cm">// db é Scoped dentro deste scope temporário — correto</span>
+    }
+}</pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Por que DbContext deve ser Scoped e não Singleton?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">DbContext mantém estado — tracked entities, transações abertas, change tracker. Se for Singleton, será compartilhado entre requests concorrentes, causando condições de corrida e dados incorretos. Scoped garante um DbContext isolado por request, descartado ao fim do request.</div></div></div>
+</div>
+</div>
+<div class="tab-c" id="td2">
+<h2>Service Locator — Anti-Pattern</h2>
+<p>É quando você injeta <code>IServiceProvider</code> e chama <code>GetService&lt;T&gt;</code> manualmente dentro de um serviço. Esconde as dependências reais e dificulta testes.</p>
+<pre><span class="cm">// ❌ Service Locator — anti-pattern</span>
+<span class="kw">public class</span> <span class="tp2">OrderService</span>(<span class="tp2">IServiceProvider</span> sp)
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">ProcessAsync</span>(<span class="tp2">Order</span> order)
+    {
+        <span class="kw">var</span> repo = sp.GetService&lt;<span class="tp2">IOrderRepository</span>&gt;(); <span class="cm">// oculta dependências</span>
+        <span class="kw">var</span> email = sp.GetService&lt;<span class="tp2">IEmailService</span>&gt;();   <span class="cm">// impossível de mockar facilmente</span>
+    }
+}
+
+<span class="cm">// ✅ Constructor Injection — dependências visíveis e mockáveis</span>
+<span class="kw">public class</span> <span class="tp2">OrderService</span>(<span class="tp2">IOrderRepository</span> repo, <span class="tp2">IEmailService</span> email)
+{ ... }</pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Existe algum caso válido para Service Locator?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Sim — em fábricas onde o tipo concreto só é conhecido em runtime (ex: plugin system), ou em middleware onde o lifetime precisa ser controlado manualmente com <code>IServiceScopeFactory</code>. A chave é que o uso deve ser exceção, não regra, e o Service Locator deve ser encapsulado, não espalhado pelo código de domínio.</div></div></div>
+</div>
+</div>
+<div class="tab-c" id="td3">
+<h2>Testing com DI</h2>
+<pre><span class="cm">// Substitua dependências reais por fakes no teste</span>
+<span class="kw">public class</span> <span class="tp2">OrderServiceTests</span>
+{
+    <span class="kw">private readonly</span> <span class="tp2">IOrderRepository</span> _repo = Substitute.For&lt;<span class="tp2">IOrderRepository</span>&gt;();
+    <span class="kw">private readonly</span> <span class="tp2">IEmailService</span>    _email = Substitute.For&lt;<span class="tp2">IEmailService</span>&gt;();
+    <span class="kw">private readonly</span> <span class="tp2">OrderService</span> _sut;
+
+    <span class="kw">public</span> <span class="nm">OrderServiceTests</span>() => _sut = <span class="kw">new</span>(_repo, _email);
+
+    [<span class="at">Fact</span>]
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">CreateOrder_ValidInput_SendsEmail</span>()
+    {
+        <span class="kw">var</span> order = <span class="kw">new</span> <span class="tp2">Order</span> { Id = <span class="nm">1</span>, CustomerEmail = <span class="st">"a@b.com"</span> };
+        _repo.SaveAsync(order, Arg.Any&lt;<span class="tp2">CancellationToken</span>&gt;()).Returns(<span class="tp2">Task</span>.CompletedTask);
+
+        <span class="kw">await</span> _sut.CreateOrderAsync(order, <span class="tp2">CancellationToken</span>.None);
+
+        <span class="kw">await</span> _email.Received(<span class="nm">1</span>).SendConfirmationAsync(
+            Arg.Is&lt;<span class="tp2">Order</span>&gt;(o => o.Id == <span class="nm">1</span>), Arg.Any&lt;<span class="tp2">CancellationToken</span>&gt;());
+    }
+}</pre>
+</div>
+<div class="tab-c" id="td4">
+<h2>Código — registro completo</h2>
+<pre><span class="cm">// Extension method para organizar registros por feature</span>
+<span class="kw">public static class</span> <span class="tp2">OrderingServiceExtensions</span>
+{
+    <span class="kw">public static</span> <span class="tp2">IServiceCollection</span> <span class="nm">AddOrdering</span>(<span class="kw">this</span> <span class="tp2">IServiceCollection</span> services,
+        <span class="tp2">IConfiguration</span> config)
+    {
+        services.AddDbContext&lt;<span class="tp2">AppDbContext</span>&gt;(opt =>
+            opt.UseSqlServer(config.GetConnectionString(<span class="st">"Default"</span>)));
+
+        services.AddScoped&lt;<span class="tp2">IOrderRepository</span>, <span class="tp2">OrderRepository</span>&gt;();
+        services.AddScoped&lt;<span class="tp2">IOrderService</span>, <span class="tp2">OrderService</span>&gt;();
+        services.AddTransient&lt;<span class="tp2">IEmailService</span>, <span class="tp2">SmtpEmailService</span>&gt;();
+
+        services.AddHttpClient&lt;<span class="tp2">IPaymentClient</span>, <span class="tp2">PaymentClient</span>&gt;(client =>
+            client.BaseAddress = <span class="kw">new</span> Uri(config[<span class="st">"Payment:BaseUrl"</span>]!));
+
+        <span class="kw">return</span> services;
+    }
+}
+
+<span class="cm">// Program.cs fica limpo</span>
+builder.Services.AddOrdering(builder.Configuration);
+builder.Services.AddCatalog(builder.Configuration);</pre>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('parallel')"><span>← Anterior</span><span>⚙️ Parallel</span></button>
+  <button class="pnb r" onclick="go('err')"><span>Próximo →</span><span>🚨 Error Handling</span></button>
+</div>
+</div>
+
+<!-- ═══════════ EF CORE BASICS ═══════════ -->
+<div class="pg" id="p-ef1">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Data &amp; EF Core</span><span>/</span><span>EF Core Basics</span></div>
+<div class="tp-eye">Data &amp; EF Core</div>
+<div class="tp-h1">🗄️ EF Core Basics</div>
+<p class="tp-lead">Entity Framework Core é o ORM oficial do .NET. DbContext gerencia o ciclo de vida das entidades, o change tracker detecta modificações e as migrations mantêm o schema sincronizado.</p>
+<div class="tp-tags"><span class="badge nb-b">DbContext</span><span class="badge nb-g">migrations</span><span class="badge nb-c">change tracker</span></div>
+<div class="content">
+<h2>DbContext — configuração</h2>
+<pre><span class="kw">public class</span> <span class="tp2">AppDbContext</span> : <span class="tp2">DbContext</span>
+{
+    <span class="kw">public</span> <span class="nm">AppDbContext</span>(<span class="tp2">DbContextOptions</span>&lt;<span class="tp2">AppDbContext</span>&gt; options) : <span class="kw">base</span>(options) { }
+
+    <span class="kw">public</span> <span class="tp2">DbSet</span>&lt;<span class="tp2">Product</span>&gt;  Products   { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="tp2">DbSet</span>&lt;<span class="tp2">Category</span>&gt; Categories { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public</span> <span class="tp2">DbSet</span>&lt;<span class="tp2">Order</span>&gt;    Orders     { <span class="kw">get</span>; <span class="kw">set</span>; }
+
+    <span class="kw">protected override void</span> <span class="nm">OnModelCreating</span>(<span class="tp2">ModelBuilder</span> mb)
+        => mb.ApplyConfigurationsFromAssembly(<span class="kw">typeof</span>(<span class="tp2">AppDbContext</span>).Assembly);
+}</pre>
+<h2>Fluent API — IEntityTypeConfiguration</h2>
+<pre><span class="kw">public class</span> <span class="tp2">ProductConfiguration</span> : <span class="tp2">IEntityTypeConfiguration</span>&lt;<span class="tp2">Product</span>&gt;
+{
+    <span class="kw">public void</span> <span class="nm">Configure</span>(<span class="tp2">EntityTypeBuilder</span>&lt;<span class="tp2">Product</span>&gt; b)
+    {
+        b.ToTable(<span class="st">"Products"</span>);
+        b.HasKey(p => p.Id);
+        b.Property(p => p.Name).IsRequired().HasMaxLength(<span class="nm">200</span>);
+        b.Property(p => p.Price).HasColumnType(<span class="st">"decimal(18,2)"</span>);
+        b.Property(p => p.IsDeleted).HasDefaultValue(<span class="kw">false</span>);
+
+        b.HasOne(p => p.Category)
+         .WithMany(c => c.Products)
+         .HasForeignKey(p => p.CategoryId)
+         .OnDelete(<span class="tp2">DeleteBehavior</span>.Restrict);
+    }
+}</pre>
+<h2>Migrations</h2>
+<pre><span class="cm"># Criar migration</span>
+dotnet ef migrations add InitialCreate --project Infrastructure --startup-project Api
+
+<span class="cm"># Aplicar ao banco</span>
+dotnet ef database update
+
+<span class="cm"># Gerar script SQL idempotente (para produção)</span>
+dotnet ef migrations script --idempotent -o migration.sql
+
+<span class="cm"># Aplicar migrations no startup (evite em produção)</span>
+<span class="kw">await</span> app.Services.GetRequiredService&lt;<span class="tp2">AppDbContext</span>&gt;().Database.MigrateAsync();</pre>
+<h2>Change Tracker</h2>
+<pre><span class="cm">// Tracked: EF monitora mudanças</span>
+<span class="kw">var</span> product = <span class="kw">await</span> _ctx.Products.FindAsync(<span class="nm">1</span>); <span class="cm">// Unchanged</span>
+product.Name = <span class="st">"Novo nome"</span>;                       <span class="cm">// Modified</span>
+<span class="kw">await</span> _ctx.SaveChangesAsync();                    <span class="cm">// gera UPDATE</span>
+
+<span class="cm">// AsNoTracking: leitura sem overhead do change tracker (mais rápido)</span>
+<span class="kw">var</span> products = <span class="kw">await</span> _ctx.Products
+    .AsNoTracking()
+    .Where(p => p.IsActive)
+    .ToListAsync(ct);</pre>
+<div class="tw"><table><thead><tr><th>Estado</th><th>O que acontece no SaveChanges</th></tr></thead><tbody>
+<tr><td>Unchanged</td><td>Nada</td></tr>
+<tr><td>Added</td><td>INSERT</td></tr>
+<tr><td>Modified</td><td>UPDATE (apenas colunas alteradas)</td></tr>
+<tr><td>Deleted</td><td>DELETE</td></tr>
+<tr><td>Detached</td><td>EF não conhece a entidade</td></tr>
+</tbody></table></div>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Quando usar AsNoTracking()?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Use em queries de leitura onde você não vai modificar as entidades. O Change Tracker tem custo de memória e CPU para monitorar cada entidade carregada. Em relatórios, listagens e endpoints GET, <code>AsNoTracking()</code> pode reduzir significativamente o tempo de query e uso de memória.</div></div></div>
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Diferença entre Fluent API e Data Annotations?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Data Annotations são atributos no modelo de domínio — acoplam domínio e persistência. Fluent API é configurada em classes <code>IEntityTypeConfiguration</code> separadas — mantém o domínio limpo de referências ao EF Core. Prefira Fluent API em projetos com Clean Architecture ou DDD.</div></div></div>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('home')"><span>← Voltar</span><span>🏠 Início</span></button>
+  <button class="pnb r" onclick="go('ef2')"><span>Próximo →</span><span>📊 EF Core Advanced</span></button>
+</div>
+</div>
+
+<!-- ═══════════ EF CORE ADVANCED ═══════════ -->
+<div class="pg" id="p-ef2">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Data &amp; EF Core</span><span>/</span><span>EF Core Advanced</span></div>
+<div class="tp-eye">Data &amp; EF Core</div>
+<div class="tp-h1">📊 EF Core Advanced</div>
+<p class="tp-lead">Queries N+1, projeções, global filters, concorrência otimista e mapeamento com Mapster + <code>IRegister</code>.</p>
+<div class="tp-tags"><span class="badge nb-p">queries</span><span class="badge nb-c">Mapster</span><span class="badge nb-o">split query</span></div>
+<div class="content">
+<h2>Problema N+1</h2>
+<pre><span class="cm">// ❌ N+1: 1 query para produtos + N queries para categoria (lazy load)</span>
+<span class="kw">var</span> products = <span class="kw">await</span> _ctx.Products.ToListAsync();
+<span class="kw">foreach</span> (<span class="kw">var</span> p <span class="kw">in</span> products)
+    Console.WriteLine(p.Category.Name); <span class="cm">// lazy load → 1 query por produto!</span>
+
+<span class="cm">// ✅ Eager loading com Include</span>
+<span class="kw">var</span> products = <span class="kw">await</span> _ctx.Products
+    .Include(p => p.Category)       <span class="cm">// JOIN no SQL</span>
+    .AsNoTracking()
+    .ToListAsync(ct);
+
+<span class="cm">// ✅ Projeção: traz só o que precisa</span>
+<span class="kw">var</span> dtos = <span class="kw">await</span> _ctx.Products
+    .Where(p => p.IsActive)
+    .Select(p => <span class="kw">new</span> <span class="tp2">ProductDto</span>
+    {
+        Id           = p.Id,
+        Name         = p.Name,
+        Price        = p.Price,
+        CategoryName = p.Category.Name <span class="cm">// JOIN automático, sem Include</span>
+    })
+    .ToListAsync(ct);</pre>
+<h2>Mapster com IRegister</h2>
+<pre><span class="kw">public class</span> <span class="tp2">ProductMappingRegister</span> : <span class="tp2">IRegister</span>
+{
+    <span class="kw">public void</span> <span class="nm">Register</span>(<span class="tp2">TypeAdapterConfig</span> config)
+    {
+        config.NewConfig&lt;<span class="tp2">Product</span>, <span class="tp2">ProductDto</span>&gt;()
+            .Map(dest => dest.CategoryName, src => src.Category.Name)
+            .Map(dest => dest.FormattedPrice, src => src.Price.ToString(<span class="st">"C2"</span>))
+            .Ignore(dest => dest.InternalNotes);
+    }
+}
+
+<span class="cm">// Program.cs — escaneia todos os IRegister do assembly</span>
+<span class="kw">var</span> config = <span class="tp2">TypeAdapterConfig</span>.GlobalSettings;
+config.Scan(<span class="kw">typeof</span>(<span class="tp2">ProductMappingRegister</span>).Assembly);
+builder.Services.AddSingleton(config);
+builder.Services.AddScoped&lt;<span class="tp2">IMapper</span>, <span class="tp2">ServiceMapper</span>&gt;();</pre>
+<h2>Global Query Filters</h2>
+<pre><span class="cm">// Soft delete automático — nunca esquece o filtro</span>
+<span class="kw">protected override void</span> <span class="nm">OnModelCreating</span>(<span class="tp2">ModelBuilder</span> mb)
+{
+    mb.Entity&lt;<span class="tp2">Product</span>&gt;().HasQueryFilter(p => !p.IsDeleted);
+    <span class="cm">// Todo .Where() em Products adiciona automaticamente AND IsDeleted=0</span>
+}
+
+<span class="cm">// Para ignorar o filtro pontualmente (admin panel, auditoria):</span>
+<span class="kw">var</span> all = <span class="kw">await</span> _ctx.Products.IgnoreQueryFilters().ToListAsync();</pre>
+<h2>Concorrência Otimista</h2>
+<pre><span class="kw">public class</span> <span class="tp2">Product</span>
+{
+    <span class="kw">public int</span> Id { <span class="kw">get</span>; <span class="kw">set</span>; }
+    <span class="kw">public string</span> Name { <span class="kw">get</span>; <span class="kw">set</span>; }
+
+    [<span class="at">Timestamp</span>] <span class="cm">// rowversion no SQL Server</span>
+    <span class="kw">public byte</span>[] RowVersion { <span class="kw">get</span>; <span class="kw">set</span>; }
+}
+
+<span class="kw">try</span>
+{
+    <span class="kw">await</span> _ctx.SaveChangesAsync(ct);
+}
+<span class="kw">catch</span> (<span class="tp2">DbUpdateConcurrencyException</span> ex)
+{
+    <span class="kw">var</span> entry = ex.Entries.First();
+    <span class="kw">await</span> entry.ReloadAsync(ct); <span class="cm">// database wins</span>
+    <span class="cm">// ou: merge, ou: informar usuário</span>
+}</pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">O que é Split Query e quando usar?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Ao usar <code>Include</code> em coleções, EF Core gera um JOIN que pode criar produto cartesiano enorme. <code>AsSplitQuery()</code> divide em múltiplas queries menores. Use quando o JOIN produziria muitas linhas duplicadas. Desvantagem: não é atômica — dados podem mudar entre as queries. Ative globalmente com <code>UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)</code>.</div></div></div>
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Como resolver o JsonIgnore problem com navigation properties?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">Navigation properties com circular reference causam loop de serialização. Solução 1: <code>[JsonIgnore]</code> na navigation property da entidade. Solução 2 (melhor): usar DTOs/projeções e nunca serializar a entidade diretamente. Solução 3: configurar <code>ReferenceHandler.IgnoreCycles</code> no <code>JsonSerializerOptions</code> globalmente no ASP.NET Core.</div></div></div>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('ef1')"><span>← Anterior</span><span>🗄️ EF Core Basics</span></button>
+  <button class="pnb r" onclick="go('test')"><span>Próximo →</span><span>🧪 Testing &amp; TDD</span></button>
+</div>
+</div>
+
+<!-- ═══════════ TESTING ═══════════ -->
+<div class="pg" id="p-test">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Testing &amp; DevOps</span><span>/</span><span>Testing &amp; TDD</span></div>
+<div class="tp-eye">Testing &amp; DevOps</div>
+<div class="tp-h1">🧪 Testing &amp; TDD</div>
+<p class="tp-lead">xUnit + NSubstitute para unit tests, WebApplicationFactory para integration tests, Playwright para E2E. Padrão AAA em todas as camadas.</p>
+<div class="tp-tags"><span class="badge nb-g">xUnit</span><span class="badge nb-b">NSubstitute</span><span class="badge nb-c">WebApplicationFactory</span><span class="badge nb-o">Playwright</span></div>
+<div class="content">
+<h2>Unit Test — padrão AAA</h2>
+<pre><span class="kw">public class</span> <span class="tp2">OrderServiceTests</span>
+{
+    <span class="kw">private readonly</span> <span class="tp2">IOrderRepository</span> _repo  = Substitute.For&lt;<span class="tp2">IOrderRepository</span>&gt;();
+    <span class="kw">private readonly</span> <span class="tp2">IEmailService</span>    _email = Substitute.For&lt;<span class="tp2">IEmailService</span>&gt;();
+    <span class="kw">private readonly</span> <span class="tp2">OrderService</span>     _sut;
+
+    <span class="kw">public</span> <span class="nm">OrderServiceTests</span>() => _sut = <span class="kw">new</span>(_repo, _email);
+
+    [<span class="at">Fact</span>]
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">CreateOrder_ValidInput_SendsConfirmationEmail</span>()
+    {
+        <span class="cm">// Arrange</span>
+        <span class="kw">var</span> order = <span class="kw">new</span> <span class="tp2">Order</span> { Id = <span class="nm">1</span>, CustomerEmail = <span class="st">"test@test.com"</span> };
+        _repo.SaveAsync(order, Arg.Any&lt;<span class="tp2">CancellationToken</span>&gt;()).Returns(<span class="tp2">Task</span>.CompletedTask);
+
+        <span class="cm">// Act</span>
+        <span class="kw">await</span> _sut.CreateOrderAsync(order, <span class="tp2">CancellationToken</span>.None);
+
+        <span class="cm">// Assert</span>
+        <span class="kw">await</span> _email.Received(<span class="nm">1</span>)
+            .SendConfirmationAsync(Arg.Is&lt;<span class="tp2">Order</span>&gt;(o => o.Id == <span class="nm">1</span>),
+                Arg.Any&lt;<span class="tp2">CancellationToken</span>&gt;());
+    }
+
+    [<span class="at">Theory</span>]
+    [<span class="at">InlineData</span>(<span class="st">""</span>)]
+    [<span class="at">InlineData</span>(<span class="kw">null</span>)]
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">CreateOrder_InvalidEmail_ThrowsValidation</span>(<span class="kw">string</span>? email)
+    {
+        <span class="kw">var</span> order = <span class="kw">new</span> <span class="tp2">Order</span> { CustomerEmail = email! };
+        <span class="kw">await</span> Assert.ThrowsAsync&lt;<span class="tp2">ValidationException</span>&gt;(
+            () => _sut.CreateOrderAsync(order, <span class="tp2">CancellationToken</span>.None));
+    }
+}</pre>
+<h2>Integration Test — WebApplicationFactory</h2>
+<pre><span class="kw">public class</span> <span class="tp2">ProductsApiTests</span> : IClassFixture&lt;<span class="tp2">WebApplicationFactory</span>&lt;<span class="tp2">Program</span>&gt;&gt;
+{
+    <span class="kw">private readonly</span> <span class="tp2">HttpClient</span> _client;
+
+    <span class="kw">public</span> <span class="nm">ProductsApiTests</span>(<span class="tp2">WebApplicationFactory</span>&lt;<span class="tp2">Program</span>&gt; factory)
+    {
+        _client = factory.WithWebHostBuilder(b =>
+            b.ConfigureServices(s =>
+            {
+                s.RemoveAll&lt;<span class="tp2">DbContextOptions</span>&lt;<span class="tp2">AppDbContext</span>&gt;&gt;();
+                s.AddDbContext&lt;<span class="tp2">AppDbContext</span>&gt;(o =>
+                    o.UseInMemoryDatabase(<span class="st">"TestDb"</span>));
+            })).CreateClient();
+    }
+
+    [<span class="at">Fact</span>]
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">GET_Products_Returns200</span>()
+    {
+        <span class="kw">var</span> response = <span class="kw">await</span> _client.GetAsync(<span class="st">"/api/v1/products"</span>);
+        response.EnsureSuccessStatusCode();
+        <span class="kw">var</span> content = <span class="kw">await</span> response.Content.ReadFromJsonAsync&lt;<span class="tp2">List</span>&lt;<span class="tp2">ProductDto</span>&gt;&gt;();
+        Assert.NotNull(content);
+    }
+}</pre>
+<h2>Playwright — E2E</h2>
+<pre><span class="kw">public class</span> <span class="tp2">CheckoutTests</span> : <span class="tp2">PageTest</span>
+{
+    [<span class="at">Test</span>]
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">User_CanCompleteCheckout</span>()
+    {
+        <span class="kw">await</span> Page.GotoAsync(<span class="st">"https://localhost:5001"</span>);
+        <span class="kw">await</span> Page.GetByTestId(<span class="st">"product-card-1"</span>).ClickAsync();
+        <span class="kw">await</span> Page.GetByRole(AriaRole.Button, <span class="kw">new</span> { Name = <span class="st">"Add to Cart"</span> }).ClickAsync();
+        <span class="kw">await</span> Page.GetByTestId(<span class="st">"checkout-btn"</span>).ClickAsync();
+        <span class="kw">await</span> Expect(Page.GetByText(<span class="st">"Order confirmed"</span>)).ToBeVisibleAsync();
+    }
+}</pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Qual a diferença entre mock, stub e fake?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner"><strong>Stub</strong>: retorna dados pré-configurados, não verifica chamadas. <strong>Mock</strong>: verifica que foi chamado corretamente (comportamento). <strong>Fake</strong>: implementação real simplificada (ex: InMemory database). NSubstitute pode funcionar como stub e mock simultaneamente. Use <code>Returns()</code> para stub, <code>Received()</code> para mock.</div></div></div>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('ef2')"><span>← Anterior</span><span>📊 EF Core Advanced</span></button>
+  <button class="pnb r" onclick="go('docker')"><span>Próximo →</span><span>🐳 Docker &amp; CI/CD</span></button>
+</div>
+</div>
+
+<!-- ═══════════ DOCKER ═══════════ -->
+<div class="pg" id="p-docker">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Testing &amp; DevOps</span><span>/</span><span>Docker &amp; CI/CD</span></div>
+<div class="tp-eye">Testing &amp; DevOps</div>
+<div class="tp-h1">🐳 Docker &amp; CI/CD</div>
+<p class="tp-lead">Dockerfile multi-stage para .NET 8, docker-compose com health checks, pipeline GitHub Actions com build, test e deploy automático.</p>
+<div class="tp-tags"><span class="badge nb-c">Docker</span><span class="badge nb-o">GitHub Actions</span><span class="badge nb-b">multi-stage</span></div>
+<div class="content">
+<h2>Dockerfile Multi-Stage</h2>
+<pre><span class="cm"># Stage 1: build</span>
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+COPY ["VShop.Api/VShop.Api.csproj", "VShop.Api/"]
+COPY ["VShop.Application/VShop.Application.csproj", "VShop.Application/"]
+RUN dotnet restore "VShop.Api/VShop.Api.csproj"
+
+COPY . .
+RUN dotnet publish "VShop.Api/VShop.Api.csproj" \
+    -c Release -o /app/publish --no-restore
+
+<span class="cm"># Stage 2: runtime (imagem menor — sem SDK)</span>
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+EXPOSE 8080
+
+ENV ASPNETCORE_URLS=http://+:8080
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "VShop.Api.dll"]</pre>
+<h2>docker-compose.yml</h2>
+<pre>services:
+  api:
+    build: .
+    ports: ["8080:8080"]
+    environment:
+      - ConnectionStrings__Default=Server=db;Database=VShop;User=root;Password=root
+      - ConnectionStrings__Redis=redis:6379
+    depends_on:
+      db:    { condition: service_healthy }
+      redis: { condition: service_started }
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: VShop
+    volumes: ["mysql-data:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+
+volumes:
+  mysql-data:</pre>
+<h2>GitHub Actions — CI/CD Pipeline</h2>
+<pre>name: CI/CD
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '8.0.x' }
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore -c Release
+
+      - name: Test
+        run: dotnet test --no-build -c Release \
+             --collect:"XPlat Code Coverage" \
+             --results-directory ./coverage
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+
+  deploy:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: vshop-api
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}</pre>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('test')"><span>← Anterior</span><span>🧪 Testing &amp; TDD</span></button>
+  <button class="pnb r" onclick="go('azure')"><span>Próximo →</span><span>☁️ Azure &amp; Deploy</span></button>
+</div>
+</div>
+
+<!-- ═══════════ AUTH ═══════════ -->
+<div class="pg" id="p-auth">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>ASP.NET Core</span><span>/</span><span>Auth &amp; Authorization</span></div>
+<div class="tp-eye">ASP.NET Core</div>
+<div class="tp-h1">🔐 Auth &amp; Authorization</div>
+<p class="tp-lead">JWT para autenticação stateless, claims para identidade, policies para autorização granular. OAuth 2.0 e OIDC para integração com identity providers externos.</p>
+<div class="tp-tags"><span class="badge nb-r">JWT</span><span class="badge nb-o">OAuth 2.0</span><span class="badge nb-b">OIDC</span><span class="badge nb-p">PKCE</span></div>
+<div class="content">
+<h2>JWT — configuração no ASP.NET Core</h2>
+<pre>builder.Services
+    .AddAuthentication(<span class="tp2">JwtBearerDefaults</span>.AuthenticationScheme)
+    .AddJwtBearer(opt =>
+    {
+        opt.TokenValidationParameters = <span class="kw">new</span> <span class="tp2">TokenValidationParameters</span>
+        {
+            ValidateIssuer           = <span class="kw">true</span>,
+            ValidIssuer              = config[<span class="st">"Jwt:Issuer"</span>],
+            ValidateAudience         = <span class="kw">true</span>,
+            ValidAudience            = config[<span class="st">"Jwt:Audience"</span>],
+            ValidateIssuerSigningKey = <span class="kw">true</span>,
+            IssuerSigningKey         = <span class="kw">new</span> <span class="tp2">SymmetricSecurityKey</span>(
+                <span class="tp2">Encoding</span>.UTF8.GetBytes(config[<span class="st">"Jwt:Secret"</span>]!)),
+            ValidateLifetime         = <span class="kw">true</span>,
+            ClockSkew                = <span class="tp2">TimeSpan</span>.FromMinutes(<span class="nm">1</span>)
+        };
+    });</pre>
+<h2>Gerar Token JWT</h2>
+<pre><span class="kw">public string</span> <span class="nm">GenerateToken</span>(<span class="tp2">User</span> user)
+{
+    <span class="kw">var</span> claims = <span class="kw">new</span>[]
+    {
+        <span class="kw">new</span> <span class="tp2">Claim</span>(<span class="tp2">ClaimTypes</span>.NameIdentifier, user.Id.ToString()),
+        <span class="kw">new</span> <span class="tp2">Claim</span>(<span class="tp2">ClaimTypes</span>.Email, user.Email),
+        <span class="kw">new</span> <span class="tp2">Claim</span>(<span class="tp2">ClaimTypes</span>.Role, user.Role),
+        <span class="kw">new</span> <span class="tp2">Claim</span>(<span class="st">"tenant_id"</span>, user.TenantId.ToString())
+    };
+    <span class="kw">var</span> key   = <span class="kw">new</span> <span class="tp2">SymmetricSecurityKey</span>(<span class="tp2">Encoding</span>.UTF8.GetBytes(_secret));
+    <span class="kw">var</span> creds = <span class="kw">new</span> <span class="tp2">SigningCredentials</span>(key, <span class="tp2">SecurityAlgorithms</span>.HmacSha256);
+    <span class="kw">var</span> token = <span class="kw">new</span> <span class="tp2">JwtSecurityToken</span>(
+        issuer: _issuer, audience: _audience,
+        claims: claims,
+        expires: <span class="tp2">DateTime</span>.UtcNow.AddHours(<span class="nm">1</span>),
+        signingCredentials: creds);
+    <span class="kw">return new</span> <span class="tp2">JwtSecurityTokenHandler</span>().WriteToken(token);
+}</pre>
+<h2>Authorization — Policy-based</h2>
+<pre>builder.Services.AddAuthorization(opt =>
+{
+    opt.AddPolicy(<span class="st">"CanDeleteProduct"</span>, policy =>
+        policy.RequireRole(<span class="st">"Admin"</span>)
+              .RequireClaim(<span class="st">"tenant_id"</span>)
+              .RequireAssertion(ctx =>
+                  ctx.User.HasClaim(c =>
+                      c.Type == <span class="st">"permission"</span> &amp;&amp; c.Value == <span class="st">"product:delete"</span>)));
+});
+
+[<span class="at">Authorize</span>(Policy = <span class="st">"CanDeleteProduct"</span>)]
+<span class="kw">public async</span> <span class="tp2">Task</span>&lt;<span class="tp2">IActionResult</span>&gt; <span class="nm">Delete</span>(<span class="kw">int</span> id) { ... }</pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">Como revogar um JWT antes do vencimento?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">JWT é stateless — sem revogação nativa. Estratégias: 1) <strong>Token blocklist</strong>: manter lista de JTI revogados no Redis com TTL = tempo restante. 2) <strong>Access token curto</strong> (15min) + Refresh token longo no banco — ao revogar, exclui o refresh. 3) <strong>Versão de token</strong>: gravar versão na claim, incrementar no banco ao logout — middleware valida versão a cada request.</div></div></div>
+<div class="qa"><div class="qa-q" onclick="tqa(this)">O que é PKCE e quando é obrigatório?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner">PKCE (Proof Key for Code Exchange) adiciona um <code>code_verifier</code> (string aleatória) e <code>code_challenge</code> (SHA256 do verifier) ao fluxo Authorization Code. O servidor verifica que quem troca o code pelo token é quem iniciou o fluxo — evita interceptação do authorization code. É obrigatório para SPAs e apps mobile (public clients) e recomendado para todos os fluxos OAuth 2.1.</div></div></div>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('mid')"><span>← Anterior</span><span>🔧 Middleware</span></button>
+  <button class="pnb r" onclick="go('owasp')"><span>Próximo →</span><span>🛡️ Security &amp; OWASP</span></button>
+</div>
+</div>
+
+<!-- ═══════════ CACHING ═══════════ -->
+<div class="pg" id="p-cache">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>ASP.NET Core</span><span>/</span><span>Caching</span></div>
+<div class="tp-eye">ASP.NET Core</div>
+<div class="tp-h1">💾 Caching</div>
+<p class="tp-lead">IMemoryCache para dados por instância, IDistributedCache com Redis para dados compartilhados entre instâncias. Cache-aside é o padrão mais comum.</p>
+<div class="tp-tags"><span class="badge nb-g">Redis</span><span class="badge nb-b">IMemoryCache</span><span class="badge nb-c">cache-aside</span></div>
+<div class="content">
+<h2>Cache-Aside Pattern</h2>
+<pre><span class="kw">public class</span> <span class="tp2">ProductService</span>(<span class="tp2">IDistributedCache</span> cache, <span class="tp2">IProductRepository</span> repo)
+{
+    <span class="kw">public async</span> <span class="tp2">Task</span>&lt;<span class="tp2">ProductDto</span>?&gt; <span class="nm">GetByIdAsync</span>(<span class="kw">int</span> id, <span class="tp2">CancellationToken</span> ct)
+    {
+        <span class="kw">var</span> key    = <span class="st">$"product:{id}"</span>;
+        <span class="kw">var</span> cached = <span class="kw">await</span> cache.GetStringAsync(key, ct);
+
+        <span class="kw">if</span> (cached <span class="kw">is not null</span>)
+            <span class="kw">return</span> <span class="tp2">JsonSerializer</span>.Deserialize&lt;<span class="tp2">ProductDto</span>&gt;(cached);
+
+        <span class="kw">var</span> product = <span class="kw">await</span> repo.GetByIdAsync(id, ct);
+        <span class="kw">if</span> (product <span class="kw">is null</span>) <span class="kw">return null</span>;
+
+        <span class="kw">var</span> opts = <span class="kw">new</span> <span class="tp2">DistributedCacheEntryOptions</span>
+        {
+            AbsoluteExpirationRelativeToNow = <span class="tp2">TimeSpan</span>.FromMinutes(<span class="nm">10</span>),
+            SlidingExpiration               = <span class="tp2">TimeSpan</span>.FromMinutes(<span class="nm">2</span>)
+        };
+        <span class="kw">await</span> cache.SetStringAsync(key,
+            <span class="tp2">JsonSerializer</span>.Serialize(product.Adapt&lt;<span class="tp2">ProductDto</span>&gt;()), opts, ct);
+
+        <span class="kw">return</span> product.Adapt&lt;<span class="tp2">ProductDto</span>&gt;();
+    }
+
+    <span class="kw">public async</span> <span class="tp2">Task</span> <span class="nm">InvalidateAsync</span>(<span class="kw">int</span> id, <span class="tp2">CancellationToken</span> ct)
+        => <span class="kw">await</span> cache.RemoveAsync(<span class="st">$"product:{id}"</span>, ct);
+}</pre>
+<h2>Configurar Redis</h2>
+<pre><span class="cm">// Program.cs</span>
+builder.Services.AddStackExchangeRedisCache(opt =>
+{
+    opt.Configuration = builder.Configuration.GetConnectionString(<span class="st">"Redis"</span>);
+    opt.InstanceName  = <span class="st">"VShop:"</span>;
+});</pre>
+<div class="tw"><table><thead><tr><th>Aspecto</th><th>IMemoryCache</th><th>IDistributedCache (Redis)</th></tr></thead><tbody>
+<tr><td>Escopo</td><td>Por instância do processo</td><td>Compartilhado entre instâncias</td></tr>
+<tr><td>Serialização</td><td>Não precisa</td><td>JSON ou binário</td></tr>
+<tr><td>Latência</td><td>Nanossegundos</td><td>Microssegundos (rede)</td></tr>
+<tr><td>Uso ideal</td><td>Configurações, lookups estáticos</td><td>Sessão, carrinhos, queries pesadas</td></tr>
+</tbody></table></div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('bg')"><span>← Anterior</span><span>🔄 Background Services</span></button>
+  <button class="pnb r" onclick="go('ef1')"><span>Próximo →</span><span>🗄️ EF Core Basics</span></button>
+</div>
+</div>
+
+<!-- ═══════════ LINQ ═══════════ -->
+<div class="pg" id="p-linq">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Async &amp; Performance</span><span>/</span><span>LINQ &amp; Deferred</span></div>
+<div class="tp-eye">Async &amp; Performance</div>
+<div class="tp-h1">🔗 LINQ &amp; Deferred Execution</div>
+<p class="tp-lead">LINQ usa execução diferida: a query não roda até você iterar ou chamar um operador terminal. Entender quando o SQL é gerado é crucial para performance em EF Core.</p>
+<div class="tp-tags"><span class="badge nb-b">IQueryable</span><span class="badge nb-c">IEnumerable</span><span class="badge nb-o">expression trees</span></div>
+<div class="content">
+<h2>Deferred vs Immediate Execution</h2>
+<div class="tw"><table><thead><tr><th>Tipo</th><th>Execução</th><th>Exemplos</th></tr></thead><tbody>
+<tr><td>Deferred</td><td>Ao iterar</td><td><code>Where</code>, <code>Select</code>, <code>OrderBy</code>, <code>GroupBy</code></td></tr>
+<tr><td>Immediate</td><td>Na chamada</td><td><code>ToList()</code>, <code>ToArray()</code>, <code>Count()</code>, <code>First()</code>, <code>Sum()</code></td></tr>
+</tbody></table></div>
+<h2>IEnumerable vs IQueryable</h2>
+<pre><span class="cm">// IEnumerable: filtra em memória (C#) — traz TUDO do banco</span>
+<span class="tp2">IEnumerable</span>&lt;<span class="tp2">Product</span>&gt; products = _ctx.Products; <span class="cm">// consulta executa aqui!</span>
+<span class="kw">var</span> cheap = products.Where(p => p.Price &lt; <span class="nm">50</span>);  <span class="cm">// filtra em RAM</span>
+
+<span class="cm">// IQueryable: traduz para SQL — filtra no banco</span>
+<span class="tp2">IQueryable</span>&lt;<span class="tp2">Product</span>&gt; query = _ctx.Products;       <span class="cm">// sem hit no banco</span>
+<span class="kw">var</span> cheap = query
+    .Where(p => p.Price &lt; <span class="nm">50</span>)    <span class="cm">// adiciona WHERE ao SQL</span>
+    .OrderBy(p => p.Name)          <span class="cm">// adiciona ORDER BY</span>
+    .Take(<span class="nm">10</span>)                     <span class="cm">// adiciona TOP 10</span>
+    .ToListAsync(ct);              <span class="cm">// ← AQUI executa: SELECT TOP 10...</span></pre>
+<h2>Armadilha: closure em loop</h2>
+<pre><span class="cm">// ❌ Captura a variável, não o valor!</span>
+<span class="kw">var</span> queries = <span class="kw">new</span> List&lt;<span class="tp2">Func</span>&lt;<span class="kw">int</span>&gt;&gt;();
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
+    queries.Add(() => i); <span class="cm">// captura 'i' por referência</span>
+queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pegam i=5</span>
+
+<span class="cm">// ✅ Capturar cópia local</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; <span class="nm">5</span>; i++)
+{
+    <span class="kw">int</span> copy = i;
+    queries.Add(() => copy); <span class="cm">// captura 'copy', que não muda</span>
+}
+<span class="cm">// 01234 — correto</span></pre>
+<div class="qa-list">
+<div class="qa"><div class="qa-q" onclick="tqa(this)">O que são expression trees e como o EF Core as usa?<span class="arr">▾</span></div><div class="qa-a"><div class="qa-inner"><code>IQueryable&lt;T&gt;</code> aceita <code>Expression&lt;Func&lt;T, bool&gt;&gt;</code> em vez de <code>Func&lt;T, bool&gt;</code>. Expression trees são representações em memória do código como dados — o EF Core as inspeciona e traduz para SQL. Um <code>Func</code> seria código compilado opaco; uma <code>Expression</code> é uma árvore que pode ser lida e transformada pelo provedor LINQ.</div></div></div>
+</div>
+</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('home')"><span>← Voltar</span><span>🏠 Início</span></button>
+  <button class="pnb r" onclick="go('async')"><span>Próximo →</span><span>⏳ Async/Await</span></button>
+</div>
+</div>
+
+<!-- STUBS para páginas sem conteúdo ainda -->
+
+<div class="pg" id="p-poly">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>C# Fundamentals</span><span>/</span><span>🔷 Polymorphism</span></div>
+<div class="tp-eye">C# Fundamentals</div>
+<div class="tp-h1">🔷 Polymorphism</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('linq')"><span>← Anterior</span><span>🔗 LINQ</span></button>
+  <button class="pnb r" onclick="go('iface')"><span>Próximo →</span><span>📐 Interfaces</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-iface">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>C# Fundamentals</span><span>/</span><span>📐 Interfaces vs Abstract</span></div>
+<div class="tp-eye">C# Fundamentals</div>
+<div class="tp-h1">📐 Interfaces vs Abstract</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('poly')"><span>← Anterior</span><span>🔷 Polymorphism</span></button>
+  <button class="pnb r" onclick="go('coll')"><span>Próximo →</span><span>📦 Collections</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-coll">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>C# Fundamentals</span><span>/</span><span>📦 Collections &amp; Generics</span></div>
+<div class="tp-eye">C# Fundamentals</div>
+<div class="tp-h1">📦 Collections &amp; Generics</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('iface')"><span>← Anterior</span><span>📐 Interfaces</span></button>
+  <button class="pnb r" onclick="go('immu')"><span>Próximo →</span><span>🔒 Immutability</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-immu">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>C# Fundamentals</span><span>/</span><span>🔒 Immutability</span></div>
+<div class="tp-eye">C# Fundamentals</div>
+<div class="tp-h1">🔒 Immutability</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('coll')"><span>← Anterior</span><span>📦 Collections</span></button>
+  <button class="pnb r" onclick="go('recpat')"><span>Próximo →</span><span>🧩 Records &amp; Patterns</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-recpat">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>C# Fundamentals</span><span>/</span><span>🧩 Records &amp; Patterns</span></div>
+<div class="tp-eye">C# Fundamentals</div>
+<div class="tp-h1">🧩 Records &amp; Patterns</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('immu')"><span>← Anterior</span><span>🔒 Immutability</span></button>
+  <button class="pnb r" onclick="go('dele')"><span>Próximo →</span><span>📡 Delegates &amp; Events</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-dele">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>C# Fundamentals</span><span>/</span><span>📡 Delegates &amp; Events</span></div>
+<div class="tp-eye">C# Fundamentals</div>
+<div class="tp-h1">📡 Delegates &amp; Events</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('recpat')"><span>← Anterior</span><span>🧩 Records</span></button>
+  <button class="pnb r" onclick="go('linq')"><span>Próximo →</span><span>🔗 LINQ</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-thread">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Async &amp; Performance</span><span>/</span><span>🧵 Threading</span></div>
+<div class="tp-eye">Async &amp; Performance</div>
+<div class="tp-h1">🧵 Threading</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('async')"><span>← Anterior</span><span>⏳ Async/Await</span></button>
+  <button class="pnb r" onclick="go('mem')"><span>Próximo →</span><span>🧠 Memory &amp; Span</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-mem">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Async &amp; Performance</span><span>/</span><span>🧠 Memory &amp; Span</span></div>
+<div class="tp-eye">Async &amp; Performance</div>
+<div class="tp-h1">🧠 Memory &amp; Span</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('thread')"><span>← Anterior</span><span>🧵 Threading</span></button>
+  <button class="pnb r" onclick="go('parallel')"><span>Próximo →</span><span>⚙️ Parallel</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-parallel">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Async &amp; Performance</span><span>/</span><span>⚙️ Parallel &amp; PLINQ</span></div>
+<div class="tp-eye">Async &amp; Performance</div>
+<div class="tp-h1">⚙️ Parallel &amp; PLINQ</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('mem')"><span>← Anterior</span><span>🧠 Memory</span></button>
+  <button class="pnb r" onclick="go('di')"><span>Próximo →</span><span>💉 DI</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-err">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>🚨 Error Handling</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">🚨 Error Handling</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('di')"><span>← Anterior</span><span>💉 DI</span></button>
+  <button class="pnb r" onclick="go('disp')"><span>Próximo →</span><span>🗑️ IDisposable</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-disp">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>🗑️ IDisposable</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">🗑️ IDisposable</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('err')"><span>← Anterior</span><span>🚨 Error Handling</span></button>
+  <button class="pnb r" onclick="go('serial')"><span>Próximo →</span><span>📋 Serialization</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-serial">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>📋 Serialization</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">📋 Serialization</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('disp')"><span>← Anterior</span><span>🗑️ IDisposable</span></button>
+  <button class="pnb r" onclick="go('solid')"><span>Próximo →</span><span>🏗️ SOLID</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-dp">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>🎨 Design Patterns</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">🎨 Design Patterns</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('solid')"><span>← Anterior</span><span>🏗️ SOLID</span></button>
+  <button class="pnb r" onclick="go('cqrs')"><span>Próximo →</span><span>📖 CQRS</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-cqrs">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Architecture &amp; Design</span><span>/</span><span>📖 CQRS &amp; Event Sourcing</span></div>
+<div class="tp-eye">Architecture &amp; Design</div>
+<div class="tp-h1">📖 CQRS &amp; Event Sourcing</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('dp')"><span>← Anterior</span><span>🎨 Design Patterns</span></button>
+  <button class="pnb r" onclick="go('strangler')"><span>Próximo →</span><span>🌿 Strangler Fig</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-strangler">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Padrões Distribuídos</span><span>/</span><span>🌿 Strangler Fig</span></div>
+<div class="tp-eye">Padrões Distribuídos</div>
+<div class="tp-h1">🌿 Strangler Fig</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('home')"><span>← Anterior</span><span>🏠 Início</span></button>
+  <button class="pnb r" onclick="go('flags')"><span>Próximo →</span><span>🚦 Feature Flags</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-flags">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Padrões Distribuídos</span><span>/</span><span>🚦 Feature Flags</span></div>
+<div class="tp-eye">Padrões Distribuídos</div>
+<div class="tp-h1">🚦 Feature Flags</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('strangler')"><span>← Anterior</span><span>🌿 Strangler Fig</span></button>
+  <button class="pnb r" onclick="go('outbox')"><span>Próximo →</span><span>📬 Outbox</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-saga">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Padrões Distribuídos</span><span>/</span><span>🔄 Saga Pattern</span></div>
+<div class="tp-eye">Padrões Distribuídos</div>
+<div class="tp-h1">🔄 Saga Pattern</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('outbox')"><span>← Anterior</span><span>📬 Outbox</span></button>
+  <button class="pnb r" onclick="go('resilience')"><span>Próximo →</span><span>⚡ Resilience</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-deferred">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Padrões Distribuídos</span><span>/</span><span>🔍 Deferred Execution</span></div>
+<div class="tp-eye">Padrões Distribuídos</div>
+<div class="tp-h1">🔍 Deferred Execution</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('resilience')"><span>← Anterior</span><span>⚡ Resilience</span></button>
+  <button class="pnb r" onclick="go('rest')"><span>Próximo →</span><span>🌍 REST API</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-rest">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>ASP.NET Core</span><span>/</span><span>🌍 REST API Design</span></div>
+<div class="tp-eye">ASP.NET Core</div>
+<div class="tp-h1">🌍 REST API Design</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('deferred')"><span>← Anterior</span><span>🔍 Deferred</span></button>
+  <button class="pnb r" onclick="go('mid')"><span>Próximo →</span><span>🔧 Middleware</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-mid">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>ASP.NET Core</span><span>/</span><span>🔧 Middleware &amp; Pipeline</span></div>
+<div class="tp-eye">ASP.NET Core</div>
+<div class="tp-h1">🔧 Middleware &amp; Pipeline</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('rest')"><span>← Anterior</span><span>🌍 REST API</span></button>
+  <button class="pnb r" onclick="go('auth')"><span>Próximo →</span><span>🔐 Auth</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-owasp">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>ASP.NET Core</span><span>/</span><span>🛡️ Security &amp; OWASP</span></div>
+<div class="tp-eye">ASP.NET Core</div>
+<div class="tp-h1">🛡️ Security &amp; OWASP</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('auth')"><span>← Anterior</span><span>🔐 Auth</span></button>
+  <button class="pnb r" onclick="go('bg')"><span>Próximo →</span><span>🔄 Background Services</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-bg">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>ASP.NET Core</span><span>/</span><span>🔄 Background Services</span></div>
+<div class="tp-eye">ASP.NET Core</div>
+<div class="tp-h1">🔄 Background Services</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('owasp')"><span>← Anterior</span><span>🛡️ OWASP</span></button>
+  <button class="pnb r" onclick="go('cache')"><span>Próximo →</span><span>💾 Caching</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-msg">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Messaging &amp; Events</span><span>/</span><span>📨 Messaging Patterns</span></div>
+<div class="tp-eye">Messaging &amp; Events</div>
+<div class="tp-h1">📨 Messaging Patterns</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('home')"><span>← Anterior</span><span>🏠 Início</span></button>
+  <button class="pnb r" onclick="go('rabbit')"><span>Próximo →</span><span>🐇 RabbitMQ</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-rabbit">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Messaging &amp; Events</span><span>/</span><span>🐇 RabbitMQ</span></div>
+<div class="tp-eye">Messaging &amp; Events</div>
+<div class="tp-h1">🐇 RabbitMQ</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('msg')"><span>← Anterior</span><span>📨 Messaging</span></button>
+  <button class="pnb r" onclick="go('home')"><span>Próximo →</span><span>🏠 Início</span></button>
+</div>
+</div>
+
+<div class="pg" id="p-azure">
+<div class="bc"><button onclick="go('home')">🏠 Início</button><span>/</span><span>Testing &amp; DevOps</span><span>/</span><span>☁️ Azure &amp; Deploy</span></div>
+<div class="tp-eye">Testing &amp; DevOps</div>
+<div class="tp-h1">☁️ Azure &amp; Deploy</div>
+<p class="tp-lead">Conteúdo em construção — clique nos outros tópicos para explorar o knowledge base.</p>
+<div class="callout info"><strong>Em breve:</strong> teoria, exemplos de código C#, tabelas comparativas e perguntas de entrevista para este tópico.</div>
+<div class="pg-nav">
+  <button class="pnb" onclick="go('docker')"><span>← Anterior</span><span>🐳 Docker</span></button>
+  <button class="pnb r" onclick="go('home')"><span>Próximo →</span><span>🏠 Início</span></button>
+</div>
+</div>
+
+</main>
+</div>
+
+<script>
+const PM = {
+  home:'p-home',solid:'p-solid',async:'p-async',linq:'p-linq',di:'p-di',
+  outbox:'p-outbox',resilience:'p-resilience',ef1:'p-ef1',ef2:'p-ef2',
+  test:'p-test',docker:'p-docker',auth:'p-auth',cache:'p-cache',
+  poly:'p-poly',iface:'p-iface',coll:'p-coll',immu:'p-immu',recpat:'p-recpat',
+  dele:'p-dele',thread:'p-thread',mem:'p-mem',parallel:'p-parallel',
+  err:'p-err',disp:'p-disp',serial:'p-serial',dp:'p-dp',cqrs:'p-cqrs',
+  strangler:'p-strangler',flags:'p-flags',saga:'p-saga',deferred:'p-deferred',
+  rest:'p-rest',mid:'p-mid',owasp:'p-owasp',bg:'p-bg',
+  msg:'p-msg',rabbit:'p-rabbit',azure:'p-azure'
+};
+
+function go(key){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById(PM[key]);
+  if(t){t.classList.add('active');window.scrollTo(0,0);}
+  document.querySelectorAll('.nl').forEach(l=>l.classList.remove('active'));
+  document.querySelectorAll('.nl').forEach(l=>{
+    const oc=l.getAttribute('onclick')||'';
+    if(oc===`go('${key}')`) l.classList.add('active');
+  });
+  if(window.innerWidth<=840) document.querySelector('.sb').classList.remove('open');
+  history.pushState({k:key},'','#'+key);
+}
+
+function tg(el){el.classList.toggle('open');}
+
+function tqa(el){
+  const a=el.nextElementSibling;
+  a.classList.toggle('open');
+  const arr=el.querySelector('.arr');
+  if(arr) arr.style.transform=a.classList.contains('open')?'rotate(180deg)':'';
+}
+
+function st(btn,id){
+  const tabs=btn.parentElement;
+  const pg=tabs.nextElementSibling;
+  tabs.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  pg.querySelectorAll('.tab-c').forEach(c=>c.classList.remove('active'));
+  const tc=document.getElementById(id);
+  if(tc) tc.classList.add('active');
+}
+
+function filterNav(q){
+  q=q.toLowerCase();
+  document.querySelectorAll('#sbnav .nl').forEach(l=>{
+    l.style.display=(!q||l.textContent.toLowerCase().includes(q))?'':'none';
+  });
+}
+
+window.addEventListener('popstate',e=>{if(e.state?.k) go(e.state.k);});
+const h=location.hash.replace('#','');
+if(h&&PM[h]) go(h);
+</script>
+</body></html>

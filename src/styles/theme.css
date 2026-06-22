@@ -1,0 +1,196 @@
+/* ===========================================================
+   Tema dark — inspirado na referência da Knowledge Base.
+   Mapeia a paleta nas variáveis do Starlight (dark-only).
+   =========================================================== */
+
+:root {
+  /* Paleta base */
+  --kb-bg: #0f1117;
+  --kb-bg2: #161820;
+  --kb-bg3: #1c1e27;
+  --kb-bg4: #22242e;
+  --kb-border: #2a2d3a;
+  --kb-border2: #353848;
+  --kb-text: #e2e4f0;
+  --kb-text2: #9096b0;
+  --kb-text3: #5a6080;
+  --kb-accent: #6c7bff;
+  --kb-accent2: #4facfe;
+
+  /* Cores de badges/realces */
+  --kb-green: #3dd68c;
+  --kb-orange: #f5a623;
+  --kb-red: #ff6b6b;
+  --kb-purple: #b57bee;
+  --kb-cyan: #4de8d1;
+}
+
+/* Aplica o mesmo dark em light e dark (site é dark-only) */
+:root,
+:root[data-theme='light'],
+:root[data-theme='dark'] {
+  --sl-color-accent: var(--kb-accent);
+  --sl-color-accent-low: rgba(108, 123, 255, 0.12);
+  --sl-color-accent-high: #aab2ff;
+
+  --sl-color-white: var(--kb-text);
+  --sl-color-gray-1: #d4d7e6;
+  --sl-color-gray-2: var(--kb-text2);
+  --sl-color-gray-3: var(--kb-text2);
+  --sl-color-gray-4: var(--kb-text3);
+  --sl-color-gray-5: var(--kb-bg3);
+  --sl-color-gray-6: var(--kb-bg2);
+  --sl-color-gray-7: var(--kb-bg2);
+
+  --sl-color-black: var(--kb-bg);
+  --sl-color-bg: var(--kb-bg);
+  --sl-color-bg-nav: var(--kb-bg2);
+  --sl-color-bg-sidebar: var(--kb-bg2);
+  --sl-color-bg-inline-code: var(--kb-bg4);
+  --sl-color-hairline: var(--kb-border);
+  --sl-color-hairline-light: var(--kb-border);
+  --sl-color-hairline-shade: var(--kb-border);
+
+  --sl-color-text: var(--kb-text);
+  --sl-color-text-accent: var(--kb-accent);
+
+  color-scheme: dark;
+}
+
+/* Esconde o seletor de tema (site é dark-only) */
+starlight-theme-select,
+.social-icons + starlight-theme-select {
+  display: none !important;
+}
+
+/* ── Sidebar: realce do item ativo + hover (estilo da referência) ── */
+.sidebar-content a[aria-current='page'] {
+  color: var(--kb-accent);
+  background: rgba(108, 123, 255, 0.10);
+  border-radius: 6px;
+  font-weight: 600;
+}
+.sidebar-content a:hover {
+  background: var(--kb-bg3);
+  border-radius: 6px;
+}
+
+/* ── Títulos de grupo da sidebar (uppercase discreto) ── */
+.sidebar-content summary,
+.sidebar-content > ul > li > details > summary span,
+.sidebar-content h2 {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--kb-text3);
+}
+
+/* ── Badges customizados (variantes por cor) ── */
+.sl-badge {
+  font-family: var(--sl-font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  border: none;
+}
+.sl-badge.note   { background: rgba(79,172,254,.15);  color: var(--kb-accent2); }
+.sl-badge.tip    { background: rgba(61,214,140,.12);  color: var(--kb-green);   }
+.sl-badge.caution{ background: rgba(245,166,35,.12);  color: var(--kb-orange);  }
+.sl-badge.danger { background: rgba(255,107,107,.12); color: var(--kb-red);     }
+.sl-badge.success{ background: rgba(77,232,209,.12);  color: var(--kb-cyan);    }
+.sl-badge.default{ background: rgba(181,123,238,.12); color: var(--kb-purple);  }
+
+/* ── Code blocks / inline ── */
+.sl-markdown-content :not(pre) > code {
+  background: var(--kb-bg4);
+  border: 1px solid var(--kb-border);
+  color: var(--kb-cyan);
+}
+
+/* ── Cabeçalho/topo ── */
+header.header {
+  background: var(--kb-bg2);
+  border-bottom: 1px solid var(--kb-border);
+}
+
+/* ===========================================================
+   HOME (splash) — hero, stats, caminho de estudo, cards
+   =========================================================== */
+
+.kb-home { max-width: 980px; margin: 0 auto; }
+
+.kb-eyebrow {
+  font-size: 12px; font-weight: 500;
+  color: var(--kb-accent);
+  text-transform: uppercase; letter-spacing: .1em;
+  margin-bottom: 12px;
+}
+.kb-hero h1 {
+  font-size: clamp(28px, 5vw, 38px); font-weight: 600;
+  color: var(--kb-text); line-height: 1.2; margin-bottom: 14px;
+  background: none; -webkit-text-fill-color: currentColor;
+}
+.kb-hero p {
+  font-size: 16px; color: var(--kb-text2);
+  max-width: 640px; line-height: 1.7;
+}
+.kb-stats { display: flex; gap: 32px; margin-top: 24px; flex-wrap: wrap; }
+.kb-stat-num { font-size: 24px; font-weight: 600; color: var(--kb-text); }
+.kb-stat-lbl { font-size: 12px; color: var(--kb-text3); margin-top: 2px; }
+
+.kb-studypath {
+  background: var(--kb-bg2); border: 1px solid var(--kb-border);
+  border-radius: 12px; padding: 20px 24px; margin: 40px 0;
+}
+.kb-studypath h2 {
+  font-size: 12px; font-weight: 600; color: var(--kb-text2);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 16px;
+  border: none; padding: 0;
+}
+.kb-steps { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.kb-step {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--kb-bg3); border: 1px solid var(--kb-border);
+  border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500;
+  color: var(--kb-text);
+}
+.kb-step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  background: rgba(108,123,255,.12); color: var(--kb-accent);
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.kb-arrow { color: var(--kb-text3); font-size: 14px; }
+
+.kb-section { margin: 48px 0; }
+.kb-section-head {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--kb-border);
+}
+.kb-section-head h2 {
+  font-size: 18px; font-weight: 600; color: var(--kb-text);
+  border: none; padding: 0; margin: 0; text-transform: none; letter-spacing: 0;
+}
+
+.kb-cards {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.kb-card {
+  background: var(--kb-bg2); border: 1px solid var(--kb-border);
+  border-radius: 10px; padding: 16px 18px; text-decoration: none;
+  display: flex; flex-direction: column;
+  transition: border-color .15s, background .15s, transform .12s;
+}
+.kb-card:hover {
+  border-color: var(--kb-border2); background: var(--kb-bg3);
+  transform: translateY(-1px);
+}
+.kb-card-emoji { font-size: 20px; line-height: 1; margin-bottom: 8px; }
+.kb-card-title { font-size: 14px; font-weight: 600; color: var(--kb-text); margin-bottom: 4px; }
+.kb-card-desc { font-size: 12px; color: var(--kb-text2); line-height: 1.55; }
+
+@media (max-width: 800px) {
+  .kb-cards { grid-template-columns: 1fr; }
+  .kb-steps { flex-direction: column; align-items: flex-start; }
+  .kb-arrow { display: none; }
+}
