@@ -4,21 +4,6 @@ import BaseLayout from "../layouts/Base.astro";
 
 const docs = await getCollection("docs");
 
-// Mapeia emoji por categoria (pasta)
-const categoryEmojis: Record<string, string> = {
-  distribuidos: "🌐",
-  csharp: "🔷",
-  async: "⏳",
-  arquitetura: "🏗️",
-  aspnet: "🌍",
-  data: "🗄️",
-  devops: "🧪",
-  messaging: "📨",
-  appsec: "🛡️",
-  redes: "🌐",
-  ferramentas: "🛠️",
-};
-
 // Nomes de seção por categoria
 const categoryNames: Record<string, string> = {
   distribuidos: "Padrões Distribuídos",
@@ -126,7 +111,6 @@ const totalDocs = docs.filter((d) => d.id !== "index" && d.slug !== "").length;
       sortedCategories.map((category) => (
         <div class="kb-section">
           <div class="kb-section-head">
-            <span>{categoryEmojis[category] || "📚"}</span>
             <h2>{categoryNames[category] || category}</h2>
           </div>
           <div class="kb-cards">
@@ -134,7 +118,7 @@ const totalDocs = docs.filter((d) => d.id !== "index" && d.slug !== "").length;
               .sort((a, b) => a.slug.localeCompare(b.slug))
               .map((doc) => (
                 <a class="kb-card" href={`/gb-kb/${doc.slug}/`}>
-                  <div class="kb-card-emoji">{doc.data.emoji || categoryEmojis[category] || "📄"}</div>
+                  <div class="kb-card-emoji">{doc.data.emoji || "📄"}</div>
                   <div class="kb-card-title">{doc.data.title}</div>
                   <div class="kb-card-desc">{doc.data.description}</div>
                 </a>
