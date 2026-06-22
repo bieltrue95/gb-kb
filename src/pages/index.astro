@@ -3,59 +3,95 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/Base.astro";
 
 const docs = await getCollection("docs");
+const docsBySlug = new Map(docs.map((doc) => [doc.slug, doc]));
 
-// Nomes de seção por categoria
-const categoryNames: Record<string, string> = {
-  distribuidos: "Padrões Distribuídos",
-  csharp: "C# Fundamentals",
-  async: "Async & Performance",
-  arquitetura: "Architecture & Design",
-  aspnet: "ASP.NET Core",
-  data: "Data & EF Core",
-  devops: "Testing & DevOps",
-  messaging: "Messaging & Events",
-  appsec: "AppSec",
-  redes: "Redes",
-  ferramentas: "Ferramentas & DevOps",
-};
-
-// Agrupa docs por categoria (primeira parte do path)
-const grouped: Record<string, typeof docs> = {};
-docs.forEach((doc) => {
-  if (doc.id === "index" || doc.slug === "") return; // Pula index.md e raiz
-
-  const pathParts = doc.id.split("/");
-  const category = pathParts[0]; // ex: 'distribuidos', 'csharp'
-
-  if (!grouped[category]) {
-    grouped[category] = [];
-  }
-  grouped[category].push(doc);
-});
-
-// Ordena categorias (ordem do roadmap)
-const categoryOrder = [
-  "distribuidos",
-  "csharp",
-  "async",
-  "arquitetura",
-  "aspnet",
-  "data",
-  "devops",
-  "messaging",
-  "appsec",
-  "redes",
-  "ferramentas",
+// Seções e ordem exata dos artigos — mesma ordem da sidebar em astro.config.mjs
+const sectionsConfig = [
+  {
+    name: "Padrões Distribuídos",
+    slugs: [
+      "distribuidos/strangler-fig",
+      "distribuidos/feature-flags",
+      "distribuidos/outbox",
+      "distribuidos/saga",
+      "distribuidos/resilience",
+      "distribuidos/deferred-execution",
+    ],
+  },
+  {
+    name: "C# Fundamentals",
+    slugs: [
+      "csharp/polymorphism",
+      "csharp/interfaces-vs-abstract",
+      "csharp/collections-generics",
+      "csharp/immutability",
+      "csharp/delegates-events",
+    ],
+  },
+  {
+    name: "Async & Performance",
+    slugs: ["async/linq", "async/async-await", "async/threading", "async/memory-span"],
+  },
+  {
+    name: "Architecture & Design",
+    slugs: [
+      "arquitetura/dependency-injection",
+      "dotnet/solid",
+      "arquitetura/design-patterns",
+      "arquitetura/cqrs",
+      "dotnet/arquitetura",
+      "dotnet/unit-of-work",
+    ],
+  },
+  {
+    name: "ASP.NET Core",
+    slugs: [
+      "aspnet/rest-api",
+      "aspnet/middleware",
+      "appsec/jwt-seguro",
+      "appsec/owasp-top10",
+      "aspnet/caching",
+    ],
+  },
+  {
+    name: "Data & EF Core",
+    slugs: ["data/ef-core-basics", "dotnet/ef-core-performance"],
+  },
+  {
+    name: "Testing & DevOps",
+    slugs: [
+      "devops/testing",
+      "ferramentas/docker",
+      "ferramentas/github-actions",
+      "ferramentas/azure",
+    ],
+  },
+  {
+    name: "Messaging & Events",
+    slugs: ["messaging/messaging-patterns", "messaging/rabbitmq"],
+  },
+  {
+    name: "Segurança & Redes",
+    slugs: [
+      "appsec/broken-access-control",
+      "appsec/burp-suite",
+      "appsec/sast-semgrep",
+      "appsec/threat-modeling",
+      "appsec/security-headers",
+      "redes/fundamentos",
+    ],
+  },
 ];
 
-const sortedCategories = Object.keys(grouped).sort((a, b) => {
-  const aIdx = categoryOrder.indexOf(a);
-  const bIdx = categoryOrder.indexOf(b);
-  return (aIdx === -1 ? 999 : aIdx) - (bIdx === -1 ? 999 : bIdx);
-});
+const sections = sectionsConfig
+  .map((section) => ({
+    name: section.name,
+    docs: section.slugs.map((slug) => docsBySlug.get(slug)).filter((doc) => doc !== undefined),
+  }))
+  .filter((section) => section.docs.length > 0);
 
 // Conta total de docs
-const totalDocs = docs.filter((d) => d.id !== "index" && d.slug !== "").length;
+const totalDocs = sections.reduce((sum, section) => sum + section.docs.length, 0);
 ---
 
 <BaseLayout
@@ -84,7 +120,7 @@ const totalDocs = docs.filter((d) => d.id !== "index" && d.slug !== "").length;
           <div class="kb-stat-lbl">perguntas de entrevista</div>
         </div>
         <div>
-          <div class="kb-stat-num">{sortedCategories.length}</div>
+          <div class="kb-stat-num">{sections.length}</div>
           <div class="kb-stat-lbl">áreas de estudo</div>
         </div>
       </div>
@@ -108,21 +144,19 @@ const totalDocs = docs.filter((d) => d.id !== "index" && d.slug !== "").length;
 
     <!-- Seções dinâmicas por categoria -->
     {
-      sortedCategories.map((category) => (
+      sections.map((section) => (
         <div class="kb-section">
           <div class="kb-section-head">
-            <h2>{categoryNames[category] || category}</h2>
+            <h2>{section.name}</h2>
           </div>
           <div class="kb-cards">
-            {grouped[category]
-              .sort((a, b) => a.slug.localeCompare(b.slug))
-              .map((doc) => (
-                <a class="kb-card" href={`/gb-kb/${doc.slug}/`}>
-                  <div class="kb-card-emoji">{doc.data.emoji || "📄"}</div>
-                  <div class="kb-card-title">{doc.data.title}</div>
-                  <div class="kb-card-desc">{doc.data.description}</div>
-                </a>
-              ))}
+            {section.docs.map((doc) => (
+              <a class="kb-card" href={`/gb-kb/${doc.slug}/`}>
+                <div class="kb-card-emoji">{doc.data.emoji || "📄"}</div>
+                <div class="kb-card-title">{doc.data.title}</div>
+                <div class="kb-card-desc">{doc.data.description}</div>
+              </a>
+            ))}
           </div>
         </div>
       ))
