@@ -852,10 +852,6 @@
           />
         </div>
         <nav class="sb-nav" id="sbnav">
-          <div class="ng open" onclick="tg(this)">Início</div>
-          <div class="ng-i">
-            <button class="nl active" onclick="go('home')">🏠 Início</button>
-          </div>
           <div class="ng open" onclick="tg(this)">C# Fundamentals</div>
           <div class="ng-i">
             <button class="nl" onclick="go('poly')">
@@ -1361,7 +1357,7 @@
             </div>
           </div>
           <!-- Perguntas Clássicas -->
-          <div class="sec">
+          <div class="sec" id="entrevistas">
             <div class="sec-hd">
               <span class="sec-ico">❓</span
               ><span class="sec-ttl">Perguntas Clássicas de Entrevista</span>
@@ -2903,7 +2899,7 @@ product.Name = <span class="st">"Novo nome"</span>;                       <span 
           </div>
           <div class="pg-nav">
             <button class="pnb" onclick="go('home')">
-              <span>← Voltar</span><span>🏠 Início</span>
+              <span>← Voltar</span>
             </button>
             <button class="pnb r" onclick="go('ef2')">
               <span>Próximo →</span><span>📊 EF Core Advanced</span>
@@ -3582,7 +3578,7 @@ queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pe
           </div>
           <div class="pg-nav">
             <button class="pnb" onclick="go('home')">
-              <span>← Voltar</span><span>🏠 Início</span>
+              <span>← Voltar</span>
             </button>
             <button class="pnb r" onclick="go('async')">
               <span>Próximo →</span><span>⏳ Async/Await</span>
@@ -3945,7 +3941,7 @@ queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pe
           </div>
           <div class="pg-nav">
             <button class="pnb" onclick="go('home')">
-              <span>← Anterior</span><span>🏠 Início</span>
+              <span>← Anterior</span>
             </button>
             <button class="pnb r" onclick="go('flags')">
               <span>Próximo →</span><span>🚦 Feature Flags</span>
@@ -4137,7 +4133,7 @@ queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pe
           </div>
           <div class="pg-nav">
             <button class="pnb" onclick="go('home')">
-              <span>← Anterior</span><span>🏠 Início</span>
+              <span>← Anterior</span>
             </button>
             <button class="pnb r" onclick="go('rabbit')">
               <span>Próximo →</span><span>🐇 RabbitMQ</span>
@@ -4164,7 +4160,7 @@ queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pe
               <span>← Anterior</span><span>📨 Messaging</span>
             </button>
             <button class="pnb r" onclick="go('home')">
-              <span>Próximo →</span><span>🏠 Início</span>
+              <span>Próximo →</span>
             </button>
           </div>
         </div>
@@ -4188,7 +4184,7 @@ queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pe
               <span>← Anterior</span><span>🐳 Docker</span>
             </button>
             <button class="pnb r" onclick="go('home')">
-              <span>Próximo →</span><span>🏠 Início</span>
+              <span>Próximo →</span>
             </button>
           </div>
         </div>
@@ -4286,6 +4282,7 @@ queries.ForEach(f => Console.Write(f())); <span class="cm">// 55555 — todos pe
       });
       const h = location.hash.replace("#", "");
       if (h && PM[h]) go(h);
+      else document.getElementById("entrevistas")?.scrollIntoView();
     </script>
   </body>
 </html>
