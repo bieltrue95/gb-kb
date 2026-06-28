@@ -4,3 +4,20 @@ dist/
 .env
 .env.local
 *.log
+
+# Obsidian (raiz do projeto — vault antiga)
+.obsidian/
+
+# Obsidian (vault em src/content/docs/)
+src/content/docs/.obsidian/workspace.json
+src/content/docs/.obsidian/workspace-mobile.json
+src/content/docs/.obsidian/cache
+src/content/docs/.obsidian/plugins/
+src/content/docs/.obsidian/appearance.json
+src/content/docs/.obsidian/*.tmp.*
+
+# Notas diárias do Obsidian (pessoal, não vai pro repo)
+src/content/docs/_notas-diarias/
+
+# Obsidian Bases (arquivos de visualização, gerados automaticamente)
+*.base

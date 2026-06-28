@@ -1,24 +1,20 @@
 {
   "main": {
-    "id": "354292d3a074f4fd",
+    "id": "main",
     "type": "split",
     "children": [
       {
-        "id": "d13b4ea9b915abb6",
+        "id": "9d7cd1c7bdccc35d",
         "type": "tabs",
         "children": [
           {
-            "id": "fd6e19a9a2e12778",
+            "id": "ec6d9d27d8c224cd",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "docs/system-design.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "system-design"
+              "title": "Nova aba"
             }
           }
         ]
@@ -27,15 +23,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "5db8f4202449cf7b",
+    "id": "sidebar-left",
     "type": "split",
     "children": [
       {
-        "id": "38a11c5783982a60",
+        "id": "557d0d1f7c6886d7",
         "type": "tabs",
         "children": [
           {
-            "id": "0766ab3149aa2d12",
+            "id": "files",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -48,7 +44,7 @@
             }
           },
           {
-            "id": "c14e42124d57d414",
+            "id": "96e30ecc434ef0af",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -65,7 +61,7 @@
             }
           },
           {
-            "id": "2db9ff56e0169824",
+            "id": "7d2af96176201bbc",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -81,48 +77,42 @@
     "width": 300
   },
   "right": {
-    "id": "b6a15a98d47beca8",
+    "id": "sidebar-right",
     "type": "split",
     "children": [
       {
-        "id": "131bff11643d86ed",
+        "id": "8cce2626a41a97a3",
         "type": "tabs",
         "children": [
           {
-            "id": "0fc277baa91fe115",
+            "id": "outline",
             "type": "leaf",
             "state": {
-              "type": "backlink",
+              "type": "outline",
               "state": {
-                "file": "docs/system-design.md",
-                "collapseAll": false,
-                "extraContext": false,
-                "sortOrder": "alphabetical",
+                "followCursor": false,
                 "showSearch": false,
-                "searchQuery": "",
-                "backlinkCollapsed": false,
-                "unlinkedCollapsed": true
+                "searchQuery": ""
               },
-              "icon": "links-coming-in",
-              "title": "Links inversos para system-design"
+              "icon": "lucide-list",
+              "title": "Sumário"
             }
           },
           {
-            "id": "5e2651ba66dc1609",
+            "id": "fc945414ee2ad612",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "docs/system-design.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Links de saída para system-design"
+              "title": "Links de saída"
             }
           },
           {
-            "id": "17423ffad51bd425",
+            "id": "6345d47617decffb",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -137,7 +127,7 @@
             }
           },
           {
-            "id": "c1a002097fac2700",
+            "id": "e9d96f9e2a5e6105",
             "type": "leaf",
             "state": {
               "type": "all-properties",
@@ -149,28 +139,36 @@
               "icon": "lucide-archive",
               "title": "Todas as propriedades"
             }
-          },
+          }
+        ]
+      },
+      {
+        "id": "13e9515a20f70b1b",
+        "type": "tabs",
+        "children": [
           {
-            "id": "4ab29c99db452934",
+            "id": "backlinks",
             "type": "leaf",
             "state": {
-              "type": "outline",
+              "type": "backlink",
               "state": {
-                "file": "docs/system-design.md",
-                "followCursor": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
                 "showSearch": false,
-                "searchQuery": ""
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
               },
-              "icon": "lucide-list",
-              "title": "Sumário de system-design"
+              "icon": "links-coming-in",
+              "title": "Links inversos"
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -183,6 +181,13 @@
       "bases:Criar nova base": false
     }
   },
-  "active": "fd6e19a9a2e12778",
-  "lastOpenFiles": []
+  "active": "outline",
+  "lastOpenFiles": [
+    "src/content/docs/appsec/burp-suite.md",
+    "src/content/docs/appsec/owasp-top10.md",
+    "src/content/docs/seguranca/google-cert/curso-1-fundamentos/index.md",
+    "src/content/docs/appsec/threat-modeling.md",
+    "src/content/docs/appsec/security-headers.md",
+    "src/content/docs/appsec/sast-semgrep.md"
+  ]
 }

@@ -44,7 +44,7 @@ function validateFile(filePath) {
     }
 
     // Validar título em sentence case (primeira letra maiúscula)
-    if (frontmatter.title && !/^[A-Z]/.test(frontmatter.title)) {
+    if (frontmatter.title && !/^[A-Z.]/.test(frontmatter.title)) {
       errors.push(`${relativePath}: title deve começar com maiúscula`);
     }
   } catch (e) {
