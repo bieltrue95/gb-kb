@@ -83,8 +83,7 @@
       .logo-hex {
         width: 28px;
         height: 28px;
-        background: var(--accent);
-        clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        object-fit: contain;
         flex-shrink: 0;
       }
       .lt {
@@ -834,7 +833,7 @@
     <div class="layout">
       <aside class="sb">
         <div class="sb-logo">
-          <div class="logo-hex"></div>
+          <img class="logo-hex" src="public/favicon-64x64.png" alt="GB Logo" />
           <div>
             <div class="lt">Knowledge Base</div>
             <div class="ls">.NET · C# · Full Stack</div>
