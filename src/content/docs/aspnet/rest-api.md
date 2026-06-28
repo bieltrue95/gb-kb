@@ -2,6 +2,7 @@
 title: REST API design
 description: Controllers vs Minimal APIs, status codes, versionamento e convenções
 emoji: 🌍
+tags: [aspnet, dotnet, web, api]
 ---
 
 ## Introdução
@@ -147,3 +148,11 @@ app.UseExceptionHandler(builder =>
 - [REST API Best Practices](https://restfulapi.net/)
 - [HTTP Status Codes](https://httpwg.org/specs/rfc7231.html)
 - [ASP.NET Core Minimal APIs](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis)
+
+## Ver também
+
+- [Middleware e Pipeline](./middleware.md)
+- [Caching](./caching.md)
+- [Dependency Injection](../arquitetura/dependency-injection.md)
+- [Async e Await](../async/async-await.md)
+- [Security Headers](../appsec/security-headers.md)

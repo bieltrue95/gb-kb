@@ -2,6 +2,7 @@
 title: Unit of Work pattern
 description: Orquestrar múltiplos repositórios em transação ACID com DI, rollback, testes
 emoji: 🔄
+tags: [dotnet, arquitetura, efcore, data]
 ---
 
 ## Introdução
@@ -339,3 +340,9 @@ public class OrderService
 - [Repository Pattern](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design#the-repository-pattern)
 - [EF Core Transactions](https://docs.microsoft.com/en-us/ef/core/saving/transactions)
 - [DI Lifetimes](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection)
+
+## Ver também
+
+- [EF Core Basics](../data/ef-core-basics.md)
+- [CQRS e Event Sourcing](../arquitetura/cqrs.md)
+- [Dependency Injection](../arquitetura/dependency-injection.md)

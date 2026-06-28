@@ -54,7 +54,17 @@ tags:
 
 | Termo | Definição |
 |-------|-----------|
-|       |           |
+| **Segurança cibernética** | A prática de garantir a confidencialidade, a integridade e a disponibilidade das informações, protegendo redes, dispositivos, pessoas e dados contra o acesso não autorizado ou a exploração criminosa |
+| **Segurança na nuvem** | O processo para garantir que os recursos armazenados na nuvem sejam configurados adequadamente e que o acesso a esses recursos seja limitado a usuários autorizados |
+| **Ameaça interna** | Um funcionário ou ex-funcionário, um fornecedor externo ou um parceiro confiável que represente um risco à segurança |
+| **Segurança de rede** | A prática de manter a infraestrutura de rede de uma organização protegida contra acesso não autorizado |
+| **PII** (Informações de identificação pessoal) | Qualquer informação usada para inferir a identidade de um indivíduo |
+| **Postura de segurança** | A capacidade de uma organização de gerenciar sua defesa de recursos e dados críticos e reagir a mudanças |
+| **SPII** (Informações sensíveis de identificação pessoal) | Um tipo específico de PII que se enquadra em diretrizes de manuseio mais rigorosas |
+| **Habilidades técnicas** | Habilidades que exigem conhecimento de ferramentas, procedimentos e políticas específicas |
+| **Ameaça** | Qualquer circunstância ou evento que possa afetar negativamente os recursos |
+| **Ator da ameaça** | Qualquer pessoa ou grupo que apresente um risco à segurança |
+| **Habilidades transferíveis** | Habilidades de outras áreas que podem ser aplicadas a diferentes carreiras |
 
 ---
 
@@ -66,7 +76,9 @@ tags:
 
 ## Conexões com outros tópicos
 
-- Relacionado: [[]]
+- [OWASP Top 10](../../../appsec/owasp-top10.md)
+- [Threat Modeling](../../../appsec/threat-modeling.md)
+- [Módulo 2 — A evolução da segurança cibernética](./modulo-2-a-evolucao-da-seguranca-cibernetica.md)
 
 ---
 

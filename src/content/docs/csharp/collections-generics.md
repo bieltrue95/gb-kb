@@ -2,6 +2,7 @@
 title: Collections e generics
 description: Array vs List vs HashSet — Big-O e quando usar cada uma
 emoji: 📦
+tags: [csharp, dotnet, performance]
 ---
 
 ## Introdução
@@ -132,3 +133,9 @@ var value = list[0]; // Sem unboxing
 - [MSDN — Collections](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic)
 - [Big-O Complexity Chart](https://bigocheatsheet.com/)
 - [Generics in C#](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/generics/)
+
+## Ver também
+
+- [LINQ e Deferred Execution](../async/linq.md)
+- [Memory e Span<T>](../async/memory-span.md)
+- [Immutability em C#](./immutability.md)

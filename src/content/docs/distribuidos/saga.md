@@ -2,6 +2,7 @@
 title: Saga pattern
 description: Transações distribuídas com compensação — choreography vs orchestration
 emoji: 🔄
+tags: [distribuidos, arquitetura, dotnet, mensageria]
 ---
 
 ## Introdução
@@ -183,3 +184,10 @@ public class StockReservedEventHandler : INotificationHandler<StockReserved>
 - [Chris Richardson — Saga Pattern](https://microservices.io/patterns/data/saga.html)
 - [MassTransit Sagas](https://masstransit.io/documentation/patterns/saga)
 - [Eventuate](https://eventuate.io/)
+
+## Ver também
+
+- [Outbox Pattern](./outbox.md)
+- [Messaging Patterns](../messaging/messaging-patterns.md)
+- [Resilience com Polly](./resilience.md)
+- [CQRS e Event Sourcing](../arquitetura/cqrs.md)

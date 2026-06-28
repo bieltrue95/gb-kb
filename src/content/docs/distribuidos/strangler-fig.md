@@ -2,6 +2,7 @@
 title: Strangler Fig pattern
 description: Migração incremental de sistemas legados em 3 fases sem big bang rewrite
 emoji: 🌿
+tags: [distribuidos, arquitetura, migração]
 ---
 
 ## Introdução
@@ -161,3 +162,9 @@ public class PaymentSyncJob : BackgroundService
 - [Martin Fowler — Strangler Fig](https://martinfowler.com/bliki/StranglerFigApplication.html)
 - [YARP Reverse Proxy](https://microsoft.github.io/reverse-proxy/)
 - [Sam Newman — Building Microservices](https://samnewman.io/books/building_microservices/)
+
+## Ver também
+
+- [Feature Flags](./feature-flags.md)
+- [Resilience com Polly](./resilience.md)
+- [CQRS e Event Sourcing](../arquitetura/cqrs.md)

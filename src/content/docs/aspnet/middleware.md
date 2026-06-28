@@ -2,6 +2,7 @@
 title: Middleware e pipeline
 description: Pipeline de request, middleware custom, ordem crítica
 emoji: 🔧
+tags: [aspnet, dotnet, web]
 ---
 
 ## Introdução
@@ -129,3 +130,9 @@ app.Use(async (context, next) =>
 
 - [ASP.NET Core Middleware](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware)
 - [Middleware Order](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/middleware-order)
+
+## Ver também
+
+- [REST API Design](./rest-api.md)
+- [Dependency Injection](../arquitetura/dependency-injection.md)
+- [Security Headers](../appsec/security-headers.md)

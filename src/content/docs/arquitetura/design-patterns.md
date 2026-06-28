@@ -2,6 +2,7 @@
 title: Design patterns
 description: Strategy, Observer, Factory, Decorator, Repository — soluções testadas
 emoji: 🎨
+tags: [arquitetura, design, dotnet, padrões]
 ---
 
 ## Introdução
@@ -136,3 +137,10 @@ await repo.AddAsync(user);
 - [Gang of Four](https://www.oodesign.com/)
 - [Refactoring Guru](https://refactoring.guru/design-patterns)
 - [Microsoft — Design Patterns](https://docs.microsoft.com/en-us/dotnet/architecture/)
+
+## Ver também
+
+- [Dependency Injection](./dependency-injection.md)
+- [CQRS e Event Sourcing](./cqrs.md)
+- [Polymorphism em C#](../csharp/polymorphism.md)
+- [Interfaces vs Classes Abstratas](../csharp/interfaces-vs-abstract.md)

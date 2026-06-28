@@ -2,6 +2,7 @@
 title: Caching
 description: IMemoryCache, IDistributedCache, cache-aside pattern, TTL
 emoji: 💾
+tags: [aspnet, dotnet, performance, redis]
 ---
 
 ## Introdução
@@ -141,3 +142,9 @@ public class UserService
 - [IMemoryCache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory)
 - [Distributed Cache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/distributed)
 - [Redis Cache Provider](https://github.com/StackExchange/StackExchange.Redis)
+
+## Ver também
+
+- [REST API Design](./rest-api.md)
+- [Resilience com Polly](../distribuidos/resilience.md)
+- [Middleware e Pipeline](./middleware.md)

@@ -28,5 +28,10 @@ tags:
 
 ## Notas por módulo
 
-- [[modulo-1-introducao-a-seguranca-cibernetica]]
-- [[modulo-2-a-evolucao-da-seguranca-cibernetica]]
+- [Módulo 1 — Introdução à segurança cibernética](./modulo-1-introducao-a-seguranca-cibernetica.md)
+- [Módulo 2 — A evolução da segurança cibernética](./modulo-2-a-evolucao-da-seguranca-cibernetica.md)
+
+## Ver também
+
+- [OWASP Top 10](../../../appsec/owasp-top10.md)
+- [Threat Modeling](../../../appsec/threat-modeling.md)

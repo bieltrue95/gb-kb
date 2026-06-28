@@ -2,6 +2,7 @@
 title: Async e await
 description: State machine, cancellation tokens, ConfigureAwait — como async funciona
 emoji: ⏳
+tags: [async, csharp, performance]
 ---
 
 ## Introdução
@@ -161,3 +162,10 @@ public async Task Button_Click()
 - [MSDN — Async/Await](https://docs.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/)
 - [Stephen Cleary — async/await Best Practices](https://docs.microsoft.com/en-us/archive/msdn-magazine/2013/march/async-await-best-practices-in-asynchronous-programming)
 - [ConfigureAwait FAQ](https://devblogs.microsoft.com/dotnet/configureawait-faq/)
+
+## Ver também
+
+- [Threading em C#](./threading.md)
+- [Delegates e Events](../csharp/delegates-events.md)
+- [REST API Design](../aspnet/rest-api.md)
+- [LINQ e Deferred Execution](./linq.md)

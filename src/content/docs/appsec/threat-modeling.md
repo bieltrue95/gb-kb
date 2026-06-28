@@ -2,6 +2,7 @@
 title: Threat Modeling
 description: Identificar e mitigar ameaças estruturadamente com STRIDE
 emoji: 🧨
+tags: [appsec, segurança, metodologia]
 ---
 
 ## Introdução
@@ -65,3 +66,10 @@ emoji: 🧨
 - [STRIDE Model](https://learn.microsoft.com/en-us/archive/blogs/larryosterman/threat-modeling-again-stride-vs-dread)
 - [OWASP Threat Modeling](https://owasp.org/www-community/Threat_Model)
 - [Microsoft Threat Modeling Tool](https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool)
+
+## Ver também
+
+- [OWASP Top 10](./owasp-top10.md)
+- [SAST com Semgrep](./sast-semgrep.md)
+- [Security Headers](./security-headers.md)
+- [Burp Suite](./burp-suite.md)

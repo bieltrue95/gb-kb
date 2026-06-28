@@ -2,6 +2,7 @@
 title: Resilience com Polly
 description: Circuit breaker, retry com backoff e jitter — previne thundering herd
 emoji: ⚡
+tags: [distribuidos, dotnet, polly, performance]
 ---
 
 ## Introdução
@@ -176,3 +177,11 @@ static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy() =>
 - [GitHub Polly](https://github.com/App-vNext/Polly)
 - [Microsoft Docs — Resilience](https://docs.microsoft.com/en-us/dotnet/architecture/microservices/implement-resilient-applications/implement-resilient-http-call-handling-with-polly)
 - [Release It! — Michael Nygard](https://pragprog.com/titles/mnee2/release-it-second-edition/)
+
+## Ver também
+
+- [Saga Pattern](./saga.md)
+- [Outbox Pattern](./outbox.md)
+- [Feature Flags](./feature-flags.md)
+- [Strangler Fig Pattern](./strangler-fig.md)
+- [Caching](../aspnet/caching.md)

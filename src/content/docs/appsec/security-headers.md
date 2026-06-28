@@ -2,6 +2,7 @@
 title: Security Headers
 description: Content-Security-Policy, HSTS, X-Frame-Options, CORS — proteção no navegador
 emoji: 🔐
+tags: [appsec, segurança, web, aspnet]
 ---
 
 ## Introdução
@@ -78,3 +79,9 @@ app.UseSecurityHeaders();
 - [MDN HTTP Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers)
 - [Mozilla Web Security](https://infosec.mozilla.org/guidelines/web_security)
 - [SecurityHeaders.com](https://securityheaders.com)
+
+## Ver também
+
+- [OWASP Top 10](./owasp-top10.md)
+- [JWT Seguro](./jwt-seguro.mdx)
+- [Middleware e pipeline](../aspnet/middleware.md)

@@ -2,6 +2,7 @@
 title: Outbox pattern
 description: Entrega confiável de eventos com tabela transacional — garante at-least-once sem dual write
 emoji: 📬
+tags: [distribuidos, arquitetura, dotnet, mensageria]
 ---
 
 ## Introdução
@@ -224,3 +225,10 @@ public class OrderCreatedEventHandler
 - [Chris Richardson — Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html)
 - [Event Sourcing & CQRS](https://martinfowler.com/bliki/CQRS.html)
 - [Debezium — CDC](https://debezium.io/)
+
+## Ver também
+
+- [Saga Pattern](./saga.md)
+- [Messaging Patterns](../messaging/messaging-patterns.md)
+- [Resilience com Polly](./resilience.md)
+- [CQRS e Event Sourcing](../arquitetura/cqrs.md)

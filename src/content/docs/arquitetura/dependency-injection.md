@@ -2,6 +2,7 @@
 title: Dependency injection
 description: Singleton, Scoped, Transient — lifetimes e captive dependency
 emoji: 💉
+tags: [arquitetura, design, dotnet, di]
 ---
 
 ## Introdução
@@ -143,3 +144,11 @@ public void UserService_CreateUser_SavesToRepository()
 - [MSDN — Dependency Injection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection)
 - [Microsoft DI Patterns](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines)
 - [Captive Dependency](https://github.com/autofac/Autofac/wiki/Captive-Dependency-Issue)
+
+## Ver também
+
+- [Design Patterns](./design-patterns.md)
+- [CQRS e Event Sourcing](./cqrs.md)
+- [REST API Design](../aspnet/rest-api.md)
+- [Middleware e Pipeline](../aspnet/middleware.md)
+- [Interfaces vs Classes Abstratas](../csharp/interfaces-vs-abstract.md)

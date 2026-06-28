@@ -2,6 +2,7 @@
 title: Memory e Span<T>
 description: Stack vs heap, Span/Memory — zero-allocation performance
 emoji: 🧠
+tags: [async, csharp, performance]
 ---
 
 ## Introdução
@@ -151,3 +152,9 @@ public void ProcessLargeData(byte[] data)
 - [MSDN — Memory<T>](https://docs.microsoft.com/en-us/dotnet/api/system.memory-1)
 - [stackalloc](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/stackalloc)
 - [ArrayPool](https://docs.microsoft.com/en-us/dotnet/api/system.buffers.arraypool-1)
+
+## Ver também
+
+- [Threading em C#](./threading.md)
+- [Collections e Generics](../csharp/collections-generics.md)
+- [Async e Await](./async-await.md)

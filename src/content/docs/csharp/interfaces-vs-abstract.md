@@ -2,6 +2,7 @@
 title: Interfaces vs classes abstratas
 description: Interface = contrato (o quê), Abstract = comportamento compartilhado (como)
 emoji: 📐
+tags: [csharp, dotnet, design]
 ---
 
 ## Introdução
@@ -142,3 +143,9 @@ class Repository
 - [MSDN — Interfaces](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/types/interfaces)
 - [MSDN — Abstract Classes](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/abstract-and-sealed-classes-and-class-members)
 - [Composition over Inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance)
+
+## Ver também
+
+- [Polymorphism em C#](./polymorphism.md)
+- [Dependency Injection](../arquitetura/dependency-injection.md)
+- [Design Patterns](../arquitetura/design-patterns.md)

@@ -2,6 +2,7 @@
 title: SAST com Semgrep
 description: Static Application Security Testing — encontrar vulnerabilidades no código-fonte
 emoji: 🔎
+tags: [appsec, sast, segurança, devops]
 ---
 
 ## Introdução
@@ -72,3 +73,9 @@ jobs:
 - [Semgrep Docs](https://semgrep.dev/docs)
 - [Rules Registry](https://semgrep.dev/r)
 - [OWASP SAST Tools](https://owasp.org/www-community/Source_Code_Analysis_Tools)
+
+## Ver também
+
+- [OWASP Top 10](./owasp-top10.md)
+- [Threat Modeling](./threat-modeling.md)
+- [Burp Suite](./burp-suite.md)

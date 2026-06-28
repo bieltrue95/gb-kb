@@ -2,6 +2,7 @@
 title: CQRS e event sourcing
 description: Command Query Responsibility Segregation — separa escrita e leitura
 emoji: 📖
+tags: [arquitetura, design, dotnet, cqrs]
 ---
 
 ## Introdução
@@ -127,3 +128,11 @@ public class OrderEventStore
 - [Martin Fowler — CQRS](https://martinfowler.com/bliki/CQRS.html)
 - [MediatR](https://github.com/jbogard/MediatR)
 - [Event Sourcing](https://martinfowler.com/eaaDev/EventSourcing.html)
+
+## Ver também
+
+- [Messaging Patterns](../messaging/messaging-patterns.md)
+- [Outbox Pattern](../distribuidos/outbox.md)
+- [Saga Pattern](../distribuidos/saga.md)
+- [Dependency Injection](./dependency-injection.md)
+- [Unit of Work](../dotnet/unit-of-work.md)

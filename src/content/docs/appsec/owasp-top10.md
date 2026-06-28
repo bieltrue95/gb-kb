@@ -2,6 +2,7 @@
 title: OWASP Top 10
 description: As 10 vulnerabilidades mais críticas em aplicações web — com exemplos em .NET
 emoji: ⚠️
+tags: [appsec, owasp, segurança, web]
 ---
 
 ## O que é o OWASP Top 10
@@ -100,3 +101,12 @@ services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 - [OWASP Top 10 oficial](https://owasp.org/www-project-top-ten/)
 - [OWASP Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
+
+## Ver também
+
+- [Broken Access Control](./broken-access-control.mdx)
+- [JWT Seguro](./jwt-seguro.mdx)
+- [Security Headers](./security-headers.md)
+- [Threat Modeling](./threat-modeling.md)
+- [SAST com Semgrep](./sast-semgrep.md)
+- [Burp Suite](./burp-suite.md)

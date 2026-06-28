@@ -2,6 +2,7 @@
 title: Feature flags
 description: Rollout progressivo com hash determinístico — mesmo usuário sempre no mesmo bucket
 emoji: 🚦
+tags: [distribuidos, arquitetura, dotnet]
 ---
 
 ## Introdução
@@ -143,3 +144,9 @@ public class OrderService
 - [Pete Hodgson — Feature Toggles](https://martinfowler.com/articles/feature-toggles.html)
 - [Unleash — Feature Management](https://www.getunleash.io/)
 - [Optimizely — Feature Experimentation](https://www.optimizely.com/)
+
+## Ver também
+
+- [Strangler Fig Pattern](./strangler-fig.md)
+- [Resilience com Polly](./resilience.md)
+- [Caching](../aspnet/caching.md)

@@ -2,6 +2,7 @@
 title: Burp Suite
 description: Primeiros passos com Burp Suite para análise de segurança em aplicações web
 emoji: 🧪
+tags: [appsec, segurança, web, pentest]
 ---
 
 ## O que é
@@ -69,4 +70,10 @@ var handler = new HttpClientHandler
     ServerCertificateCustomValidationCallback = (_, _, _, _) => true
 };
 var client = new HttpClient(handler);
+
+## Ver também
+
+- [OWASP Top 10](./owasp-top10.md)
+- [Threat Modeling](./threat-modeling.md)
+- [SAST com Semgrep](./sast-semgrep.md)
 ```

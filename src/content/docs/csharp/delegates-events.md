@@ -2,6 +2,7 @@
 title: Delegates e events
 description: Action/Func (callbacks), events (pub/sub) e async notifications
 emoji: 📡
+tags: [csharp, dotnet]
 ---
 
 ## Introdução
@@ -185,3 +186,9 @@ private void Form_Unload()
 - [MSDN — Delegates](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/delegates/)
 - [MSDN — Events](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/events)
 - [Action vs Func](https://docs.microsoft.com/en-us/dotnet/api/system.action)
+
+## Ver também
+
+- [Async e Await](../async/async-await.md)
+- [LINQ e Deferred Execution](../async/linq.md)
+- [Messaging Patterns](../messaging/messaging-patterns.md)

@@ -2,6 +2,7 @@
 title: Threading em C#
 description: Sincronização, locks, concurrent collections — safe multi-thread
 emoji: 🧵
+tags: [async, csharp, performance, threading]
 ---
 
 ## Introdução
@@ -151,3 +152,9 @@ public void SetUser(int id, User user)
 - [MSDN — Threading](https://docs.microsoft.com/en-us/dotnet/api/system.threading)
 - [Concurrent Collections](https://docs.microsoft.com/en-us/dotnet/standard/collections/thread-safe/)
 - [Interlocked Operations](https://docs.microsoft.com/en-us/dotnet/api/system.threading.interlocked)
+
+## Ver também
+
+- [Async e Await](./async-await.md)
+- [Memory e Span<T>](./memory-span.md)
+- [Immutability em C#](../csharp/immutability.md)

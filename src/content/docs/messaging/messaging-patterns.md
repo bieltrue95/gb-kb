@@ -2,6 +2,7 @@
 title: Messaging patterns
 description: Queue, Topic/Pub-Sub, Request-Reply, Sagas — padrões distribuídos em .NET
 emoji: 📨
+tags: [messaging, distribuidos, dotnet]
 ---
 
 ## Introdução
@@ -307,3 +308,10 @@ catch (Exception ex)
 - [Azure Service Bus Messaging](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)
 - [MassTransit Saga](https://masstransit-project.com/advanced/sagas/)
 - [Saga Pattern](https://microservices.io/patterns/data/saga.html)
+
+## Ver também
+
+- [Saga Pattern](../distribuidos/saga.md)
+- [Outbox Pattern](../distribuidos/outbox.md)
+- [CQRS e Event Sourcing](../arquitetura/cqrs.md)
+- [Resilience com Polly](../distribuidos/resilience.md)

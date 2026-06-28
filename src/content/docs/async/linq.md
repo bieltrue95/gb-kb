@@ -2,6 +2,7 @@
 title: LINQ e deferred execution
 description: Lazy evaluation, expression trees, performance gotchas
 emoji: 🔗
+tags: [async, csharp, performance, linq]
 ---
 
 ## Introdução
@@ -126,3 +127,10 @@ var orders = _db.Orders.Select(o => new { o.Id, o.Total }).ToList();
 - [MSDN — Deferred Execution](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/deferred-execution-and-lazy-evaluation-in-linq)
 - [Entity Framework — SQL Translation](https://docs.microsoft.com/en-us/ef/core/querying/how-query-works)
 - [LINQ Performance](https://docs.microsoft.com/en-us/dotnet/framework/data/adonet/ef/language-reference/linq-to-entities-queries)
+
+## Ver também
+
+- [Collections e Generics](../csharp/collections-generics.md)
+- [Deferred Execution em LINQ](../distribuidos/deferred-execution.md)
+- [Delegates e Events](../csharp/delegates-events.md)
+- [EF Core Basics](../data/ef-core-basics.md)

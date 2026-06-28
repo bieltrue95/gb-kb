@@ -2,6 +2,7 @@
 title: Polymorphism em C#
 description: Virtual dispatch, interfaces e pattern matching — comportamento diferente, interface uniforme
 emoji: 🔷
+tags: [csharp, dotnet, design]
 ---
 
 ## Introdução
@@ -159,3 +160,9 @@ public void ProcessPayment(PaymentMethod method, decimal amount)
 - [MSDN — Polymorphism](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/polymorphism)
 - [Design Patterns — Strategy](https://refactoring.guru/design-patterns/strategy)
 - [Pattern Matching Guide](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/pattern-matching)
+
+## Ver também
+
+- [Interfaces vs Classes Abstratas](./interfaces-vs-abstract.md)
+- [Design Patterns](../arquitetura/design-patterns.md)
+- [Dependency Injection](../arquitetura/dependency-injection.md)

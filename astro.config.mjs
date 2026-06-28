@@ -343,6 +343,31 @@ export default defineConfig({
             { label: "🌐 Redes — Fundamentos", link: "/redes/fundamentos/" },
           ],
         },
+        {
+          label: "Certificações",
+          items: [
+            {
+              label: "🎓 Google Cybersecurity Certificate",
+              collapsed: false,
+              items: [
+                {
+                  label: "📋 Curso 1 — Índice",
+                  link: "/seguranca/google-cert/curso-1-fundamentos/",
+                },
+                {
+                  label: "Módulo 1 — Introdução à segurança",
+                  link: "/seguranca/google-cert/curso-1-fundamentos/modulo-1-introducao-a-seguranca-cibernetica/",
+                  badge: { text: "22/23", variant: "success" },
+                },
+                {
+                  label: "Módulo 2 — Evolução da segurança",
+                  link: "/seguranca/google-cert/curso-1-fundamentos/modulo-2-a-evolucao-da-seguranca-cibernetica/",
+                  badge: { text: "15/17", variant: "caution" },
+                },
+              ],
+            },
+          ],
+        },
       ],
     }),
   ],

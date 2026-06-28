@@ -2,6 +2,7 @@
 title: Immutability em C#
 description: Records, with-expressions e por quê imutável = mais seguro
 emoji: 🔒
+tags: [csharp, dotnet]
 ---
 
 ## Introdução
@@ -128,3 +129,9 @@ Console.WriteLine($"Pedido {id}: {status}");
 - [MSDN — Records](https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#records)
 - [Microsoft — Init-only properties](https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-9#init-only-properties)
 - [Functional Programming in C#](https://www.manning.com/books/functional-programming-in-c-sharp)
+
+## Ver também
+
+- [Collections e Generics](./collections-generics.md)
+- [Threading em C#](../async/threading.md)
+- [Polymorphism em C#](./polymorphism.md)

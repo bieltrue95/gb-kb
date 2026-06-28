@@ -2,6 +2,7 @@
 title: EF Core basics
 description: DbContext lifecycle, migrations, change tracking, relacionamentos 1:1/1:N/N:N
 emoji: 🗄️
+tags: [data, efcore, dotnet]
 ---
 
 ## Introdução
@@ -93,3 +94,10 @@ var users = await context.Users.AsNoTracking().ToListAsync(); // Mais rápido, r
 - [EF Core Docs](https://docs.microsoft.com/en-us/ef/core/)
 - [Relationships](https://docs.microsoft.com/en-us/ef/core/modeling/relationships)
 - [Change Tracking](https://docs.microsoft.com/en-us/ef/core/change-tracking/)
+
+## Ver também
+
+- [Unit of Work Pattern](../dotnet/unit-of-work.md)
+- [CQRS e Event Sourcing](../arquitetura/cqrs.md)
+- [Deferred Execution em LINQ](../distribuidos/deferred-execution.md)
+- [LINQ e Deferred Execution](../async/linq.md)

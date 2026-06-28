@@ -2,6 +2,7 @@
 title: Deferred execution em LINQ
 description: IEnumerable vs IQueryable — quando a query realmente executa
 emoji: 🔍
+tags: [distribuidos, dotnet, linq, efcore]
 ---
 
 ## Introdução
@@ -162,3 +163,9 @@ var items = _db.Products
 - [Microsoft Docs — Deferred Execution](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/deferred-execution-and-lazy-evaluation-in-linq)
 - [Entity Framework Core — Performance](https://docs.microsoft.com/en-us/ef/core/performance/)
 - [LINQ Best Practices](https://docs.microsoft.com/en-us/archive/msdn-magazine/2009/august/linq-to-sql-and-linq-to-objects-best-practices)
+
+## Ver também
+
+- [LINQ e Deferred Execution](../async/linq.md)
+- [EF Core Basics](../data/ef-core-basics.md)
+- [EF Core Performance](../dotnet/ef-core-performance.mdx)
